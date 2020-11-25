@@ -1,6 +1,6 @@
 === GTM Ecommerce for WooCommerce ===
 Contributors: Handcraft Byte
-Tags: google tag manager, woocommerce, data layer, enhanced ecommerce
+Tags: google tag manager, woocommerce, ga4, Google Analytics, universal analytics, data layer, enhanced ecommerce
 Requires at least: 5.1
 Tested up to: 5.5
 Requires PHP: 7.2
@@ -8,18 +8,18 @@ Stable tag: trunk
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Push WooCommerce Ecommerce (Enhanced Ecommerce and GA4) information to GTM DataLayer. Use any GTM integration to measure your customers' activites.
+Push WooCommerce Ecommerce (**Enhanced Ecommerce and GA4**) information to GTM DataLayer. Use any GTM integration to measure your customers' activites.
 
 == Description ==
 
 Do you own **WooCommerce shop** and you want to track and analyze your customers' activites?
 
-This plugin push standard Enhanced Ecommerce information to GTM Data Layer.
+This plugin push standard Ecommerce information to GTM Data Layer.
 Once this information is available in your GTM workspace you can plug in and use any tool available. Even if you are unsure yet which tool you would need to use.
 
 The most basics use cases are following:
 
-1. Measure ecommerce behaviors in Google Analytics
+1. Measure ecommerce behaviors in Google Analytics (both Universal Analytics and GA4)
 2. Track conversions from Facebook and/or Instagram campaigns
 3. Track conversions from Google Ads campaigns
 
@@ -31,16 +31,16 @@ If you are already using Google Analytics with GTM other plugins integrating Woo
 
 == Installation ==
 
-1. Upload or install Enhanced Ecommerce GTM for WooCommerce plugin from WordPress plugins directory.
+1. Upload or install GTM Ecommerce for WooCommerce plugin from WordPress plugins directory.
 2. Activate the plugin through the 'Plugins' menu in WordPress.
-3. That's it! Your Enhanced Ecommerce will be pushed to Data Layer.
+3. That's it! Your Ecommerce will be pushed to GTM DataLayer.
 4. Go to your Google Tag Manager workspace and define what you want to do with the tracked data.
 
 == Frequently Asked Questions ==
 
 = How to inject GTM tracking snippet? =
 
-By default this plugin tries pass Enhanced Ecommerce information to GTM DataLayer object installed by other plugins or directly by in the theme code.
+By default this plugin push Ecommerce information to GTM DataLayer object that can be installed by other plugins or directly in the theme code.
 It can also embed GTM snippets, go to settings to configure it.
 
 
@@ -54,25 +54,13 @@ This version of the plugin supports just `purchase` and `addToCart` events. If y
 
 == Screenshots ==
 
-1. Enhanced Ecommerce GTM for WooCommerce plugin sucesfully installed!
+1. **GTM Ecommerce for WooCommerce** plugin sucesfully installed!
 2. `addToCart` event captured in GTM debugger
 3. `purchase` event captured in GTM debugger
 
 
 == Changelog ==
 
-= 1.1.0 =
-
-* Changed name to make the plugin more explicit
-* Added settings and allow to install GTM snippet and disable the plugin
-
 = 1.0.0 =
-
-* Added activation message
-* Added checks if WooCommerce is active
-* Changed few deprecated WooCommerce functions
-* Added screenshots
-
-= 0.1.0 =
 
 * Initial version
