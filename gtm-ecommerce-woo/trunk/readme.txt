@@ -47,7 +47,7 @@ It can also embed GTM snippets, go to settings to configure it.
 
 It sounds you need some help in setting up your GTM container. Reach out to us using [this form](https://michal159509.typeform.com/to/IKbbSUXQ) and let's see what can be done.
 
-= What Enhanced Ecommerce events and properties are supported? =
+= What (Enhanced) Ecommerce events and properties are supported? =
 
 This version of the plugin supports just `purchase` and `addToCart` events. If you need more let us know [here](https://michal159509.typeform.com/to/Epux8hoP).
 
