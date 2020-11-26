@@ -26,13 +26,13 @@ class Event implements \JsonSerializable {
         return $this;
     }
 
-    public function setTransationId($TransationId) {
-        $this->transationId = $TransationId;
+    public function setTransationId($transationId) {
+        $this->transationId = $transationId;
         return $this;
     }
 
-    public function setAffiliation($Affiliation) {
-        $this->affiliation = $Affiliation;
+    public function setAffiliation($affiliation) {
+        $this->affiliation = $affiliation;
         return $this;
     }
 
@@ -58,11 +58,31 @@ class Event implements \JsonSerializable {
 
 
     public function jsonSerialize() {
-        return [
-            'event' => $this->name,
-            'ecommerce' => [
-                'items' => $this->items,
-            ]
-        ];
+        if ($this->name === "purchase") {
+            $jsonEvent = [
+                'event' => 'purchase',
+                'ecommerce' => [
+                    'purchase' => [
+                        'transaction_id' => $this->transationId,
+                        'affiliation' => $this->affiliation,
+                        'value' => $this->value,
+                        'tax' => $this->tax,
+                        'shipping' => $this->shipping,
+                        'currency' => $this->currency,
+                        'coupon' => @$this->coupon,
+                        'items' => $this->items
+                    ]
+                ]
+            ];
+        } else {
+            $jsonEvent = [
+                'event' => $this->name,
+                'ecommerce' => [
+                    'items' => $this->items,
+                ]
+            ];
+        }
+
+        return array_filter($jsonEvent, function($value) { return !is_null($value) && $value !== ''; });
     }
 }

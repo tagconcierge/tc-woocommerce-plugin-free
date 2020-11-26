@@ -53,7 +53,7 @@ class PluginService {
 
     function inactiveWooCommerceNoticeError() {
         $class   = 'notice notice-error';
-        $message = __( 'GTM Ecommerce for WooCommerce: it seems WooCommerce is not installed or activated in this WordPress installation. GTM Ecommerce won\'t work without WooCommerce.', $this->spineCaseNamespace );
+        $message = __( 'GTM Ecommerce for WooCommerce: it seems WooCommerce is not installed or activated in this WordPress installation. GTM Ecommerce won\'t work without WooCommerce. To remove this notice either activate WooCommerce or deactivate GTM Ecommerce for WooCommerce plugin.', $this->spineCaseNamespace );
 
         printf( '<div class="%1$s"><p>%2$s</p></div>', esc_attr( $class ), esc_html( $message ) );
     }

@@ -4,6 +4,8 @@ namespace GtmEcommerceWoo\Lib\EventStrategy;
 
 class AddToCartStrategy extends AbstractEventStrategy {
 
+    protected $itemsByProductId;
+
     public function defineActions() {
         return [
             'woocommerce_after_add_to_cart_button' => [$this, 'afterAddToCartButton'],
@@ -19,7 +21,7 @@ class AddToCartStrategy extends AbstractEventStrategy {
 
     function loopAddToCartLink( $add_to_cart_html ) {
         global $product;
-        $item = $this->wcTransformer->getItem($product);
+        $item = $this->wcTransformer->getItemFromProduct($product);
         $this->itemsByProductId[$product->get_id()] = $item;
         return $add_to_cart_html;
     }
@@ -30,7 +32,7 @@ class AddToCartStrategy extends AbstractEventStrategy {
 
     public function afterAddToCartButton() {
         global $product;
-        $item = $this->wcTransformer->getItem($product);
+        $item = $this->wcTransformer->getItemFromProduct($product);
         $this->onCartSubmitScript($item);
     }
 

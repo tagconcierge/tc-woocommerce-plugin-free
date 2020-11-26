@@ -4,10 +4,10 @@ namespace GtmEcommerceWoo\Lib\GaEcommerceEntity;
 
 class Item implements \JsonSerializable {
 
-    protected $name;
+    protected $itemName;
 
-    public function __construct($name) {
-        $this->name = $name;
+    public function __construct($itemName) {
+        $this->itemName = $itemName;
     }
 
     public function setItemName($itemName) {
@@ -26,8 +26,20 @@ class Item implements \JsonSerializable {
         $this->itemBrand = $itemBrand;
     }
 
-    public function setItemCategory($itemCategory) {
-        $this->itemCategory = $itemCategory;
+    public function setItemVariant($itemVariant) {
+        $this->itemVariant = $itemVariant;
+    }
+
+    public function setItemCategories($itemCategories) {
+        $this->itemCategories = $itemCategories;
+    }
+
+    public function addItemCategory($itemCategory) {
+        $this->itemCategories[] = $itemCategory;
+    }
+
+    public function setItemCoupon($itemCoupon) {
+        $this->itemCoupon = $itemCoupon;
     }
 
     public function setIndex($index) {
@@ -51,11 +63,31 @@ class Item implements \JsonSerializable {
     }
 
     public function jsonSerialize() {
-        return [
+        $jsonItem = [
             'item_name' => $this->itemName,
             'item_id' => $this->itemId,
             'price' => $this->price,
+            'item_brand' => @$this->itemBrand,
+            // 'item_category': 'Apparel',
+            // 'item_category_2': 'Mens',
+            // 'item_category_3': 'Shirts',
+            // 'item_category_4': 'Tshirts',
+            'item_coupon' => @$this->itemCoupon,
+            'item_variant' => @$this->itemVariant,
+            'item_list_name' => @$this->itemListName,
+            'item_list_id' => @$this->itemListId,
             'index' => @$this->index,
+            'quantity' => @$this->quantity,
         ];
+
+        foreach ($this->itemCategories as $index => $category) {
+            $categoryParam = "item_category";
+            if ($index > 0) {
+                $categoryParam .= "_" . ($index + 1);
+            }
+            $jsonItem[$categoryParam] = $category;
+        }
+
+        return array_filter($jsonItem, function($value) { return !is_null($value) && $value !== ''; });
     }
 }
