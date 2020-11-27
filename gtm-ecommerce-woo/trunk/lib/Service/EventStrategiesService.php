@@ -16,6 +16,9 @@ class EventStrategiesService {
     }
 
     public function initialize() {
+        if ($this->wpSettingsUtil->getOption("disabled") === '1') {
+            return;
+        }
         foreach ($this->eventStrategies as $eventStrategy) {
             foreach ($eventStrategy->getActions() as $hook => $action) {
                 add_action( $hook, $action );

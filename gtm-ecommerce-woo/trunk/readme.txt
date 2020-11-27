@@ -1,6 +1,6 @@
 === GTM Ecommerce for WooCommerce ===
 Contributors: Handcraft Byte
-Tags: google tag manager, woocommerce, ga4, Google Analytics, universal analytics, data layer, enhanced ecommerce, gtm
+Tags: enhanced ecommerce, google tag manager, google analytics, data layer
 Requires at least: 5.1
 Tested up to: 5.5
 Requires PHP: 7.2
@@ -17,11 +17,23 @@ Do you own **WooCommerce shop** and you want to track and analyze your customers
 This plugin push standard Ecommerce information to GTM Data Layer.
 Once this information is available in your GTM workspace you can plug in and use any tool available. Even if you are unsure yet which tool you would need or like to use.
 
-The most basics use cases are following:
+## Example usage
 
 1. Measure ecommerce behaviors in Google Analytics (**both Universal Analytics and GA4 properties are supported**)
 2. Track conversions from Facebook and/or Instagram campaigns
 3. Track conversions from Google Ads campaigns
+
+
+## Supported events
+
+After plugin is installed it automatically tracks following events:
+
+- Add To Cart
+- Purchase
+
+Which are great base for **conversion measurements** and building **sales funnels** related to cart behavior.
+
+## Advantage over alternative solutions
 
 Without GTM Ecommerce for WooCommerce plugin you would need a separate plugin for each of those integrations. And each additional plugin may make your Wordpress setup more complex.
 With GTM Ecommerce for WooCommerce everything is sent in standarized Google format to GTM and everything else is configure there.
@@ -59,6 +71,10 @@ This version of the plugin supports just `purchase` and `addToCart` events. If y
 
 
 == Changelog ==
+
+= 1.1.0 =
+
+* Fix disabling plugin
 
 = 1.0.0 =
 
