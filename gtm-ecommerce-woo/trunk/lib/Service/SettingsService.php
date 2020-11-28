@@ -19,6 +19,7 @@ class SettingsService {
     function settingsInit() {
 
         $this->wpSettingsUtil->registerSetting('disabled');
+        $this->wpSettingsUtil->registerSetting('ua_compatibility');
         $this->wpSettingsUtil->registerSetting('gtm_snippet_head');
         $this->wpSettingsUtil->registerSetting('gtm_snippet_body');
 
@@ -39,7 +40,16 @@ class SettingsService {
             'Disable?',
             [$this, "checkboxField"],
             'basic',
-            'When disabled plugin won\'t load anything in the page.'
+            'When checked plugin won\'t load anything in the page.'
+        );
+
+        $this->wpSettingsUtil->addSettingsField(
+            'ua_compatibility',
+            'Universal Analytics compatibility',
+            [$this, "checkboxField"],
+            'basic',
+            'When checked plugin will emit events compatible with legacy Enhanced Ecommerce format for Universal Analytics GA properties. Check it only if you use UA property. If you plan using UA and GA4 properties at the same time adjust your GTM tags and variables to use legacy format. <strong>This function is coming soon. Do you need UA compatiblity? <a href="https://michal159509.typeform.com/to/VNbZrezV" target="_blank">Fill in this survey to help us prioritize it!</a></strong>',
+            ['disabled' => true]
         );
 
         $this->wpSettingsUtil->addSettingsField(
@@ -70,10 +80,13 @@ class SettingsService {
         type="checkbox"
         id="<?php echo esc_attr( $args['label_for'] ); ?>"
         name="<?php echo esc_attr( $args['label_for'] ); ?>"
+        <?php if (@$args['disabled'] === true): ?>
+        disabled="disabled"
+        <?php endif; ?>
         value="1"
         <?php checked( $value, 1 ); ?> />
       <p class="description">
-        <?php echo esc_html( $args['description'] ); ?>
+        <?php echo $args['description']; ?>
       </p>
         <?php
     }

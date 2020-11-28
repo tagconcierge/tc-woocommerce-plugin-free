@@ -19,7 +19,7 @@ Once this information is available in your GTM workspace you can plug in and use
 
 ## Example usage
 
-1. Measure ecommerce behaviors in Google Analytics (**both Universal Analytics and GA4 properties are supported**)
+1. Measure ecommerce behaviors in Google Analytics (**GA4 properties are supported**)
 2. Track conversions from Facebook and/or Instagram campaigns
 3. Track conversions from Google Ads campaigns
 
@@ -59,9 +59,13 @@ It can also embed GTM snippets, go to settings to configure it.
 
 It sounds you need some help in setting up your GTM container. Reach out to us using [this form](https://michal159509.typeform.com/to/IKbbSUXQ) and let's see what can be done.
 
-= What (Enhanced) Ecommerce events and properties are supported? =
+= What Ecommerce events are supported? =
 
-This version of the plugin supports just `purchase` and `addToCart` events. If you need more let us know [here](https://michal159509.typeform.com/to/Epux8hoP).
+This version of the plugin supports just `purchase` and `add_to_cart` events. If you need more let us know [here](https://michal159509.typeform.com/to/Epux8hoP).
+
+= Is GA4 and Universal Analytics supported? =
+
+Currently, the plugin supports latest GA4 format and won't work with legacy Universal Analytics properties. <strong>We plan introducing a compatibility layer. If you need UA compatiblity, fill in <a href="https://michal159509.typeform.com/to/VNbZrezV" target="_blank">this survey</a> to help us prioritize it!</strong>
 
 == Screenshots ==
 
@@ -71,6 +75,10 @@ This version of the plugin supports just `purchase` and `addToCart` events. If y
 
 
 == Changelog ==
+
+= 1.2.0 =
+
+* Document possible UA compatibility feature
 
 = 1.1.0 =
 
