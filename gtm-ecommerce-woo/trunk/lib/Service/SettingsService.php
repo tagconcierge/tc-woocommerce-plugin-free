@@ -34,6 +34,14 @@ class SettingsService {
             'Enhanced Ecommerce GTM for WooCommerce can work with any GTM implementation in the page. If you already implemented GTM using other plugin or directly in the theme code leave the settings below empty. If you want to implement GTM using this plugin paste in two snippets provided by GTM. To find those snippets navigate to `Admin` tab in GTM console and click `Install Google Tag Manager`.'
         );
 
+        $jsonFile = plugin_dir_url( realpath(__DIR__ . '/..') ) . "/gtm-containers/ga4.json";
+
+        $this->wpSettingsUtil->addSettingsSection(
+            "gtm_container_jsons",
+            "Google Tag Manager containers ",
+            'It\'s time to define what to do with tracked Ecommerce events. We know that settings up GTM workspace may be cumbersome. That\'s why the plugin comes with a JSON file you can import to your GTM workspace to create all required Tags, Triggers and Variables. Here is a list of currently provided containers (save as json file and import in Admin panel in your GTM workspace):<br /><br /><a href="'.$jsonFile.'">GA4 container (Add To Cart, Purchase events)</a>'
+        );
+
         // Register a new field in the "wporg_section_developers" section, inside the "wporg" page.
         $this->wpSettingsUtil->addSettingsField(
             'disabled',

@@ -17,7 +17,7 @@ Do you own **WooCommerce shop** and you want to track and analyze your customers
 This plugin push standard Ecommerce information to GTM Data Layer.
 Once this information is available in your GTM workspace you can plug in and use any tool available. Even if you are unsure yet which tool you would need or like to use.
 
-## Example usage
+## Example scenarios
 
 1. Measure ecommerce behaviors in Google Analytics (**GA4 properties are supported**)
 2. Track conversions from Facebook and/or Instagram campaigns
@@ -44,8 +44,8 @@ Common problem when trying to use other GTM and Google Analytics plugins is that
 
 1. Upload or install GTM Ecommerce for WooCommerce plugin from WordPress plugins directory.
 2. Activate the plugin through the 'Plugins' menu in WordPress.
-3. That's it! Your Ecommerce data will be pushed to GTM DataLayer.
-4. Go to your Google Tag Manager workspace and define what you want to do with the tracked data.
+3. That's it! If GTM is already implemented in you WordPress your Ecommerce data will be pushed to GTM DataLayer. If not head to `Settings > GTM Ecommerce` and paste in GTM snippets.
+4. Go to your Google Tag Manager workspace and define what you want to do with the tracked data. We know that settings up GTM workspace may be cumbersome. That's why the plugin comes with a JSON file you can import to your GTM workspace to create all required Tags, Triggers and Variables.
 
 == Frequently Asked Questions ==
 
@@ -54,10 +54,10 @@ Common problem when trying to use other GTM and Google Analytics plugins is that
 By default this plugin push Ecommerce information to GTM DataLayer object that can be installed by other plugins or directly in the theme code.
 It can also embed GTM snippets, go to settings to configure it.
 
-
 = How to setup my GTM tags and triggers now? =
 
-It sounds you need some help in setting up your GTM container. Reach out to us using [this form](https://michal159509.typeform.com/to/IKbbSUXQ) and let's see what can be done.
+We know that settings up GTM workspace may be cumbersome. That's why the plugin comes with a JSON file you can import to your GTM workspace to create all required Tags, Triggers and Variables.
+
 
 = What Ecommerce events are supported? =
 
@@ -70,11 +70,20 @@ Currently, the plugin supports latest GA4 format and won't work with legacy Univ
 == Screenshots ==
 
 1. **GTM Ecommerce for WooCommerce** plugin sucesfully installed!
-2. `addToCart` event captured in GTM debugger
+2. `add_to_cart` event captured in GTM debugger
 3. `purchase` event captured in GTM debugger
+4. How to import provided GTM container?
+5. GTM workspace tags after importer provided JSON file
+6. `add_to_cart` event pushed to GA4 property with captured variables
+7. `purchase` event pushed to GA4 property with captured variables
 
 
 == Changelog ==
+
+= 1.3.0 =
+
+* Fixed settings sections
+* Provide a GTM container to import in workspace
 
 = 1.2.0 =
 

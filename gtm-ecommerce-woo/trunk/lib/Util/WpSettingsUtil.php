@@ -27,9 +27,9 @@ class WpSettingsUtil {
         add_settings_section(
             $this->snakeCaseNamespace . '_' . $sectionName,
             __( $sectionTitle, $this->spineCaseNamespace ),
-            function($args) use ($spineCaseNamespace) {
+            function($args) use ($spineCaseNamespace, $description) {
                 ?>
-              <p id="<?php echo esc_attr( $args['id'] ); ?>"><?php esc_html_e( 'This plugin push basic Enhanced Ecommerce events from WooCommerce shop to Google Tag Manager instance. After enabling add tags and triggers to your GTM container in order to use and analyze captured data. It just work and does not require any additional configuration.', $spineCaseNamespace ); ?></p>
+              <p id="<?php echo esc_attr( $args['id'] ); ?>"><?php echo $description ?></p>
                 <?php
             },
             $this->snakeCaseNamespace

@@ -1,0 +1,580 @@
+{
+    "exportFormatVersion": 2,
+    "exportTime": "2020-11-28 21:09:07",
+    "containerVersion": {
+        "path": "accounts/1234567890/containers/12345678/versions/0",
+        "accountId": "1234567890",
+        "containerId": "12345678",
+        "containerVersionId": "0",
+        "container": {
+            "path": "accounts/1234567890/containers/12345678",
+            "accountId": "1234567890",
+            "containerId": "12345678",
+            "name": "GTM Ecommerce for WooCommerce Demo",
+            "publicId": "GTM-1234567",
+            "usageContext": [
+                "WEB"
+            ],
+            "fingerprint": "1606501458594",
+            "tagManagerUrl": "https://tagmanager.google.com/#/container/accounts/1234567890/containers/12345678/workspaces?apiLink=container"
+        },
+        "tag": [
+            {
+                "accountId": "1234567890",
+                "containerId": "12345678",
+                "tagId": "9",
+                "name": "GA4 Ecommerce Purchase Event",
+                "type": "gaawe",
+                "parameter": [
+                    {
+                        "type": "TEMPLATE",
+                        "key": "eventName",
+                        "value": "purchase"
+                    },
+                    {
+                        "type": "LIST",
+                        "key": "eventParameters",
+                        "list": [
+                            {
+                                "type": "MAP",
+                                "map": [
+                                    {
+                                        "type": "TEMPLATE",
+                                        "key": "name",
+                                        "value": "items"
+                                    },
+                                    {
+                                        "type": "TEMPLATE",
+                                        "key": "value",
+                                        "value": "{{Ecommerce Purchase Items}}"
+                                    }
+                                ]
+                            },
+                            {
+                                "type": "MAP",
+                                "map": [
+                                    {
+                                        "type": "TEMPLATE",
+                                        "key": "name",
+                                        "value": "value"
+                                    },
+                                    {
+                                        "type": "TEMPLATE",
+                                        "key": "value",
+                                        "value": "{{Ecommerce Purchase Value}}"
+                                    }
+                                ]
+                            },
+                            {
+                                "type": "MAP",
+                                "map": [
+                                    {
+                                        "type": "TEMPLATE",
+                                        "key": "name",
+                                        "value": "transaction_id"
+                                    },
+                                    {
+                                        "type": "TEMPLATE",
+                                        "key": "value",
+                                        "value": "{{Ecommerce Purchase Transaction ID}}"
+                                    }
+                                ]
+                            },
+                            {
+                                "type": "MAP",
+                                "map": [
+                                    {
+                                        "type": "TEMPLATE",
+                                        "key": "name",
+                                        "value": "affiliation"
+                                    },
+                                    {
+                                        "type": "TEMPLATE",
+                                        "key": "value",
+                                        "value": "{{Ecommerce Purchase Affiliation}}"
+                                    }
+                                ]
+                            },
+                            {
+                                "type": "MAP",
+                                "map": [
+                                    {
+                                        "type": "TEMPLATE",
+                                        "key": "name",
+                                        "value": "tax"
+                                    },
+                                    {
+                                        "type": "TEMPLATE",
+                                        "key": "value",
+                                        "value": "{{Ecommerce Purchase Tax}}"
+                                    }
+                                ]
+                            },
+                            {
+                                "type": "MAP",
+                                "map": [
+                                    {
+                                        "type": "TEMPLATE",
+                                        "key": "name",
+                                        "value": "shipping"
+                                    },
+                                    {
+                                        "type": "TEMPLATE",
+                                        "key": "value",
+                                        "value": "{{Ecommerce Purchase Shipping}}"
+                                    }
+                                ]
+                            },
+                            {
+                                "type": "MAP",
+                                "map": [
+                                    {
+                                        "type": "TEMPLATE",
+                                        "key": "name",
+                                        "value": "currency"
+                                    },
+                                    {
+                                        "type": "TEMPLATE",
+                                        "key": "value",
+                                        "value": "{{Ecommerce Purchase Currency}}"
+                                    }
+                                ]
+                            },
+                            {
+                                "type": "MAP",
+                                "map": [
+                                    {
+                                        "type": "TEMPLATE",
+                                        "key": "name",
+                                        "value": "coupon"
+                                    },
+                                    {
+                                        "type": "TEMPLATE",
+                                        "key": "value",
+                                        "value": "{{Ecommerce Purchase Coupon}}"
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "type": "TEMPLATE",
+                        "key": "measurementId",
+                        "value": "{{GA4 Measurement ID}}"
+                    }
+                ],
+                "fingerprint": "1606597586161",
+                "firingTriggerId": [
+                    "19"
+                ],
+                "parentFolderId": "18",
+                "tagFiringOption": "ONCE_PER_EVENT",
+                "monitoringMetadata": {
+                    "type": "MAP"
+                }
+            },
+            {
+                "accountId": "1234567890",
+                "containerId": "12345678",
+                "tagId": "12",
+                "name": "GA4 Ecommerce Add To Cart Event",
+                "type": "gaawe",
+                "parameter": [
+                    {
+                        "type": "TEMPLATE",
+                        "key": "eventName",
+                        "value": "add_to_cart"
+                    },
+                    {
+                        "type": "LIST",
+                        "key": "eventParameters",
+                        "list": [
+                            {
+                                "type": "MAP",
+                                "map": [
+                                    {
+                                        "type": "TEMPLATE",
+                                        "key": "name",
+                                        "value": "items"
+                                    },
+                                    {
+                                        "type": "TEMPLATE",
+                                        "key": "value",
+                                        "value": "{{Ecommerce Items}}"
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "type": "TEMPLATE",
+                        "key": "measurementId",
+                        "value": "{{GA4 Measurement ID}}"
+                    }
+                ],
+                "fingerprint": "1606597509446",
+                "firingTriggerId": [
+                    "11"
+                ],
+                "parentFolderId": "18",
+                "tagFiringOption": "ONCE_PER_EVENT",
+                "monitoringMetadata": {
+                    "type": "MAP"
+                }
+            },
+            {
+                "accountId": "1234567890",
+                "containerId": "12345678",
+                "tagId": "17",
+                "name": "GA4 Configuration",
+                "type": "gaawc",
+                "parameter": [
+                    {
+                        "type": "BOOLEAN",
+                        "key": "sendPageView",
+                        "value": "true"
+                    },
+                    {
+                        "type": "TEMPLATE",
+                        "key": "measurementId",
+                        "value": "{{GA4 Measurement ID}}"
+                    }
+                ],
+                "fingerprint": "1606597131842",
+                "firingTriggerId": [
+                    "2147479553"
+                ],
+                "tagFiringOption": "ONCE_PER_EVENT",
+                "monitoringMetadata": {
+                    "type": "MAP"
+                }
+            }
+        ],
+        "trigger": [
+            {
+                "accountId": "1234567890",
+                "containerId": "12345678",
+                "triggerId": "11",
+                "name": "Ecommerce Add To Cart Event",
+                "type": "CUSTOM_EVENT",
+                "customEventFilter": [
+                    {
+                        "type": "EQUALS",
+                        "parameter": [
+                            {
+                                "type": "TEMPLATE",
+                                "key": "arg0",
+                                "value": "{{_event}}"
+                            },
+                            {
+                                "type": "TEMPLATE",
+                                "key": "arg1",
+                                "value": "add_to_cart"
+                            }
+                        ]
+                    }
+                ],
+                "fingerprint": "1606597163262",
+                "parentFolderId": "18"
+            },
+            {
+                "accountId": "1234567890",
+                "containerId": "12345678",
+                "triggerId": "19",
+                "name": "Ecommerce Purchase Event",
+                "type": "CUSTOM_EVENT",
+                "customEventFilter": [
+                    {
+                        "type": "EQUALS",
+                        "parameter": [
+                            {
+                                "type": "TEMPLATE",
+                                "key": "arg0",
+                                "value": "{{_event}}"
+                            },
+                            {
+                                "type": "TEMPLATE",
+                                "key": "arg1",
+                                "value": "purchase"
+                            }
+                        ]
+                    }
+                ],
+                "fingerprint": "1606597198071",
+                "parentFolderId": "18"
+            }
+        ],
+        "variable": [
+            {
+                "accountId": "1234567890",
+                "containerId": "12345678",
+                "variableId": "7",
+                "name": "Ecommerce Purchase Items",
+                "type": "v",
+                "parameter": [
+                    {
+                        "type": "INTEGER",
+                        "key": "dataLayerVersion",
+                        "value": "2"
+                    },
+                    {
+                        "type": "BOOLEAN",
+                        "key": "setDefaultValue",
+                        "value": "false"
+                    },
+                    {
+                        "type": "TEMPLATE",
+                        "key": "name",
+                        "value": "ecommerce.purchase.items"
+                    }
+                ],
+                "fingerprint": "1606597314973",
+                "parentFolderId": "18",
+                "formatValue": {}
+            },
+            {
+                "accountId": "1234567890",
+                "containerId": "12345678",
+                "variableId": "10",
+                "name": "Ecommerce Items",
+                "type": "v",
+                "parameter": [
+                    {
+                        "type": "INTEGER",
+                        "key": "dataLayerVersion",
+                        "value": "2"
+                    },
+                    {
+                        "type": "BOOLEAN",
+                        "key": "setDefaultValue",
+                        "value": "false"
+                    },
+                    {
+                        "type": "TEMPLATE",
+                        "key": "name",
+                        "value": "ecommerce.items"
+                    }
+                ],
+                "fingerprint": "1606597314950",
+                "parentFolderId": "18",
+                "formatValue": {}
+            },
+            {
+                "accountId": "1234567890",
+                "containerId": "12345678",
+                "variableId": "13",
+                "name": "Ecommerce Purchase Value",
+                "type": "v",
+                "parameter": [
+                    {
+                        "type": "INTEGER",
+                        "key": "dataLayerVersion",
+                        "value": "2"
+                    },
+                    {
+                        "type": "BOOLEAN",
+                        "key": "setDefaultValue",
+                        "value": "false"
+                    },
+                    {
+                        "type": "TEMPLATE",
+                        "key": "name",
+                        "value": "ecommerce.purchase.value"
+                    }
+                ],
+                "fingerprint": "1606597314974",
+                "parentFolderId": "18",
+                "formatValue": {}
+            },
+            {
+                "accountId": "1234567890",
+                "containerId": "12345678",
+                "variableId": "16",
+                "name": "GA4 Measurement ID",
+                "type": "c",
+                "parameter": [
+                    {
+                        "type": "TEMPLATE",
+                        "key": "value",
+                        "value": "G-1234567890"
+                    }
+                ],
+                "fingerprint": "1606597128018",
+                "formatValue": {}
+            },
+            {
+                "accountId": "1234567890",
+                "containerId": "12345678",
+                "variableId": "20",
+                "name": "Ecommerce Purchase Transaction ID",
+                "type": "v",
+                "parameter": [
+                    {
+                        "type": "INTEGER",
+                        "key": "dataLayerVersion",
+                        "value": "2"
+                    },
+                    {
+                        "type": "BOOLEAN",
+                        "key": "setDefaultValue",
+                        "value": "false"
+                    },
+                    {
+                        "type": "TEMPLATE",
+                        "key": "name",
+                        "value": "ecommerce.purchase.transaction_id"
+                    }
+                ],
+                "fingerprint": "1606597299711",
+                "parentFolderId": "18",
+                "formatValue": {}
+            },
+            {
+                "accountId": "1234567890",
+                "containerId": "12345678",
+                "variableId": "21",
+                "name": "Ecommerce Purchase Affiliation",
+                "type": "v",
+                "parameter": [
+                    {
+                        "type": "INTEGER",
+                        "key": "dataLayerVersion",
+                        "value": "2"
+                    },
+                    {
+                        "type": "BOOLEAN",
+                        "key": "setDefaultValue",
+                        "value": "false"
+                    },
+                    {
+                        "type": "TEMPLATE",
+                        "key": "name",
+                        "value": "ecommerce.purchase.affiliation"
+                    }
+                ],
+                "fingerprint": "1606597349495",
+                "parentFolderId": "18",
+                "formatValue": {}
+            },
+            {
+                "accountId": "1234567890",
+                "containerId": "12345678",
+                "variableId": "22",
+                "name": "Ecommerce Purchase Tax",
+                "type": "v",
+                "parameter": [
+                    {
+                        "type": "INTEGER",
+                        "key": "dataLayerVersion",
+                        "value": "2"
+                    },
+                    {
+                        "type": "BOOLEAN",
+                        "key": "setDefaultValue",
+                        "value": "false"
+                    },
+                    {
+                        "type": "TEMPLATE",
+                        "key": "name",
+                        "value": "ecommerce.purchase.tax"
+                    }
+                ],
+                "fingerprint": "1606597477094",
+                "parentFolderId": "18",
+                "formatValue": {}
+            },
+            {
+                "accountId": "1234567890",
+                "containerId": "12345678",
+                "variableId": "23",
+                "name": "Ecommerce Purchase Shipping",
+                "type": "v",
+                "parameter": [
+                    {
+                        "type": "INTEGER",
+                        "key": "dataLayerVersion",
+                        "value": "2"
+                    },
+                    {
+                        "type": "BOOLEAN",
+                        "key": "setDefaultValue",
+                        "value": "false"
+                    },
+                    {
+                        "type": "TEMPLATE",
+                        "key": "name",
+                        "value": "ecommerce.purchase.shipping"
+                    }
+                ],
+                "fingerprint": "1606597477093",
+                "parentFolderId": "18",
+                "formatValue": {}
+            },
+            {
+                "accountId": "1234567890",
+                "containerId": "12345678",
+                "variableId": "24",
+                "name": "Ecommerce Purchase Currency",
+                "type": "v",
+                "parameter": [
+                    {
+                        "type": "INTEGER",
+                        "key": "dataLayerVersion",
+                        "value": "2"
+                    },
+                    {
+                        "type": "BOOLEAN",
+                        "key": "setDefaultValue",
+                        "value": "false"
+                    },
+                    {
+                        "type": "TEMPLATE",
+                        "key": "name",
+                        "value": "ecommerce.purchase.currency"
+                    }
+                ],
+                "fingerprint": "1606597477092",
+                "parentFolderId": "18",
+                "formatValue": {}
+            },
+            {
+                "accountId": "1234567890",
+                "containerId": "12345678",
+                "variableId": "25",
+                "name": "Ecommerce Purchase Coupon",
+                "type": "v",
+                "parameter": [
+                    {
+                        "type": "INTEGER",
+                        "key": "dataLayerVersion",
+                        "value": "2"
+                    },
+                    {
+                        "type": "BOOLEAN",
+                        "key": "setDefaultValue",
+                        "value": "false"
+                    },
+                    {
+                        "type": "TEMPLATE",
+                        "key": "name",
+                        "value": "ecommerce.purchase.coupon"
+                    }
+                ],
+                "fingerprint": "1606597477094",
+                "parentFolderId": "18",
+                "formatValue": {}
+            }
+        ],
+        "folder": [
+            {
+                "accountId": "1234567890",
+                "containerId": "12345678",
+                "folderId": "18",
+                "name": "Ecommerce",
+                "fingerprint": "1606597158145"
+            }
+        ],
+        "fingerprint": "1606597747945",
+        "tagManagerUrl": "https://tagmanager.google.com/#/versions/accounts/1234567890/containers/12345678/versions/0?apiLink=version"
+    }
+}
