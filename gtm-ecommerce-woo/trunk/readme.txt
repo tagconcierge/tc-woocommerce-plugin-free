@@ -47,6 +47,17 @@ Common problem when trying to use other GTM and Google Analytics plugins is that
 3. That's it! If GTM is already implemented in you WordPress your Ecommerce data will be pushed to GTM DataLayer. If not head to `Settings > GTM Ecommerce` and paste in GTM snippets.
 4. Go to your Google Tag Manager workspace and define what you want to do with the tracked data. We know that settings up GTM workspace may be cumbersome. That's why the plugin comes with a JSON file you can import to your GTM workspace to create all required Tags, Triggers and Variables.
 
+### How to use JSON file with GTM container?
+
+In order to perform such import go to `Settings > GTM Ecommerce` and scroll down. There is a link to JSON file with GTM container. Save it as a JSON file on your computer.
+
+Then in GTM go to `Admin` panel of your workspace. Click `Import Container`. Choose container file you have just downloaded. Decide which workspace it should go to. Then select `Merge` and `Overwrite conflicting tags, triggers and variables.` as import options.
+Hit `Confirm` to create tags, variables and triggers for pushing Ecommerce events to GA4 property.
+
+Last step is to define `GA4 Measurement ID`. Go to `Variables` find variable with `GA4 Measurement ID` name, click to edit it. Then paste your GA4 Measurement ID in the Value field.
+
+Save and submit all the changes to make it live.
+
 == Frequently Asked Questions ==
 
 = How to inject GTM tracking snippet? =
@@ -57,6 +68,8 @@ It can also embed GTM snippets, go to settings to configure it.
 = How to setup my GTM tags and triggers now? =
 
 We know that settings up GTM workspace may be cumbersome. That's why the plugin comes with a JSON file you can import to your GTM workspace to create all required Tags, Triggers and Variables.
+
+See Installation tab above for details.
 
 
 = What Ecommerce events are supported? =

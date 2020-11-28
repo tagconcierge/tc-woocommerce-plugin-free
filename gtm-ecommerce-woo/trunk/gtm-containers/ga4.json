@@ -158,9 +158,9 @@
                         ]
                     },
                     {
-                        "type": "TEMPLATE",
+                        "type": "TAG_REFERENCE",
                         "key": "measurementId",
-                        "value": "{{GA4 Measurement ID}}"
+                        "value": "GA4 Configuration"
                     }
                 ],
                 "fingerprint": "1606597586161",
@@ -207,9 +207,9 @@
                         ]
                     },
                     {
-                        "type": "TEMPLATE",
+                        "type": "TAG_REFERENCE",
                         "key": "measurementId",
-                        "value": "{{GA4 Measurement ID}}"
+                        "value": "GA4 Configuration"
                     }
                 ],
                 "fingerprint": "1606597509446",
