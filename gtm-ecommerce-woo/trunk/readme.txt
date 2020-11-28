@@ -1,6 +1,6 @@
 === GTM Ecommerce for WooCommerce ===
 Contributors: Handcraft Byte
-Tags: enhanced ecommerce, google tag manager, google analytics, data layer
+Tags: google tag manager, google analytics, data layer, ecommerce events
 Requires at least: 5.1
 Tested up to: 5.5
 Requires PHP: 7.2
@@ -8,7 +8,7 @@ Stable tag: trunk
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Push WooCommerce Ecommerce (**Enhanced Ecommerce and GA4 Ecommerce**) information to GTM DataLayer. Use any GTM integration to measure your customers' activites.
+Push WooCommerce Ecommerce (**GA4 Ecommerce compatible**) information to GTM DataLayer. Use any GTM integration to measure your customers' activites.
 
 == Description ==
 
