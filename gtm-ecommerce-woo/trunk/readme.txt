@@ -12,10 +12,12 @@ Push WooCommerce Ecommerce (**GA4 Ecommerce compatible**) information to GTM Dat
 
 == Description ==
 
-Do you own **WooCommerce shop** and you want to track and analyze your customers' activites?
+Do you own **WooCommerce shop** and you want to track and analyze your customers' activities?
 
 This plugin push standard Ecommerce information to GTM Data Layer.
 Once this information is available in your GTM workspace you can plug in and use any tool available. Even if you are unsure yet which tool you would need or like to use.
+
+Check [live demo here](https://gtm-ecommerce-woo.handcraftbyte.com/) (perform typical shop activites - add to cart, purchase - to see how events are triggered).
 
 ## Example scenarios
 
@@ -92,6 +94,10 @@ Currently, the plugin supports latest GA4 format and won't work with legacy Univ
 
 
 == Changelog ==
+
+= 1.3.1 =
+
+* Fix missing GTM container JSON file
 
 = 1.3.0 =
 
