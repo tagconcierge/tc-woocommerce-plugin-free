@@ -18,6 +18,10 @@ class WpSettingsUtil {
         return get_option($this->snakeCaseNamespace . '_' . $optionName);
     }
 
+    public function updateOption($optionName, $optioValue) {
+        return update_option($this->snakeCaseNamespace . '_' . $optionName, $optioValue);
+    }
+
     public function registerSetting($settingName) {
         register_setting( $this->snakeCaseNamespace, $this->snakeCaseNamespace . '_' . $settingName );
     }

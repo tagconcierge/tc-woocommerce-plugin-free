@@ -95,6 +95,10 @@ Currently, the plugin supports latest GA4 format and won't work with legacy Univ
 
 == Changelog ==
 
+= 1.4.0 =
+
+* Replace JSON file with external GTM preset generator
+
 = 1.3.1 =
 
 * Fix missing GTM container JSON file
