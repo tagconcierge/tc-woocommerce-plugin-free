@@ -2,7 +2,7 @@
 Contributors: Handcraft Byte
 Tags: google tag manager, google analytics, data layer, ecommerce events
 Requires at least: 5.1
-Tested up to: 5.5
+Tested up to: 5.6
 Requires PHP: 7.2
 Stable tag: trunk
 License: GPLv2 or later
@@ -94,6 +94,10 @@ Currently, the plugin supports latest GA4 format and won't work with legacy Univ
 
 
 == Changelog ==
+
+= 1.4.1 =
+
+* Fix missing JS file
 
 = 1.4.0 =
 
