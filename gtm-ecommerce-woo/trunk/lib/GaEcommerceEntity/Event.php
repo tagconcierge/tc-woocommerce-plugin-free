@@ -12,7 +12,7 @@ class Event implements \JsonSerializable {
     }
 
     public function setItems($items) {
-        $this->items = $items;
+        $this->items = array_values($items);
         return $this;
     }
 
