@@ -95,6 +95,10 @@ Currently, the plugin supports latest GA4 format and won't work with legacy Univ
 
 == Changelog ==
 
+= 1.4.2 =
+
+* Fix embedding JS for DOM Ready triggers
+
 = 1.4.1 =
 
 * Fix missing JS file
