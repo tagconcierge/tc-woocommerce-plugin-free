@@ -42,7 +42,7 @@ class AddToCartStrategy extends AbstractEventStrategy {
 jQuery('.cart').submit(function(ev) {
     var quantity = jQuery('[name="quantity"]', ev.currentTarget).val();
     var product_id = jQuery('[name="add-to-cart"]', ev.currentTarget).val();
-    var item = window.gtm_ecommerce_woo_item;
+    var item = gtm_ecommerce_woo_item;
     item.quantity = quantity;
     dataLayer.push({
       'event': 'add_to_cart',
@@ -51,7 +51,8 @@ jQuery('.cart').submit(function(ev) {
       }
     });
 });
-EOD);
+EOD
+);
 
     }
 
@@ -70,6 +71,7 @@ jQuery('.ajax_add_to_cart').click(function(ev) {
       }
     });
 });
-EOD);
+EOD
+);
     }
 }

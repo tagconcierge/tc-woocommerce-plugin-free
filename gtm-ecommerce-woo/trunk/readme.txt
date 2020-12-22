@@ -95,6 +95,11 @@ Currently, the plugin supports latest GA4 format and won't work with legacy Univ
 
 == Changelog ==
 
+= 1.4.3 =
+
+* Fix PHP 7.2 compatibility issue
+* Fix add_to_cart on single page
+
 = 1.4.2 =
 
 * Fix embedding JS for DOM Ready triggers
