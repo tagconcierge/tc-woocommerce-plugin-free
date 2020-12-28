@@ -95,6 +95,11 @@ Currently, the plugin supports latest GA4 format and won't work with legacy Univ
 
 == Changelog ==
 
+= 1.4.4 =
+
+* Force intializing dataLayer variable
+* Fix products without categories
+
 = 1.4.3 =
 
 * Fix PHP 7.2 compatibility issue

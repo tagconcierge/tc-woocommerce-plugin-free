@@ -12,6 +12,7 @@ class WcOutputUtil {
 
     public function wpFooter() {
         echo '<script type="text/javascript">';
+        echo 'window.dataLayer = window.dataLayer || [];';
         echo "(function(dataLayer, jQuery) {\n";
         foreach ($this->scripts as $script) {
             echo $script . "\n";

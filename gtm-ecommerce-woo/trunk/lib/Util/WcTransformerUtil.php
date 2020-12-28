@@ -42,11 +42,14 @@ class WcTransformerUtil {
         $item->setItemId($product->get_id());
         $item->setPrice($product->get_price());
         // $item->setItemBrand('');
-        $categories = array_map(
-            function($category) { return $category->name; },
-            get_the_terms( $product->get_id(), 'product_cat' )
-        );
-        $item->setItemCategories($categories);
+        $productCats = get_the_terms( $product->get_id(), 'product_cat' );
+        if (is_array($productCats)) {
+            $categories = array_map(
+                function($category) { return $category->name; },
+                $productCats
+            );
+            $item->setItemCategories($categories);
+        }
         return $item;
     }
 
