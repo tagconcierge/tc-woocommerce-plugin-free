@@ -3,7 +3,7 @@
  * Plugin Name: GTM Ecommerce for WooCommerce
  * Plugin URI:  https://wordpress.org/plugins/gtm-ecommerce-woo
  * Description: Push WooCommerce Ecommerce (GA4 compatible) information to GTM DataLayer. Use any GTM integration to measure your customers' activites.
- * Version:     1.4.3
+ * Version:     1.4.4
  * Author:      Handcraft Byte
  * Author URI:  https://handcraftbyte.com/
  * License:     GPLv2 or later
@@ -17,6 +17,9 @@ namespace GtmEcommerceWoo;
 require __DIR__ . '/vendor/autoload.php';
 
 use GtmEcommerceWoo\Lib\Container;
+
+define('MAIN_FILE', __FILE__);
+define('MAIN_DIR', __DIR__);
 
 $container = new Container();
 
