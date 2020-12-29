@@ -25,8 +25,7 @@ class Container {
 
         $eventStrategies = [
             new EventStrategy\AddToCartStrategy($wcTransformerUtil, $wcOutputUtil),
-            new EventStrategy\PurchaseStrategy($wcTransformerUtil, $wcOutputUtil),
-            new EventStrategy\UaCompatibilityStrategy($wcTransformerUtil, $wcOutputUtil),
+            new EventStrategy\PurchaseStrategy($wcTransformerUtil, $wcOutputUtil)
         ];
 
         $this->eventStrategiesService = new EventStrategiesService($wpSettingsUtil, $eventStrategies);
