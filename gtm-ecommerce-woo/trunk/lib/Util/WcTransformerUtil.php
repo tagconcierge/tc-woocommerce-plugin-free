@@ -25,11 +25,15 @@ class WcTransformerUtil {
         $item->setItemVariant($variantProduct);
         $item->setQuantity($orderItem->get_quantity());
         // $item->setItemBrand('');
-        $categories = array_map(
-            function($category) { return $category->name; },
-            get_the_terms( $product->get_id(), 'product_cat' )
-        );
-        $item->setItemCategories($categories);
+
+        $itemCats = get_the_terms( $product->get_id(), 'product_cat' );
+        if (is_array($itemCats)) {
+            $categories = array_map(
+                function($category) { return $category->name; },
+                get_the_terms( $product->get_id(), 'product_cat' )
+            );
+            $item->setItemCategories($categories);
+        }
         return $item;
     }
 

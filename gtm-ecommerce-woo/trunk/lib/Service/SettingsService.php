@@ -21,7 +21,7 @@ class SettingsService {
 
     function ajaxGetPresets() {
         $uuid = $this->wpSettingsUtil->getOption('uuid');
-        $response = wp_remote_get( 'https://api.gtmconcierge.com/v1/presets?uuid=' . $uuid );
+        $response = wp_remote_get( 'https://api.gtmconcierge.com/v2/presets?uuid=' . $uuid );
         $body     = wp_remote_retrieve_body( $response );
         wp_send_json(json_decode($body));
         wp_die();
@@ -29,21 +29,28 @@ class SettingsService {
 
     function ajaxPostPresets() {
         $uuid = $this->wpSettingsUtil->getOption('uuid');
+        $disabled = $this->wpSettingsUtil->getOption('disabled');
+        $gtmSnippetHead = $this->wpSettingsUtil->getOption('gtm_snippet_head');
+        $gtmSnippetBody = $this->wpSettingsUtil->getOption('gtm_snippet_body');
+        $presetName = str_replace('presets/', '', $_GET['preset']) . '.json';
         $args = [
             'body' => json_encode([
                 'preset' => $_GET['preset'],
-                'uuid' => $uuid
+                'uuid' => $uuid,
+                'disabled' => $disabled,
+                'gtm_snippet_head' => sha1($gtmSnippetHead),
+                'gtm_snippet_body' => sha1($gtmSnippetBody)
             ]),
             'headers' => [
                 'content-type' => 'application/json'
             ],
             'data_format' => 'body',
         ];
-        $response = wp_remote_post( 'https://api.gtmconcierge.com/v1/preset', $args );
+        $response = wp_remote_post( 'https://api.gtmconcierge.com/v2/preset', $args );
         $body     = wp_remote_retrieve_body( $response );
         header("Cache-Control: public");
         header("Content-Description: File Transfer");
-        header("Content-Disposition: attachment; filename=preset.json");
+        header("Content-Disposition: attachment; filename=".$presetName);
         header("Content-Transfer-Encoding: binary");
         wp_send_json(json_decode($body));
         wp_die();
@@ -94,7 +101,7 @@ class SettingsService {
             'Universal Analytics compatibility',
             [$this, "checkboxField"],
             'basic',
-            'When checked plugin will emit events compatible with legacy Enhanced Ecommerce format for Universal Analytics GA properties. Check it only if you use UA property. If you plan using UA and GA4 properties at the same time adjust your GTM tags and variables to use legacy format. <strong>This function is coming soon. Do you need UA compatiblity? <a href="https://michal159509.typeform.com/to/VNbZrezV" target="_blank">Fill in this survey to help us prioritize it!</a></strong>',
+            'This is a deprecated function, use UA preset available below to push events to Google Analytics Universal Analytics property.',
             ['disabled' => true]
         );
 
@@ -118,7 +125,7 @@ class SettingsService {
         );
 
         $uuid = $this->wpSettingsUtil->getOption('uuid');
-        if ($uuid === false) {
+        if (empty($uuid)) {
             $this->wpSettingsUtil->updateOption('uuid', uniqid());
         }
     }
