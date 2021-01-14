@@ -66,7 +66,6 @@ class SettingsService {
     function settingsInit() {
         $this->wpSettingsUtil->registerSetting('uuid');
         $this->wpSettingsUtil->registerSetting('disabled');
-        $this->wpSettingsUtil->registerSetting('ua_compatibility');
         $this->wpSettingsUtil->registerSetting('gtm_snippet_head');
         $this->wpSettingsUtil->registerSetting('gtm_snippet_body');
 
@@ -97,15 +96,6 @@ class SettingsService {
         );
 
         $this->wpSettingsUtil->addSettingsField(
-            'ua_compatibility',
-            'Universal Analytics compatibility',
-            [$this, "checkboxField"],
-            'basic',
-            'This is a deprecated function, use UA preset available below to push events to Google Analytics Universal Analytics property.',
-            ['disabled' => true]
-        );
-
-        $this->wpSettingsUtil->addSettingsField(
             'gtm_snippet_head',
             'GTM Snippet head',
             [$this, "textareaField"],
@@ -125,8 +115,8 @@ class SettingsService {
         );
 
         $uuid = $this->wpSettingsUtil->getOption('uuid');
-        if (empty($uuid)) {
-            $this->wpSettingsUtil->updateOption('uuid', uniqid());
+        if (empty($uuid) || strlen($uuid) === 13) {
+            $this->wpSettingsUtil->updateOption('uuid', 'gtm-ecommerce-woo-basic_'.bin2hex(random_bytes(20)));
         }
     }
 
