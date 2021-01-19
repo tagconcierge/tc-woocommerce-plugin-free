@@ -1,6 +1,6 @@
 === GTM Ecommerce for WooCommerce ===
 Contributors: Handcraft Byte
-Tags: google tag manager, ga4, ecommerce events, analytics
+Tags: google tag manager, GA4, ecommerce events, Google Analytics, Facebook Pixel, shopping behavior
 Requires at least: 5.1
 Tested up to: 5.6
 Requires PHP: 7.2
@@ -66,6 +66,8 @@ If you are importing `Facebook Pixel` preset you can find the tracking ID in `FB
 
 Save and submit all the changes to make it live.
 
+You can find more detailed guides [here](https://handcraftbyte.com/gtm-ecommerce-for-woocommerce#documentation).
+
 == Frequently Asked Questions ==
 
 = How to inject GTM tracking snippet? =
@@ -91,14 +93,14 @@ The plugin always emits events in GA4 compatible format, but the UA preset conta
 
 == Screenshots ==
 
-1. eCommerce results in GA4 property
-2. `add_to_cart` event captured in GTM debugger
-3. `purchase` event captured in GTM debugger
-4. How to import the provided GTM container?
-5. GTM workspace tags after importer provided JSON file
-6. `add_to_cart` event pushed to GA4 property with captured variables
-7. `purchase` event pushed to GA4 property with captured variables
-8. **GTM Ecommerce for WooCommerce** plugin successfully installed!
+1. **GTM Ecommerce for WooCommerce** settings and GTM snippets
+2. eCommerce results in GA4 property
+3. eCommerce results in Universal Analytics property
+4. `add_to_cart` event captured in GTM debugger
+5. `purchase` event captured in GTM debugger
+6. How to import the provided GTM container?
+7. GTM workspace tags after importer provided JSON file
+
 
 
 == Changelog ==
