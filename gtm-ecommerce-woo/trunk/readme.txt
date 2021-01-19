@@ -79,7 +79,7 @@ It can also embed GTM snippets, go to settings to configure it.
 
 We know that settings up the GTM workspace may be cumbersome. That's why the plugin comes with GTM container presets that you can import to your GTM workspace to create all required Tags, Triggers, and Variables.
 
-See the Installation tab above for details.
+See the Installation tab above or [our guides](https://handcraftbyte.com/gtm-ecommerce-for-woocommerce) for details.
 
 = What Ecommerce events are supported? =
 
