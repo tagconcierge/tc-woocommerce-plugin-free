@@ -14,7 +14,7 @@ Push WooCommerce Ecommerce (**GA4 Ecommerce and UA Enhanced Ecommerce compatible
 
 Do you own **WooCommerce shop** and you want to track and analyze your customers' activities?
 
-This plugin push standard eCommerce information to GTM Data Layer.
+This plugin push standard Ecommerce information to GTM Data Layer.
 Once this information is available in your GTM workspace you can plugin and use any tool available. Even if you are unsure yet which tool you would need or like to use.
 
 Check [live demo here](https://gtm-ecommerce-woo.handcraftbyte.com/) (perform typical shop activities - add to cart, purchase - to see how events are triggered).
@@ -25,7 +25,7 @@ More information and documentation can be found [here](https://handcraftbyte.com
 
 1. Measure eCommerce behaviors in Google Analytics (**GA4 and legacy UA properties are supported**)
 2. Track conversions from Facebook and/or Instagram campaigns
-3. Track conversions from Google Ads campaigns (coming soon)
+3. Track conversions from Google Ads campaigns (requires PRO version)
 
 
 ## Supported events
@@ -39,10 +39,19 @@ Which are a great base for **conversion measurements** and building **sales funn
 
 ## Advantage over alternative solutions
 
+### Only single plugin needed
+
 Without GTM Ecommerce for WooCommerce plugin, you would need a separate plugin for each of those integrations. And each additional plugin may make your Wordpress setup more complex.
-With GTM Ecommerce for WooCommerce, everything is sent in standardized Google format to GTM and everything else is configured there.
+With GTM Ecommerce for WooCommerce, all data is sent in standardized Google format to GTM and everything else is configured there.
+
+### Reporting consistency
 
 A common problem when trying to use other GTM and Google Analytics plugins is that data can be sent twice corrupting analytics reporting. Using DataLayer is a standard way to ensure your tracking information stays consistent.
+
+### Cookies opt-in
+
+Using GTM and dataLayer allows to build more complex scenarios, such as only processing the data after obtaining user consent. Other plugin directly pipe events into target system no matter if required permission was given or not. This is a more advanced scenario that requires manual changes in Google Tag Manager, but out-of-box support may be added in this plugin in future.
+
 
 == Installation ==
 
@@ -104,6 +113,10 @@ The plugin always emits events in GA4 compatible format, but the UA preset conta
 
 
 == Changelog ==
+
+= 1.5.2 =
+
+* Update documentation
 
 = 1.5.1 =
 

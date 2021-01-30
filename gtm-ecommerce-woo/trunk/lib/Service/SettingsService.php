@@ -9,6 +9,7 @@ class SettingsService {
 
     public function __construct($wpSettingsUtil) {
         $this->wpSettingsUtil = $wpSettingsUtil;
+        $this->uuidPrefix = 'gtm-ecommerce-woo-basic';
     }
 
     public function initialize() {
@@ -72,18 +73,18 @@ class SettingsService {
         $this->wpSettingsUtil->addSettingsSection(
             "basic",
             "Basic Settings",
-            'This plugin push basic Enhanced Ecommerce events from WooCommerce shop to Google Tag Manager instance. After enabling add tags and triggers to your GTM container in order to use and analyze captured data. It just work and does not require any additional configuration.'
+            'This plugin push basic Ecommerce events from WooCommerce shop to Google Tag Manager instance. After enabling add tags and triggers to your GTM container in order to use and analyze captured data. For quick start use one of the GTM presets available below. It just work and does not require any additional configuration.'
         );
         $this->wpSettingsUtil->addSettingsSection(
             "gtm_snippet",
             "Google Tag Manager snippet",
-            'Enhanced Ecommerce GTM for WooCommerce can work with any GTM implementation in the page. If you already implemented GTM using other plugin or directly in the theme code leave the settings below empty. If you want to implement GTM using this plugin paste in two snippets provided by GTM. To find those snippets navigate to `Admin` tab in GTM console and click `Install Google Tag Manager`.'
+            'GTM Ecommerce for WooCommerce can work with any GTM implementation in the page. If you already implemented GTM using other plugin or directly in the theme code leave the settings below empty. If you want to implement GTM using this plugin paste in two snippets provided by GTM. To find those snippets navigate to `Admin` tab in GTM console and click `Install Google Tag Manager`.'
         );
 
         $this->wpSettingsUtil->addSettingsSection(
             "gtm_container_jsons",
             "Google Tag Manager presets",
-            'It\'s time to define what to do with tracked Ecommerce events. We know that settings up GTM workspace may be cumbersome. That\'s why the plugin comes with a JSON file you can import to your GTM workspace to create all required Tags, Triggers and Variables. Select a preset in dropdown below, download the JSON file and import it in Admin panel in your GTM workspace, see plugin <a href="https://wordpress.org/plugins/gtm-ecommerce-woo/#installation" target="_blank">Installation Documentation</a> for details):<br /><br /><select id="gtm-ecommerce-woo-select-preset"></select><button id="gtm-ecommerce-woo-download-preset" class="button">Download Preset</button>'
+            'It\'s time to define what to do with tracked Ecommerce events. We know that settings up GTM workspace may be cumbersome. That\'s why the plugin comes with a set of presets you can import to your GTM workspace to create all required Tags, Triggers and Variables. Select a preset in dropdown below, download the JSON file and import it in Admin panel in your GTM workspace, see plugin <a href="https://wordpress.org/plugins/gtm-ecommerce-woo/#installation" target="_blank">Installation Documentation</a> for details):<br /><br /><select id="gtm-ecommerce-woo-select-preset"></select><button id="gtm-ecommerce-woo-download-preset" class="button">Download Preset</button>'
         );
 
         // Register a new field in the "wporg_section_developers" section, inside the "wporg" page.
@@ -116,7 +117,7 @@ class SettingsService {
 
         $uuid = $this->wpSettingsUtil->getOption('uuid');
         if (empty($uuid) || strlen($uuid) === 13) {
-            $this->wpSettingsUtil->updateOption('uuid', 'gtm-ecommerce-woo-basic_'.bin2hex(random_bytes(20)));
+            $this->wpSettingsUtil->updateOption('uuid', $this->uuidPrefix . '_' . bin2hex(random_bytes(20)));
         }
     }
 
