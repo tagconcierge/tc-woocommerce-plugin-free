@@ -37,6 +37,8 @@ After the plugin is installed it automatically tracks the following events:
 
 Which are a great base for **conversion measurements** and building **sales funnels** related to cart behavior.
 
+**Need more events? Checkout out [PRO version in the official WooCommerce Marketplace](https://woocommerce.com/products/google-tag-manager-for-woocommerce-pro/).**
+
 ## Advantage over alternative solutions
 
 ### Only single plugin needed
