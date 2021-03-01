@@ -79,7 +79,7 @@ class SettingsService {
         $this->wpSettingsUtil->addSettingsSection(
             "gtm_snippet",
             "Google Tag Manager snippet",
-            'Paste two snippets provided by GTM. To find those snippets navigate to `Admin` tab in GTM console and click `Install Google Tag Manager`. If you already implemented GTM snippets in your page, paste them below, but uncheck the `Load GTM Snippet?` option.'
+            'Paste two snippets provided by GTM. To find those snippets navigate to `Admin` tab in GTM console and click `Install Google Tag Manager`. If you already implemented GTM snippets in your page, paste them below, but check the `Prevent loading GTM Snippet` option.'
         );
 
         $this->wpSettingsUtil->addSettingsSection(
