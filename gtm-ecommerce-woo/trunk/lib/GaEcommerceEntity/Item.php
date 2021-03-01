@@ -8,6 +8,7 @@ class Item implements \JsonSerializable {
 
     public function __construct($itemName) {
         $this->itemName = $itemName;
+        $this->itemCategories = [];
     }
 
     public function setItemName($itemName) {

@@ -67,38 +67,46 @@ class SettingsService {
     function settingsInit() {
         $this->wpSettingsUtil->registerSetting('uuid');
         $this->wpSettingsUtil->registerSetting('disabled');
+        $this->wpSettingsUtil->registerSetting('gtm_snippet_prevent_load');
         $this->wpSettingsUtil->registerSetting('gtm_snippet_head');
         $this->wpSettingsUtil->registerSetting('gtm_snippet_body');
 
         $this->wpSettingsUtil->addSettingsSection(
             "basic",
             "Basic Settings",
-            'This plugin push basic Ecommerce events from WooCommerce shop to Google Tag Manager instance. After enabling add tags and triggers to your GTM container in order to use and analyze captured data. For quick start use one of the GTM presets available below. It just work and does not require any additional configuration.'
+            'This plugin push eCommerce events from WooCommerce shop to Google Tag Manager instance. After enabling, add tags and triggers to your GTM container in order to use and analyze captured data. For quick start use one of the GTM presets available below.'
         );
         $this->wpSettingsUtil->addSettingsSection(
             "gtm_snippet",
             "Google Tag Manager snippet",
-            'GTM Ecommerce for WooCommerce can work with any GTM implementation in the page. If you already implemented GTM using other plugin or directly in the theme code leave the settings below empty. If you want to implement GTM using this plugin paste in two snippets provided by GTM. To find those snippets navigate to `Admin` tab in GTM console and click `Install Google Tag Manager`.'
+            'Paste two snippets provided by GTM. To find those snippets navigate to `Admin` tab in GTM console and click `Install Google Tag Manager`. If you already implemented GTM snippets in your page, paste them below, but uncheck the `Load GTM Snippet?` option.'
         );
 
         $this->wpSettingsUtil->addSettingsSection(
             "gtm_container_jsons",
             "Google Tag Manager presets",
-            'It\'s time to define what to do with tracked Ecommerce events. We know that settings up GTM workspace may be cumbersome. That\'s why the plugin comes with a set of presets you can import to your GTM workspace to create all required Tags, Triggers and Variables. Select a preset in dropdown below, download the JSON file and import it in Admin panel in your GTM workspace, see plugin <a href="https://wordpress.org/plugins/gtm-ecommerce-woo/#installation" target="_blank">Installation Documentation</a> for details):<br /><br /><select id="gtm-ecommerce-woo-select-preset"></select><button id="gtm-ecommerce-woo-download-preset" class="button">Download Preset</button>'
+            'It\'s time to define what to do with tracked eCommerce events. We know that settings up GTM workspace may be cumbersome. That\'s why the plugin comes with a set of presets you can import to your GTM workspace to create all required Tags, Triggers and Variables. Select a preset in dropdown below, download the JSON file and import it in Admin panel in your GTM workspace, see plugin <a href="https://handcraftbyte.com/gtm-ecommerce-for-woocommerce/#documentation" target="_blank">Documentation</a> for details):<br /><br /><select id="gtm-ecommerce-woo-select-preset"></select><button id="gtm-ecommerce-woo-download-preset" class="button">Download Preset</button>'
         );
 
-        // Register a new field in the "wporg_section_developers" section, inside the "wporg" page.
         $this->wpSettingsUtil->addSettingsField(
             'disabled',
             'Disable?',
             [$this, "checkboxField"],
             'basic',
-            'When checked plugin won\'t load anything in the page.'
+            'When checked the plugin won\'t load anything in the page.'
+        );
+
+        $this->wpSettingsUtil->addSettingsField(
+            'gtm_snippet_prevent_load',
+            'Prevent loading GTM Snippet?',
+            [$this, "checkboxField"],
+            'gtm_snippet',
+            'Check if GTM snippet is already implemented in your store (for instance using a consent plugin).',
         );
 
         $this->wpSettingsUtil->addSettingsField(
             'gtm_snippet_head',
-            'GTM Snippet head',
+            'GTM Snippet Head',
             [$this, "textareaField"],
             'gtm_snippet',
             'Paste the first snippet provided by GTM. It will be loaded in the <head> of the page.',

@@ -16,6 +16,11 @@ class GtmSnippetService {
         if ($this->wpSettingsUtil->getOption("disabled") === '1') {
             return;
         }
+
+        if ($this->wpSettingsUtil->getOption("gtm_snippet_prevent_load") === '1') {
+            return;
+        }
+
         if ($this->wpSettingsUtil->getOption("gtm_snippet_head") !== false) {
             add_action( 'wp_head', [$this, "headSnippet"], 0 );
         }
