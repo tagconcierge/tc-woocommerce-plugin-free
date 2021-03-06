@@ -17,8 +17,11 @@ abstract class AbstractEventStrategy {
         $this->wcOutput = $wcOutput;
 
         $this->actions = $this->defineActions();
+        $this->initialize();
     }
 
     abstract protected function defineActions();
+
+    public function initialize() {}
 
 }

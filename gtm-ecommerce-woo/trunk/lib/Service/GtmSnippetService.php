@@ -17,7 +17,7 @@ class GtmSnippetService {
             return;
         }
 
-        if ($this->wpSettingsUtil->getOption("gtm_snippet_prevent_load") === '1') {
+        if (substr($this->wpSettingsUtil->getOption("gtm_snippet_prevent_load"), 0, 3) === 'yes') {
             return;
         }
 

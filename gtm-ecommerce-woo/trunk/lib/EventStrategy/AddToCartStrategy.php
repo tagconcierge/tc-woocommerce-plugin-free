@@ -10,12 +10,11 @@ class AddToCartStrategy extends AbstractEventStrategy {
         return [
             'woocommerce_after_add_to_cart_button' => [$this, 'afterAddToCartButton'],
             'woocommerce_loop_add_to_cart_link' => [$this, 'loopAddToCartLink'],
-            'woocommerce_before_shop_loop' => [$this, 'beforeShopLoop'],
-            'woocommerce_after_shop_loop' => [$this, 'afterShopLoop'],
+            'wp_footer' => [$this, 'afterShopLoop'],
         ];
     }
 
-    public function beforeShopLoop() {
+    public function intialize() {
         $this->itemsByProductId = [];
     }
 
@@ -27,7 +26,9 @@ class AddToCartStrategy extends AbstractEventStrategy {
     }
 
     public function afterShopLoop() {
-        $this->onCartLinkClick($this->itemsByProductId);
+        if (count($this->itemsByProductId) > 0) {
+            $this->onCartLinkClick($this->itemsByProductId);
+        }
     }
 
     public function afterAddToCartButton() {

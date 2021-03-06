@@ -79,7 +79,7 @@ class SettingsService {
         $this->wpSettingsUtil->addSettingsSection(
             "gtm_snippet",
             "Google Tag Manager snippet",
-            'Paste two snippets provided by GTM. To find those snippets navigate to `Admin` tab in GTM console and click `Install Google Tag Manager`. If you already implemented GTM snippets in your page, paste them below, but check the `Prevent loading GTM Snippet` option.'
+            'Paste two snippets provided by GTM. To find those snippets navigate to `Admin` tab in GTM console and click `Install Google Tag Manager`. If you already implemented GTM snippets in your page, paste them below, but select appropriate `Prevent loading GTM Snippet` option.'
         );
 
         $this->wpSettingsUtil->addSettingsSection(
@@ -99,9 +99,17 @@ class SettingsService {
         $this->wpSettingsUtil->addSettingsField(
             'gtm_snippet_prevent_load',
             'Prevent loading GTM Snippet?',
-            [$this, "checkboxField"],
+            [$this, "selectField"],
             'gtm_snippet',
-            'Check if GTM snippet is already implemented in your store (for instance using a consent plugin).',
+            'Select if GTM snippet is already implemented in your store or if the plugin should inject snippets provided below.',
+            [
+                'options' => [
+                    'no' => 'No, use the GTM Ecommerce snippets below',
+                    'yes-consent' => 'Yes, I use a consent plugin',
+                    'yes-theme' => 'Yes, GTM is implemented directly in the theme',
+                    'yes-other' => 'Yes, I inject GTM snippets differently'
+                ]
+            ]
         );
 
         $this->wpSettingsUtil->addSettingsField(
@@ -142,6 +150,32 @@ class SettingsService {
         <?php endif; ?>
         value="1"
         <?php checked( $value, 1 ); ?> />
+      <p class="description">
+        <?php echo $args['description']; ?>
+      </p>
+        <?php
+    }
+
+    function selectField( $args ) {
+        // Get the value of the setting we've registered with register_setting()
+        $selectedValue = get_option( $args['label_for'] );
+        ?>
+      <select
+        type="checkbox"
+        id="<?php echo esc_attr( $args['label_for'] ); ?>"
+        name="<?php echo esc_attr( $args['label_for'] ); ?>"
+        <?php if (@$args['disabled'] === true): ?>
+        disabled="disabled"
+        <?php endif; ?>
+        >
+        <?php foreach ($args['options'] as $value => $label): ?>
+            <option value="<?php echo esc_attr($value) ?>"
+                <?php if ($selectedValue == $value): ?>
+                selected
+                <?php endif; ?>
+                ><?php echo esc_html($label) ?></option>
+        <?php endforeach ?>
+        </select>
       <p class="description">
         <?php echo $args['description']; ?>
       </p>

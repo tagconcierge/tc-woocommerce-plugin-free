@@ -9,7 +9,7 @@ class WcOutputUtil {
     protected $scriptFiles = [];
 
     public function __construct() {
-        add_action( 'wp_footer', [$this, 'wpFooter'] );
+        add_action( 'wp_footer', [$this, 'wpFooter'], 11 );
         add_action( 'wp_enqueue_scripts', [$this, 'wpEnqueueScripts'] );
     }
 
