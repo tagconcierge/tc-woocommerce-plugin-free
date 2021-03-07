@@ -116,6 +116,10 @@ The plugin always emits events in GA4 compatible format, but the UA preset conta
 
 == Changelog ==
 
+= 1.5.3 =
+
+* Rely on core WordPress and WooCommerce hooks to cover more themes
+
 = 1.5.2 =
 
 * Update documentation
