@@ -21,7 +21,11 @@ class EventStrategiesService {
         }
         foreach ($this->eventStrategies as $eventStrategy) {
             foreach ($eventStrategy->getActions() as $hook => $action) {
-                add_action( $hook, $action );
+                if (is_array($action) && is_array($action[0]) && is_numeric($action[1])) {
+                    add_action( $hook, $action[0], $action[1] );
+                } else {
+                    add_action( $hook, $action );
+                }
             }
         }
     }

@@ -2,39 +2,55 @@
 
 namespace GtmEcommerceWoo\Lib\EventStrategy;
 
+/**
+ * AddToCart event
+ */
 class AddToCartStrategy extends AbstractEventStrategy {
 
     protected $itemsByProductId;
+    protected $firstPost;
 
     public function defineActions() {
         return [
-            'woocommerce_after_add_to_cart_button' => [$this, 'afterAddToCartButton'],
-            'woocommerce_loop_add_to_cart_link' => [$this, 'loopAddToCartLink'],
+            'the_post' => [[$this, 'thePost'], 11],
             'wp_footer' => [$this, 'afterShopLoop'],
         ];
     }
 
-    public function intialize() {
+    public function initialize() {
         $this->itemsByProductId = [];
+        $this->firstPost = false;
     }
 
-    function loopAddToCartLink( $add_to_cart_html ) {
+    public function thePost() {
+        $this->productLoop();
+        $this->singleProduct();
+    }
+
+    function productLoop() {
         global $product;
-        $item = $this->wcTransformer->getItemFromProduct($product);
-        $this->itemsByProductId[$product->get_id()] = $item;
-        return $add_to_cart_html;
+        if (is_a($product, 'WC_Product')) {
+            $item = $this->wcTransformer->getItemFromProduct($product);
+            $this->itemsByProductId[$product->get_id()] = $item;
+        }
     }
 
     public function afterShopLoop() {
-        if (count($this->itemsByProductId) > 0) {
+        if (is_array($this->itemsByProductId) && count($this->itemsByProductId) > 0) {
             $this->onCartLinkClick($this->itemsByProductId);
         }
     }
 
-    public function afterAddToCartButton() {
+    /**
+     * we are on the single product page
+     */
+    public function singleProduct() {
         global $product;
-        $item = $this->wcTransformer->getItemFromProduct($product);
-        $this->onCartSubmitScript($item);
+        if (is_product() && $this->firstPost === false) {
+            $item = $this->wcTransformer->getItemFromProduct($product);
+            $this->onCartSubmitScript($item);
+            $this->firstPost = true;
+        }
     }
 
     public function onCartSubmitScript($item) {
