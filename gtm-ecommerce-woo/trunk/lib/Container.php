@@ -7,6 +7,7 @@ use GtmEcommerceWoo\Lib\Service\EventStrategiesService;
 use GtmEcommerceWoo\Lib\Service\GtmSnippetService;
 use GtmEcommerceWoo\Lib\Service\SettingsService;
 use GtmEcommerceWoo\Lib\Service\PluginService;
+use GtmEcommerceWoo\Lib\Service\DebuggerService;
 
 use GtmEcommerceWoo\Lib\Util\WpSettingsUtil;
 use GtmEcommerceWoo\Lib\Util\WcOutputUtil;
@@ -32,6 +33,7 @@ class Container {
         $this->gtmSnippetService = new GtmSnippetService($wpSettingsUtil);
         $this->settingsService = new SettingsService($wpSettingsUtil);
         $this->pluginService = new PluginService($spineCaseNamespace);
+        $this->debuggerService = new DebuggerService($snakeCaseNamespace, $spineCaseNamespace, $wcTransformerUtil, $wpSettingsUtil, $wcOutputUtil);
 
     }
 
@@ -49,5 +51,9 @@ class Container {
 
     public function getPluginService() {
         return $this->pluginService;
+    }
+
+    public function getDebuggerService() {
+        return $this->debuggerService;
     }
 }

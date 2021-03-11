@@ -4,8 +4,8 @@ namespace GtmEcommerceWoo\Lib\GaEcommerceEntity;
 
 class Event implements \JsonSerializable {
 
-    protected $name;
-    protected $items;
+    public $name;
+    public $items;
 
     public function __construct($name) {
         $this->name = $name;

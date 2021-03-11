@@ -4,7 +4,7 @@ namespace GtmEcommerceWoo\Lib\GaEcommerceEntity;
 
 class Item implements \JsonSerializable {
 
-    protected $itemName;
+    public $itemName;
 
     public function __construct($itemName) {
         $this->itemName = $itemName;

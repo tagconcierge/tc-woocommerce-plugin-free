@@ -67,9 +67,15 @@ class SettingsService {
     function settingsInit() {
         $this->wpSettingsUtil->registerSetting('uuid');
         $this->wpSettingsUtil->registerSetting('disabled');
+        $this->wpSettingsUtil->registerSetting('debugger_enabled');
         $this->wpSettingsUtil->registerSetting('gtm_snippet_prevent_load');
         $this->wpSettingsUtil->registerSetting('gtm_snippet_head');
         $this->wpSettingsUtil->registerSetting('gtm_snippet_body');
+
+        $uuid = $this->wpSettingsUtil->getOption('uuid');
+        if (empty($uuid) || strlen($uuid) === 13) {
+            $this->wpSettingsUtil->updateOption('uuid', $this->uuidPrefix . '_' . bin2hex(random_bytes(20)));
+        }
 
         $this->wpSettingsUtil->addSettingsSection(
             "basic",
@@ -94,6 +100,15 @@ class SettingsService {
             [$this, "checkboxField"],
             'basic',
             'When checked the plugin won\'t load anything in the page.'
+        );
+
+        $this->wpSettingsUtil->addSettingsField(
+            'debugger_enabled',
+            'Enable Debugger?',
+            [$this, "checkboxField"],
+            'basic',
+            'Enable to help support team debug issues with tracking. Provide them with following information: `uuid_hash:'
+            	.md5($this->wpSettingsUtil->getOption('uuid')).'`.'
         );
 
         $this->wpSettingsUtil->addSettingsField(
@@ -130,11 +145,6 @@ class SettingsService {
             'Paste the second snippet provided by GTM. It will be load after opening <body> tag.',
             ['rows'        => 6]
         );
-
-        $uuid = $this->wpSettingsUtil->getOption('uuid');
-        if (empty($uuid) || strlen($uuid) === 13) {
-            $this->wpSettingsUtil->updateOption('uuid', $this->uuidPrefix . '_' . bin2hex(random_bytes(20)));
-        }
     }
 
     function checkboxField( $args ) {

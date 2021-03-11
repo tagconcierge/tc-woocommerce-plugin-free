@@ -29,8 +29,13 @@ $container = new Container();
 $container->getSettingsService()->initialize();
 $container->getGtmSnippetService()->initialize();
 $container->getEventStrategiesService()->initialize();
+
+$debuggerService = $container->getDebuggerService();
+$debuggerService->initialize();
+
 $pluginService = $container->getPluginService();
 $pluginService->initialize();
 
 register_activation_hook( __FILE__, [$pluginService, 'activationHook'] );
+register_deactivation_hook( __FILE__, [$debuggerService, 'deactivationHook'] );
 
