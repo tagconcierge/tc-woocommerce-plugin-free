@@ -102,14 +102,14 @@ class SettingsService {
             'When checked the plugin won\'t load anything in the page.'
         );
 
-        $this->wpSettingsUtil->addSettingsField(
-            'debugger_enabled',
-            'Enable Debugger?',
-            [$this, "checkboxField"],
-            'basic',
-            'Enable to help support team debug issues with tracking. Provide them with following information: `uuid_hash:'
-            	.md5($this->wpSettingsUtil->getOption('uuid')).'`.'
-        );
+        // $this->wpSettingsUtil->addSettingsField(
+        //     'debugger_enabled',
+        //     'Enable Debugger?',
+        //     [$this, "checkboxField"],
+        //     'basic',
+        //     'Enable to help support team debug issues with tracking. Provide them with following information: `uuid_hash:'
+        //     	.md5($this->wpSettingsUtil->getOption('uuid')).'`.'
+        // );
 
         $this->wpSettingsUtil->addSettingsField(
             'gtm_snippet_prevent_load',

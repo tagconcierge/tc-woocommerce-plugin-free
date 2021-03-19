@@ -53,12 +53,16 @@ class AddToCartStrategy extends AbstractEventStrategy {
         }
     }
 
+    /**
+     * supports the button that is supposed to live in a form object
+     */
     public function onCartSubmitScript($item) {
         $this->wcOutput->globalVariable('gtm_ecommerce_woo_item', $item);
         $this->wcOutput->script(<<<EOD
-jQuery('.cart').submit(function(ev) {
+jQuery(document).on('submit', '.cart', function(ev) {
     var quantity = jQuery('[name="quantity"]', ev.currentTarget).val();
     var product_id = jQuery('[name="add-to-cart"]', ev.currentTarget).val();
+
     var item = gtm_ecommerce_woo_item;
     item.quantity = quantity;
     dataLayer.push({
@@ -73,12 +77,15 @@ EOD
 
     }
 
+    /**
+     * supports a single link that's present on product lists
+     */
     public function onCartLinkClick($items) {
         $this->wcOutput->globalVariable('gtm_ecommerce_woo_items_by_product_id', $items);
         $this->wcOutput->script(<<<EOD
-jQuery('.ajax_add_to_cart').click(function(ev) {
-    var quantity = jQuery(ev.currentTarget).attr('data-quantity');
-    var product_id = jQuery(ev.currentTarget).attr('data-product_id');
+jQuery(document).on('click', '.ajax_add_to_cart', function(ev) {
+    var quantity = jQuery(ev.currentTarget).data('quantity');
+    var product_id = jQuery(ev.currentTarget).data('product_id');
     var item = gtm_ecommerce_woo_items_by_product_id[product_id];
     item.quantity = quantity;
     dataLayer.push({
