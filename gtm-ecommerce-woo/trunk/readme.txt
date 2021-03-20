@@ -116,6 +116,11 @@ The plugin always emits events in GA4 compatible format, but the UA preset conta
 
 == Changelog ==
 
+= 1.5.4 =
+
+* introduce Theme Validator that allows for remote tracking debugging
+* improve jQuery callbacks
+
 = 1.5.3 =
 
 * Rely on core WordPress and WooCommerce hooks to cover more themes
