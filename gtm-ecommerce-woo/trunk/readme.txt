@@ -116,6 +116,10 @@ The plugin always emits events in GA4 compatible format, but the UA preset conta
 
 == Changelog ==
 
+= 1.5.8 =
+
+* remove settings tabs
+
 = 1.5.7 =
 
 * added missing file

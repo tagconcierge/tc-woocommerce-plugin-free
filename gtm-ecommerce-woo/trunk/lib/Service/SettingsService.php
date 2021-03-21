@@ -82,15 +82,15 @@ class SettingsService {
 			$this->wpSettingsUtil->updateOption('theme_validator_enabled', 1);
 		}
 
-		$this->wpSettingsUtil->addTab(
-			'settings',
-			"Settings"
-		);
+		// $this->wpSettingsUtil->addTab(
+		// 	'settings',
+		// 	"Settings"
+		// );
 
-		$this->wpSettingsUtil->addTab(
-			'theme_validator',
-			"Theme Validator"
-		);
+		// $this->wpSettingsUtil->addTab(
+		// 	'theme_validator',
+		// 	"Theme Validator"
+		// );
 
 		$this->wpSettingsUtil->addSettingsSection(
 			"basic",
@@ -113,12 +113,12 @@ class SettingsService {
 			'settings'
 		);
 
-		$this->wpSettingsUtil->addSettingsSection(
-			"theme_validator_settings",
-			"Theme Validator",
-			'This plugin push eCommerce events from WooCommerce shop to Google Tag Manager instance. After enabling, add tags and triggers to your GTM container in order to use and analyze captured data. For quick start use one of the GTM presets available below.',
-			'theme_validator'
-		);
+		// $this->wpSettingsUtil->addSettingsSection(
+		// 	"theme_validator_settings",
+		// 	"Theme Validator",
+		// 	'This plugin push eCommerce events from WooCommerce shop to Google Tag Manager instance. After enabling, add tags and triggers to your GTM container in order to use and analyze captured data. For quick start use one of the GTM presets available below.',
+		// 	'theme_validator'
+		// );
 
 		// $this->wpSettingsUtil->addSettingsSection(
 		// 	"theme_validator_status",
@@ -148,7 +148,7 @@ class SettingsService {
 			'theme_validator_enabled',
 			'Enable Theme Validator?',
 			[$this, "checkboxField"],
-			'theme_validator_settings',
+			'basic',
 			'Allow the plugin and the support team to validate theme by issuing a special HTTP request. Provide them with following information: `uuid_hash:'
 			.md5($this->wpSettingsUtil->getOption('uuid')).'`.'
 		);

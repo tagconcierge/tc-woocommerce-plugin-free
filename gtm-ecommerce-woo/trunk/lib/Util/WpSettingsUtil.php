@@ -14,6 +14,8 @@ class WpSettingsUtil {
 	public function __construct($snakeCaseNamespace, $spineCaseNamespace) {
 		$this->snakeCaseNamespace = $snakeCaseNamespace;
 		$this->spineCaseNamespace = $spineCaseNamespace;
+		$this->tabs = [];
+		$this->sections = [];
 	}
 
 	public function getOption($optionName) {
@@ -49,13 +51,11 @@ class WpSettingsUtil {
 			  <p id="<?php echo esc_attr( $args['id'] ); ?>"><?php echo $description ?></p>
 				<?php
 			},
-			$this->snakeCaseNamespace . '_' . $tab
+			$this->snakeCaseNamespace
 		);
-		$this->sections[$sectionName] = $tab;
 	}
 
 	public function addSettingsField($fieldName, $fieldTitle, $fieldCallback, $fieldSection, $fieldDescription, $extraAttrs = []) {
-		$tab = $this->sections[$fieldSection];
 		$attrs = array_merge([
 			'label_for'   => $this->snakeCaseNamespace . '_' . $fieldName,
 			'description' => $fieldDescription,
@@ -65,7 +65,7 @@ class WpSettingsUtil {
 			// Use $args' label_for to populate the id inside the callback.
 			__( $fieldTitle, $this->spineCaseNamespace ),
 			$fieldCallback,
-			$this->snakeCaseNamespace . '_' . $tab,
+			$this->snakeCaseNamespace,
 			$this->snakeCaseNamespace . '_' . $fieldSection,
 			$attrs
 		);
@@ -95,19 +95,19 @@ class WpSettingsUtil {
 				<div id="icon-themes" class="icon32"></div>
 				<h1><?php echo esc_html( get_admin_page_title() ); ?></h1>
 
-				<h2 class="nav-tab-wrapper">
+				<?php /*<h2 class="nav-tab-wrapper">
 					<?php foreach ($this->tabs as $tab): ?>
 					<a href="?page=<?php echo $this->spineCaseNamespace ?>&tab=<?php echo $tab['name']; ?>" class="nav-tab <?php echo $activeTab == $tab['name'] ? 'nav-tab-active' : ''; ?>"><?php echo $tab['title'] ?></a>
 					<?php endforeach; ?>
-				</h2>
+				</h2> */ ?>
 
 				<form action="options.php" method="post">
 				  <?php
 					// output security fields for the registered setting "wporg_options"
-					settings_fields( $snakeCaseNamespace . '_' . $activeTab );
+					settings_fields( $snakeCaseNamespace );
 					// output setting sections and their fields
 					// (sections are registered for "wporg", each field is registered to a specific section)
-					do_settings_sections( $snakeCaseNamespace . '_' . $activeTab );
+					do_settings_sections( $snakeCaseNamespace );
 					// output save settings button
 					submit_button( __( 'Save Settings', $spineCaseNamespace ) );
 					?>
