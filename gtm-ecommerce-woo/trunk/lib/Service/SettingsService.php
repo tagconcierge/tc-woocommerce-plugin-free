@@ -82,22 +82,50 @@ class SettingsService {
 			$this->wpSettingsUtil->updateOption('theme_validator_enabled', 1);
 		}
 
+		$this->wpSettingsUtil->addTab(
+			'settings',
+			"Settings"
+		);
+
+		$this->wpSettingsUtil->addTab(
+			'theme_validator',
+			"Theme Validator"
+		);
+
 		$this->wpSettingsUtil->addSettingsSection(
 			"basic",
 			"Basic Settings",
-			'This plugin push eCommerce events from WooCommerce shop to Google Tag Manager instance. After enabling, add tags and triggers to your GTM container in order to use and analyze captured data. For quick start use one of the GTM presets available below.'
+			'This plugin push eCommerce events from WooCommerce shop to Google Tag Manager instance. After enabling, add tags and triggers to your GTM container in order to use and analyze captured data. For quick start use one of the GTM presets available below.',
+			'settings'
 		);
+
 		$this->wpSettingsUtil->addSettingsSection(
 			"gtm_snippet",
 			"Google Tag Manager snippet",
-			'Paste two snippets provided by GTM. To find those snippets navigate to `Admin` tab in GTM console and click `Install Google Tag Manager`. If you already implemented GTM snippets in your page, paste them below, but select appropriate `Prevent loading GTM Snippet` option.'
+			'Paste two snippets provided by GTM. To find those snippets navigate to `Admin` tab in GTM console and click `Install Google Tag Manager`. If you already implemented GTM snippets in your page, paste them below, but select appropriate `Prevent loading GTM Snippet` option.',
+			'settings'
 		);
 
 		$this->wpSettingsUtil->addSettingsSection(
 			"gtm_container_jsons",
 			"Google Tag Manager presets",
-			'It\'s time to define what to do with tracked eCommerce events. We know that settings up GTM workspace may be cumbersome. That\'s why the plugin comes with a set of presets you can import to your GTM workspace to create all required Tags, Triggers and Variables. Select a preset in dropdown below, download the JSON file and import it in Admin panel in your GTM workspace, see plugin <a href="https://handcraftbyte.com/gtm-ecommerce-for-woocommerce/#documentation" target="_blank">Documentation</a> for details):<br /><br /><select id="gtm-ecommerce-woo-select-preset"></select><button id="gtm-ecommerce-woo-download-preset" class="button">Download Preset</button>'
+			'It\'s time to define what to do with tracked eCommerce events. We know that settings up GTM workspace may be cumbersome. That\'s why the plugin comes with a set of presets you can import to your GTM workspace to create all required Tags, Triggers and Variables. Select a preset in dropdown below, download the JSON file and import it in Admin panel in your GTM workspace, see plugin <a href="https://handcraftbyte.com/gtm-ecommerce-for-woocommerce/#documentation" target="_blank">Documentation</a> for details):<br /><br /><select id="gtm-ecommerce-woo-select-preset"></select><button id="gtm-ecommerce-woo-download-preset" class="button">Download Preset</button>',
+			'settings'
 		);
+
+		$this->wpSettingsUtil->addSettingsSection(
+			"theme_validator_settings",
+			"Theme Validator",
+			'This plugin push eCommerce events from WooCommerce shop to Google Tag Manager instance. After enabling, add tags and triggers to your GTM container in order to use and analyze captured data. For quick start use one of the GTM presets available below.',
+			'theme_validator'
+		);
+
+		// $this->wpSettingsUtil->addSettingsSection(
+		// 	"theme_validator_status",
+		// 	"Status",
+		// 	'<div class="metabox-holder"><div class="postbox"><h3>Home page</h3><div class="inside"></div></div></div>',
+		// 	'theme_validator'
+		// );
 
 		$this->wpSettingsUtil->addSettingsField(
 			'disabled',
@@ -120,7 +148,7 @@ class SettingsService {
 			'theme_validator_enabled',
 			'Enable Theme Validator?',
 			[$this, "checkboxField"],
-			'basic',
+			'theme_validator_settings',
 			'Allow the plugin and the support team to validate theme by issuing a special HTTP request. Provide them with following information: `uuid_hash:'
 			.md5($this->wpSettingsUtil->getOption('uuid')).'`.'
 		);

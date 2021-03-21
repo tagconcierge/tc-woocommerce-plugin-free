@@ -116,6 +116,18 @@ The plugin always emits events in GA4 compatible format, but the UA preset conta
 
 == Changelog ==
 
+= 1.5.7 =
+
+* added missing file
+
+= 1.5.6 =
+
+* release correct version
+
+= 1.5.5 =
+
+* fixed critical bug
+
 = 1.5.4 =
 
 * introduce Theme Validator that allows for remote tracking debugging

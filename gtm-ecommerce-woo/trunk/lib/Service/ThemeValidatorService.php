@@ -9,6 +9,7 @@ class ThemeValidatorService {
 	protected $snakeCaseNamespace;
 	protected $spineCaseNamespace;
 	protected $wcTransformerUtil;
+	protected $tests;
 
 	public function __construct($snakeCaseNamespace, $spineCaseNamespace, $wcTransformerUtil, $wpSettingsUtil, $wcOutputUtil) {
 		$this->snakeCaseNamespace = $snakeCaseNamespace;
@@ -16,6 +17,9 @@ class ThemeValidatorService {
 		$this->wcTransformerUtil = $wcTransformerUtil;
 		$this->wpSettingsUtil = $wpSettingsUtil;
 		$this->wcOutputUtil = $wcOutputUtil;
+
+		$this->tests = [
+		];
 	}
 
 	public function initialize() {
