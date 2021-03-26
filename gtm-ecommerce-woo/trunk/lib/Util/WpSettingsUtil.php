@@ -99,7 +99,7 @@ class WpSettingsUtil {
 					<?php foreach ($this->tabs as $tab): ?>
 					<a href="?page=<?php echo $this->spineCaseNamespace ?>&tab=<?php echo $tab['name']; ?>" class="nav-tab <?php echo $activeTab == $tab['name'] ? 'nav-tab-active' : ''; ?>"><?php echo $tab['title'] ?></a>
 					<?php endforeach; ?>
-				</h2> */ ?>
+				</h2>*/ ?>
 
 				<form action="options.php" method="post">
 				  <?php

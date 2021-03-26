@@ -19,6 +19,9 @@ class ThemeValidatorService {
 		$this->wcOutputUtil = $wcOutputUtil;
 
 		$this->tests = [
+			'homepage',
+			'product_category',
+			'product',
 		];
 	}
 
@@ -35,6 +38,8 @@ class ThemeValidatorService {
 		add_action( 'woocommerce_thankyou', [$this, 'woocommerceThankyou'] );
 		add_action( 'woocommerce_before_checkout_form', [$this, 'woocommerceBeforeCheckoutForm'] );
 		add_action( 'wp_footer', [$this, 'wpFooter'] );
+		add_action( 'the_widget', [$this, 'theWidget'] );
+		add_filter( 'render_block', [$this, 'renderBlock'], 10, 2 );
 	}
 
 	public function wp() {
@@ -97,6 +102,15 @@ class ThemeValidatorService {
 
 	public function woocommerceBeforeCheckoutForm() {
 		echo "<!-- gtm-ecommerce-woo: woocommerce_before_checkout_form -->\n";
+	}
+
+	public function theWidget($widget) {
+		echo "<!-- gtm-ecommerce-woo: the_widget; widget: $widget -->\n";
+	}
+
+	public function renderBlock($blockContent, $block) {
+		echo "<!-- gtm-ecommerce-woo: render_block; block_name: ${block['blockName']} -->\n";
+		return $blockContent;
 	}
 
 }
