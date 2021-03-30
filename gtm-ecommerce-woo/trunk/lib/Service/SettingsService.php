@@ -22,7 +22,7 @@ class SettingsService {
 
 	function ajaxGetPresets() {
 		$uuid = $this->wpSettingsUtil->getOption('uuid');
-		$response = wp_remote_get( 'https://api.gtmconcierge.com/v2/presets?uuid=' . $uuid );
+		$response = wp_remote_get( 'https://api.tagconcierge.com/v2/presets?uuid=' . $uuid );
 		$body     = wp_remote_retrieve_body( $response );
 		wp_send_json(json_decode($body));
 		wp_die();
@@ -47,7 +47,7 @@ class SettingsService {
 			],
 			'data_format' => 'body',
 		];
-		$response = wp_remote_post( 'https://api.gtmconcierge.com/v2/preset', $args );
+		$response = wp_remote_post( 'https://api.tagconcierge.com/v2/preset', $args );
 		$body     = wp_remote_retrieve_body( $response );
 		header("Cache-Control: public");
 		header("Content-Description: File Transfer");
