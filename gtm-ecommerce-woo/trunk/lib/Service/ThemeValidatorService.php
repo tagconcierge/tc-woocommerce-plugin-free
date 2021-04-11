@@ -26,6 +26,8 @@ class ThemeValidatorService {
 	}
 
 	public function initialize() {
+		add_action( 'wp_ajax_gtm_ecommerce_woo_post_validate_theme', [$this, 'ajaxPostValidateTheme'] );
+
 		if ($this->wpSettingsUtil->getOption('theme_validator_enabled') !== '1') {
 			return;
 		}
@@ -40,6 +42,40 @@ class ThemeValidatorService {
 		add_action( 'wp_footer', [$this, 'wpFooter'] );
 		add_action( 'the_widget', [$this, 'theWidget'] );
 		add_filter( 'render_block', [$this, 'renderBlock'], 10, 2 );
+	}
+
+	public function ajaxPostValidateTheme() {
+		// get a product
+		// get an order
+		$payload = [
+			'uuid_hash' => md5($this->wpSettingsUtil->getOption('uuid')),
+			'urls' => [
+				'product_category' => 'https://foo.bar/',
+				'product' => 'https://foo.bar/product/single',
+				'cart' => wc_get_cart_url(),
+				'checkout' => wc_get_checkout_url(),
+				'home' => get_home_url(),
+				// 'thank_you' =>    $return_url = $order->get_checkout_order_received_url();
+				//     } else {
+				//         $return_url = wc_get_endpoint_url( 'order-received', '', wc_get_checkout_url() );
+			]
+		];
+		var_dump($payload);wp_die();
+		// $args = [
+		// 	'body' => json_encode($payload),
+		// 	'headers' => [
+		// 		'content-type' => 'application/json'
+		// 	],
+		// 	'data_format' => 'body',
+		// ];
+		// $response = wp_remote_post( 'https://api.tagconcierge.com/v2/preset', $args );
+		// $body     = wp_remote_retrieve_body( $response );
+		// header("Cache-Control: public");
+		// header("Content-Description: File Transfer");
+		// header("Content-Disposition: attachment; filename=".$presetName);
+		// header("Content-Transfer-Encoding: binary");
+		// wp_send_json(json_decode($body));
+		// wp_die();
 	}
 
 	public function wp() {

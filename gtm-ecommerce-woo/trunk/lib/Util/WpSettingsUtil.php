@@ -34,10 +34,11 @@ class WpSettingsUtil {
 		return register_setting( $this->snakeCaseNamespace, $this->snakeCaseNamespace . '_' . $settingName );
 	}
 
-	public function addTab($tabName, $tabTitle) {
+	public function addTab($tabName, $tabTitle, $showSaveButton = true) {
 		$this->tabs[$tabName] = [
 			'name' => $tabName,
-			'title' => $tabTitle
+			'title' => $tabTitle,
+			'show_save_button' => $showSaveButton
 		];
 	}
 
@@ -113,7 +114,9 @@ class WpSettingsUtil {
 					// (sections are registered for "wporg", each field is registered to a specific section)
 					do_settings_sections( $snakeCaseNamespace . '_' . $activeTab );
 					// output save settings button
-					submit_button( __( 'Save Settings', $spineCaseNamespace ) );
+					if ($this->tabs[$activeTab]['show_save_button'] !== false) {
+						submit_button( __( 'Save Settings', $spineCaseNamespace ) );
+					}
 					?>
 				</form>
 			  </div>

@@ -20,17 +20,20 @@ class SettingsService {
 
 		$this->wpSettingsUtil->addTab(
 			'gtm_presets',
-			"GTM Presets"
+			"GTM Presets",
+			false
 		);
 
-		$this->wpSettingsUtil->addTab(
-			'tools',
-			"Tools"
-		);
+		// $this->wpSettingsUtil->addTab(
+		// 	'tools',
+		// 	"Tools",
+		// 	false
+		// );
 
 		$this->wpSettingsUtil->addTab(
 			'support',
-			"Support"
+			"Support",
+			false
 		);
 
 		add_action( 'admin_init', [$this, 'settingsInit'] );
@@ -86,12 +89,6 @@ class SettingsService {
 
 	function settingsInit() {
 		$this->wpSettingsUtil->registerSetting('uuid');
-		// $this->wpSettingsUtil->registerSetting('disabled');
-		// $this->wpSettingsUtil->registerSetting('debugger_enabled');
-		// $this->wpSettingsUtil->registerSetting('theme_validator_enabled');
-		// $this->wpSettingsUtil->registerSetting('gtm_snippet_prevent_load');
-		// $this->wpSettingsUtil->registerSetting('gtm_snippet_head');
-		// $this->wpSettingsUtil->registerSetting('gtm_snippet_body');
 
 		$this->wpSettingsUtil->addSettingsSection(
 			"basic",
@@ -110,22 +107,23 @@ class SettingsService {
 		$this->wpSettingsUtil->addSettingsSection(
 			"gtm_container_jsons",
 			"Google Tag Manager presets",
-			'It\'s time to define what to do with tracked eCommerce events. We know that settings up GTM workspace may be cumbersome. That\'s why the plugin comes with a set of presets you can import to your GTM workspace to create all required Tags, Triggers and Variables. Select a preset in dropdown below, download the JSON file and import it in Admin panel in your GTM workspace, see plugin <a href="https://handcraftbyte.com/gtm-ecommerce-for-woocommerce/#documentation" target="_blank">Documentation</a> for details):<br /><br /><select id="gtm-ecommerce-woo-select-preset"></select><button id="gtm-ecommerce-woo-download-preset" class="button">Download Preset</button>',
+			'It\'s time to define what to do with tracked eCommerce events. We know that settings up GTM workspace may be cumbersome. That\'s why the plugin comes with a set of presets you can import to your GTM workspace to create all required Tags, Triggers and Variables. Select a preset in dropdown below, download the JSON file and import it in Admin panel in your GTM workspace, see plugin <a href="https://handcraftbyte.com/gtm-ecommerce-for-woocommerce/#documentation" target="_blank">Documentation</a> for details):<br /><br /><div class="metabox-holder"><div id="gtm-ecommerce-woo-presets-grid" class="postbox-container" style="float: none;"><div id="gtm-ecommerce-woo-preset-tmpl" style="display: none;"><div style="display: inline-block;
+    margin-left: 20px;" class="postbox"><h3 class="name">Google Analytics 4</h3><div class="inside"><p>Description</p><p><a class="download button button-primary" href="#">Download</a></p></div></div></div></div></div><br /><div style="text-align: center"><a class="button button-primary" href="https://woocommerce.com/products/google-tag-manager-for-woocommerce-pro/" target="_blank">Upgrade to PRO</a></div>',
 			'gtm_presets'
 		);
 
-		// $this->wpSettingsUtil->addSettingsSection(
-		// 	"theme_validator_settings",
-		// 	"Theme Validator",
-		// 	'This plugin push eCommerce events from WooCommerce shop to Google Tag Manager instance. After enabling, add tags and triggers to your GTM container in order to use and analyze captured data. For quick start use one of the GTM presets available below.',
-		// 	'theme_validator'
-		// );
+		$this->wpSettingsUtil->addSettingsSection(
+			"support",
+			"Support",
+			'<a class="button button-primary" href="https://handcraftbyte.com/gtm-ecommerce-for-woocommerce/#documentation" target="_blank">Documentation</a><br /><br /><a class="button button-primary" href="mailto:support@handcraftbyte.com">Contact Support</a>',
+			'support'
+		);
 
 		// $this->wpSettingsUtil->addSettingsSection(
 		// 	"theme_validator_status",
-		// 	"Status",
-		// 	'<div class="metabox-holder"><div class="postbox"><h3>Home page</h3><div class="inside"></div></div></div>',
-		// 	'theme_validator'
+		// 	"Theme Validator",
+		// 	'Theme Validator allows to quickly assess if all events supported by this plugin should work on your current theme: <strong>' . (wp_get_theme())->get('Name') . '</strong>. Your WordPress site must be publicly available to perform this test. Its url will be sent to our servers to perform validation and then it will be removed. <button id="gtm-ecommerce-woo-validate-theme" class="button">Validate Theme</button><div class="metabox-holder"><div class="postbox"><h3>Home page</h3><div class="inside">add_to_cart OK<br />purchase</div></div></div>',
+		// 	'tools'
 		// );
 
 		$this->wpSettingsUtil->addSettingsField(
