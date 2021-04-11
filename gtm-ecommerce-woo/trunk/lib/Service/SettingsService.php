@@ -13,6 +13,26 @@ class SettingsService {
 	}
 
 	public function initialize() {
+		$this->wpSettingsUtil->addTab(
+			'settings',
+			"Settings"
+		);
+
+		$this->wpSettingsUtil->addTab(
+			'gtm_presets',
+			"GTM Presets"
+		);
+
+		$this->wpSettingsUtil->addTab(
+			'tools',
+			"Tools"
+		);
+
+		$this->wpSettingsUtil->addTab(
+			'support',
+			"Support"
+		);
+
 		add_action( 'admin_init', [$this, 'settingsInit'] );
 		add_action( 'admin_menu', [$this, 'optionsPage'] );
 		add_action( 'admin_enqueue_scripts', [$this, 'enqueueScripts'] );
@@ -66,31 +86,12 @@ class SettingsService {
 
 	function settingsInit() {
 		$this->wpSettingsUtil->registerSetting('uuid');
-		$this->wpSettingsUtil->registerSetting('disabled');
-		$this->wpSettingsUtil->registerSetting('debugger_enabled');
-		$this->wpSettingsUtil->registerSetting('theme_validator_enabled');
-		$this->wpSettingsUtil->registerSetting('gtm_snippet_prevent_load');
-		$this->wpSettingsUtil->registerSetting('gtm_snippet_head');
-		$this->wpSettingsUtil->registerSetting('gtm_snippet_body');
-
-		$uuid = $this->wpSettingsUtil->getOption('uuid');
-		if (empty($uuid) || strlen($uuid) === 13) {
-			$this->wpSettingsUtil->updateOption('uuid', $this->uuidPrefix . '_' . bin2hex(random_bytes(20)));
-		}
-
-		if ($this->wpSettingsUtil->getOption('theme_validator_enabled') === false) {
-			$this->wpSettingsUtil->updateOption('theme_validator_enabled', 1);
-		}
-
-		// $this->wpSettingsUtil->addTab(
-		// 	'settings',
-		// 	"Settings"
-		// );
-
-		// $this->wpSettingsUtil->addTab(
-		// 	'theme_validator',
-		// 	"Theme Validator"
-		// );
+		// $this->wpSettingsUtil->registerSetting('disabled');
+		// $this->wpSettingsUtil->registerSetting('debugger_enabled');
+		// $this->wpSettingsUtil->registerSetting('theme_validator_enabled');
+		// $this->wpSettingsUtil->registerSetting('gtm_snippet_prevent_load');
+		// $this->wpSettingsUtil->registerSetting('gtm_snippet_head');
+		// $this->wpSettingsUtil->registerSetting('gtm_snippet_body');
 
 		$this->wpSettingsUtil->addSettingsSection(
 			"basic",
@@ -110,7 +111,7 @@ class SettingsService {
 			"gtm_container_jsons",
 			"Google Tag Manager presets",
 			'It\'s time to define what to do with tracked eCommerce events. We know that settings up GTM workspace may be cumbersome. That\'s why the plugin comes with a set of presets you can import to your GTM workspace to create all required Tags, Triggers and Variables. Select a preset in dropdown below, download the JSON file and import it in Admin panel in your GTM workspace, see plugin <a href="https://handcraftbyte.com/gtm-ecommerce-for-woocommerce/#documentation" target="_blank">Documentation</a> for details):<br /><br /><select id="gtm-ecommerce-woo-select-preset"></select><button id="gtm-ecommerce-woo-download-preset" class="button">Download Preset</button>',
-			'settings'
+			'gtm_presets'
 		);
 
 		// $this->wpSettingsUtil->addSettingsSection(
@@ -187,6 +188,15 @@ class SettingsService {
 			'Paste the second snippet provided by GTM. It will be load after opening <body> tag.',
 			['rows'        => 6]
 		);
+
+		$uuid = $this->wpSettingsUtil->getOption('uuid');
+		if (empty($uuid) || strlen($uuid) === 13) {
+			$this->wpSettingsUtil->updateOption('uuid', $this->uuidPrefix . '_' . bin2hex(random_bytes(20)));
+		}
+
+		if ($this->wpSettingsUtil->getOption('theme_validator_enabled') === false) {
+			$this->wpSettingsUtil->updateOption('theme_validator_enabled', 1);
+		}
 	}
 
 	function checkboxField( $args ) {
@@ -253,8 +263,8 @@ class SettingsService {
 	function optionsPage() {
 		$this->wpSettingsUtil->addSubmenuPage(
 			'options-general.php',
-			'GTM Ecommerce for WooCommerce',
-			'GTM Ecommerce',
+			'Google Tag Manager for WooCommerce FREE',
+			'Google Tag Manager',
 			'manage_options'
 		);
 	}

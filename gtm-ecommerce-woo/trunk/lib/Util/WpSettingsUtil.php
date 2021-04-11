@@ -31,11 +31,11 @@ class WpSettingsUtil {
 	}
 
 	public function registerSetting($settingName) {
-		register_setting( $this->snakeCaseNamespace, $this->snakeCaseNamespace . '_' . $settingName );
+		return register_setting( $this->snakeCaseNamespace, $this->snakeCaseNamespace . '_' . $settingName );
 	}
 
 	public function addTab($tabName, $tabTitle) {
-		$this->tabs[] = [
+		$this->tabs[$tabName] = [
 			'name' => $tabName,
 			'title' => $tabTitle
 		];
@@ -43,6 +43,10 @@ class WpSettingsUtil {
 
 	public function addSettingsSection($sectionName, $sectionTitle, $description, $tab) {
 		$spineCaseNamespace = $this->spineCaseNamespace;
+		$this->sections[$sectionName] = [
+			'name' => $sectionName,
+			'tab' => $tab
+		];
 		add_settings_section(
 			$this->snakeCaseNamespace . '_' . $sectionName,
 			__( $sectionTitle, $this->spineCaseNamespace ),
@@ -51,7 +55,7 @@ class WpSettingsUtil {
 			  <p id="<?php echo esc_attr( $args['id'] ); ?>"><?php echo $description ?></p>
 				<?php
 			},
-			$this->snakeCaseNamespace
+			$this->snakeCaseNamespace . '_' . $tab
 		);
 	}
 
@@ -60,12 +64,14 @@ class WpSettingsUtil {
 			'label_for'   => $this->snakeCaseNamespace . '_' . $fieldName,
 			'description' => $fieldDescription,
 		], $extraAttrs);
+		$section = $this->sections[$fieldSection];
+		register_setting( $this->snakeCaseNamespace . '_' . $section['tab'], $this->snakeCaseNamespace . '_' . $fieldName );
 		add_settings_field(
 			$this->snakeCaseNamespace . '_' . $fieldName, // As of WP 4.6 this value is used only internally.
 			// Use $args' label_for to populate the id inside the callback.
 			__( $fieldTitle, $this->spineCaseNamespace ),
 			$fieldCallback,
-			$this->snakeCaseNamespace,
+			$this->snakeCaseNamespace . '_' . $section['tab'],
 			$this->snakeCaseNamespace . '_' . $fieldSection,
 			$attrs
 		);
@@ -74,8 +80,7 @@ class WpSettingsUtil {
 	public function addSubmenuPage($options, $title1, $title2, $capabilities) {
 		$snakeCaseNamespace = $this->snakeCaseNamespace;
 		$spineCaseNamespace = $this->spineCaseNamespace;
-		$activeTab = isset( $_GET[ 'tab' ] ) ? $_GET[ 'tab' ] : 'settings';
-
+		$activeTab = isset( $_GET[ 'tab' ] ) ? $_GET[ 'tab' ] : array_keys($this->tabs)[0];
 		add_submenu_page(
 			$options,
 			$title1,
@@ -87,7 +92,6 @@ class WpSettingsUtil {
 				if ( ! current_user_can( $capabilities ) ) {
 					return;
 				}
-
 				// show error/update messages
 				settings_errors( $snakeCaseNamespace . '_messages' );
 				?>
@@ -95,19 +99,19 @@ class WpSettingsUtil {
 				<div id="icon-themes" class="icon32"></div>
 				<h1><?php echo esc_html( get_admin_page_title() ); ?></h1>
 
-				<?php /*<h2 class="nav-tab-wrapper">
+				<h2 class="nav-tab-wrapper">
 					<?php foreach ($this->tabs as $tab): ?>
 					<a href="?page=<?php echo $this->spineCaseNamespace ?>&tab=<?php echo $tab['name']; ?>" class="nav-tab <?php echo $activeTab == $tab['name'] ? 'nav-tab-active' : ''; ?>"><?php echo $tab['title'] ?></a>
 					<?php endforeach; ?>
-				</h2>*/ ?>
+				</h2>
 
 				<form action="options.php" method="post">
 				  <?php
 					// output security fields for the registered setting "wporg_options"
-					settings_fields( $snakeCaseNamespace );
+					settings_fields( $snakeCaseNamespace . '_' . $activeTab );
 					// output setting sections and their fields
 					// (sections are registered for "wporg", each field is registered to a specific section)
-					do_settings_sections( $snakeCaseNamespace );
+					do_settings_sections( $snakeCaseNamespace . '_' . $activeTab );
 					// output save settings button
 					submit_button( __( 'Save Settings', $spineCaseNamespace ) );
 					?>
