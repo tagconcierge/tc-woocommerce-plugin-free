@@ -111,7 +111,7 @@ class SettingsService {
 		$this->wpSettingsUtil->addSettingsSection(
 			"events",
 			"Events",
-			'Select which events should be tracked. <br /><div style="text-align: center"><a class="button button-primary" href="https://woocommerce.com/products/google-tag-manager-for-woocommerce-pro/" target="_blank">Upgrade to PRO</a></div>',
+			'Select which events should be tracked:',
 			'settings'
 		);
 
@@ -119,7 +119,7 @@ class SettingsService {
 			"gtm_container_jsons",
 			"Google Tag Manager presets",
 			'It\'s time to define what to do with tracked eCommerce events. We know that settings up GTM workspace may be cumbersome. That\'s why the plugin comes with a set of presets you can import to your GTM workspace to create all required Tags, Triggers and Variables. Select a preset in dropdown below, download the JSON file and import it in Admin panel in your GTM workspace, see plugin <a href="https://handcraftbyte.com/gtm-ecommerce-for-woocommerce/#documentation" target="_blank">Documentation</a> for details):<br /><br /><div id="gtm-ecommerce-woo-presets-loader" style="text-align: center;"><span class="spinner is-active" style="float: none;"></span></div><div class="metabox-holder"><div id="gtm-ecommerce-woo-presets-grid" class="postbox-container" style="float: none;"><div id="gtm-ecommerce-woo-preset-tmpl" style="display: none;"><div style="display: inline-block;
-    margin-left: 4%; width: 45%" class="postbox"><h3 class="name">Google Analytics 4</h3><div class="inside"><p class="description">Description</p><p><b>Supported events:</b> <span class="events-count">2</span> <span class="events-list dashicons dashicons-info-outline" style="cursor: pointer;"></span></p><p><a class="download button button-primary" href="#">Download</a></p></div></div></div></div></div><br /><div style="text-align: center"><a class="button button-primary" href="https://woocommerce.com/products/google-tag-manager-for-woocommerce-pro/" target="_blank">Upgrade to PRO</a></div>',
+    margin-left: 4%; width: 45%" class="postbox"><h3 class="name">Google Analytics 4</h3><div class="inside"><p class="description">Description</p><p><b>Supported events:</b> <span class="events-count">2</span> <span class="events-list dashicons dashicons-info-outline" style="cursor: pointer;"></span></p><p><a class="download button button-primary" href="#">Download</a></p></div></div></div></div></div><br /><div id="gtm-ecommerce-woo-presets-upgrade" style="text-align: center"><a class="button button-primary" href="https://woocommerce.com/products/google-tag-manager-for-woocommerce-pro/" target="_blank">Upgrade to PRO</a></div>',
 			'gtm_presets'
 		);
 
@@ -216,10 +216,11 @@ class SettingsService {
 				$eventName,
 				[$this, "checkboxField"],
 				'events',
-				"PRO",
+				'<a style="font-size: 0.7em" href="https://woocommerce.com/products/google-tag-manager-for-woocommerce-pro/" target="_blank">Upgrade to PRO</a>',
 				['disabled' => true, "title" => "Upgrade to PRO version above."]
 			);
 		}
+
 
 		$uuid = $this->wpSettingsUtil->getOption('uuid');
 		if (empty($uuid) || strlen($uuid) === 13) {

@@ -17,20 +17,26 @@
 		getPresets()
 			.then(function (res) {
 				$("#gtm-ecommerce-woo-presets-loader").css("display", "none");
+				var locked = false;
 				res.map(function (preset) {
 					var $preset = $(presetTemplateHtml);
 					$(".name", $preset).text(preset.name);
 					$(".description", $preset).text(preset.description);
-					if (preset.type !== "basic") {
+					if (preset.locked !== true) {
+						$(".download", $preset).attr("data-id", preset.id);
+					} else {
+						locked = true;
 						$(".download", $preset).attr("disabled", "disabled");
 						$(".download", $preset).attr("title", "Requires PRO version, upgrade below.");
-					} else {
-						$(".download", $preset).attr("data-id", preset.id);
 					}
 					$(".events-count", $preset).text((preset.events || []).length);
 					$(".events-list", $preset).pointer({ content: "<p>- " + (preset.events || []).join("<br />- ") + "</p>" });
 					$presetsGrid.append($preset);
 				});
+				// if nothing is locked then we hide the button
+				if (locked === false) {
+					$("#gtm-ecommerce-woo-presets-upgrade").css("display", "none");
+				}
 			})
 			.then(function() {
 				$(".events-list", $presetsGrid).click(function(ev) {
