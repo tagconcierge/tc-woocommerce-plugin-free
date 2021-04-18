@@ -7,6 +7,7 @@ namespace GtmEcommerceWoo\Lib\EventStrategy;
  */
 class AddToCartStrategy extends AbstractEventStrategy {
 
+	protected $eventName = 'add_to_cart';
     protected $itemsByProductId;
     protected $firstPost;
 

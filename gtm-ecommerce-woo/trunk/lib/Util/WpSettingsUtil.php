@@ -60,7 +60,7 @@ class WpSettingsUtil {
 		);
 	}
 
-	public function addSettingsField($fieldName, $fieldTitle, $fieldCallback, $fieldSection, $fieldDescription, $extraAttrs = []) {
+	public function addSettingsField($fieldName, $fieldTitle, $fieldCallback, $fieldSection, $fieldDescription = "", $extraAttrs = []) {
 		$attrs = array_merge([
 			'label_for'   => $this->snakeCaseNamespace . '_' . $fieldName,
 			'description' => $fieldDescription,

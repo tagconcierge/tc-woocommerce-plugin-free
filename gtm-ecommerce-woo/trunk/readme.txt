@@ -1,4 +1,4 @@
-=== GTM Ecommerce for WooCommerce ===
+=== Google Tag Manager for WooCommerce FREE ===
 Contributors: Handcraft Byte
 Tags: google tag manager, GA4, ecommerce events, Google Analytics, Facebook Pixel, shopping behavior
 Requires at least: 5.1
@@ -8,13 +8,13 @@ Stable tag: trunk
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Push WooCommerce Ecommerce (**GA4 Ecommerce and UA Enhanced Ecommerce compatible**) information to GTM DataLayer. Use any GTM integration to measure your customers' activities.
+Push WooCommerce eCommerce (**GA4 Ecommerce and UA Enhanced Ecommerce compatible**) information to GTM DataLayer. Use any GTM integration to measure your customers' activities.
 
 == Description ==
 
 Do you own **WooCommerce shop** and you want to track and analyze your customers' activities?
 
-This plugin push standard Ecommerce information to GTM Data Layer.
+This plugin push standard eCommerce information to GTM Data Layer.
 Once this information is available in your GTM workspace you can plugin and use any tool available. Even if you are unsure yet which tool you would need or like to use.
 
 Check [live demo here](https://gtm-ecommerce-woo.handcraftbyte.com/) (perform typical shop activities - add to cart, purchase - to see how events are triggered).
@@ -115,6 +115,13 @@ The plugin always emits events in GA4 compatible format, but the UA preset conta
 
 
 == Changelog ==
+
+= 1.6.0 =
+
+* rework settings with tabs
+* renamed the plugin to match PRO version
+* presets in a grid for easier discovery and download
+* supported events settings
 
 = 1.5.8 =
 
