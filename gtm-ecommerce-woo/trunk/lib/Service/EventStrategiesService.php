@@ -22,7 +22,7 @@ class EventStrategiesService {
 		foreach ($this->eventStrategies as $eventStrategy) {
 			$eventName = $eventStrategy->getEventName();
 			if ($this->wpSettingsUtil->getOption('event_' . $eventName) === '') {
-				return;
+				continue;
 			}
 			foreach ($eventStrategy->getActions() as $hook => $action) {
 				if (is_array($action) && is_array($action[0]) && is_numeric($action[1])) {
