@@ -47,35 +47,67 @@ class ThemeValidatorService {
 	public function ajaxPostValidateTheme() {
 		// get a product
 		// get an order
+		$query = new \WC_Order_Query( array(
+			'orderby' => 'date',
+			'order' => 'DESC',
+			'limit' => 1,
+			'status' => ['on-hold', 'completed']
+		) );
+		$orders = $query->get_orders();
+		if (count($orders) === 0) {
+			$thankYou = null;
+		} else {
+			$thankYou = $orders[0]->get_checkout_order_received_url();
+		}
+
+		$query = new \WC_Product_Query( array(
+			'orderby' => 'date',
+			'order' => 'DESC',
+			'limit' => 1,
+			'status' => ['publish']
+		) );
+		$products = $query->get_products();
+		if (count($products) === 0) {
+			$productUrl = null;
+		} else {
+			$productUrl = $products[0]->get_permalink();
+		}
+
+		$categories = get_terms( ['taxonomy' => 'product_cat'] );
+		if (count($categories) === 0) {
+			$productCatUrl = null;
+		} else {
+			$productCatUrl = get_term_link($categories[0]);
+		}
+
 		$payload = [
+			'platform' => 'woocommerce',
 			'uuid_hash' => md5($this->wpSettingsUtil->getOption('uuid')),
 			'urls' => [
-				'product_category' => 'https://foo.bar/',
-				'product' => 'https://foo.bar/product/single',
+				'product_category' => $productCatUrl,
+				'product' => $productUrl,
 				'cart' => wc_get_cart_url(),
 				'checkout' => wc_get_checkout_url(),
 				'home' => get_home_url(),
+				'thank_you' => $thankYou,
 				// 'thank_you' =>    $return_url = $order->get_checkout_order_received_url();
 				//     } else {
 				//         $return_url = wc_get_endpoint_url( 'order-received', '', wc_get_checkout_url() );
 			]
 		];
-		var_dump($payload);wp_die();
-		// $args = [
-		// 	'body' => json_encode($payload),
-		// 	'headers' => [
-		// 		'content-type' => 'application/json'
-		// 	],
-		// 	'data_format' => 'body',
-		// ];
-		// $response = wp_remote_post( 'https://api.tagconcierge.com/v2/preset', $args );
-		// $body     = wp_remote_retrieve_body( $response );
-		// header("Cache-Control: public");
-		// header("Content-Description: File Transfer");
-		// header("Content-Disposition: attachment; filename=".$presetName);
-		// header("Content-Transfer-Encoding: binary");
-		// wp_send_json(json_decode($body));
-		// wp_die();
+		$args = [
+			'body' => json_encode($payload),
+			'headers' => [
+				'content-type' => 'application/json'
+			],
+			'data_format' => 'body',
+		];
+		var_dump(json_encode($payload));
+		// $response = wp_remote_post( 'https://api.tagconcierge.com/v2/validate-theme', $args );
+		$response = wp_remote_post( 'http://api-concierge/v2/validate-theme', $args );
+		$body     = wp_remote_retrieve_body( $response );
+		wp_send_json(json_decode($body));
+		wp_die();
 	}
 
 	public function wp() {

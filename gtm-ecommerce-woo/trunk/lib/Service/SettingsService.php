@@ -26,11 +26,11 @@ class SettingsService {
 			false
 		);
 
-		// $this->wpSettingsUtil->addTab(
-		// 	'tools',
-		// 	"Tools",
-		// 	false
-		// );
+		$this->wpSettingsUtil->addTab(
+			'tools',
+			"Tools",
+			false
+		);
 
 		$this->wpSettingsUtil->addTab(
 			'support',
@@ -130,12 +130,12 @@ class SettingsService {
 			'support'
 		);
 
-		// $this->wpSettingsUtil->addSettingsSection(
-		// 	"theme_validator_status",
-		// 	"Theme Validator",
-		// 	'Theme Validator allows to quickly assess if all events supported by this plugin should work on your current theme: <strong>' . (wp_get_theme())->get('Name') . '</strong>. Your WordPress site must be publicly available to perform this test. Its url will be sent to our servers to perform validation and then it will be removed. <button id="gtm-ecommerce-woo-validate-theme" class="button">Validate Theme</button><div class="metabox-holder"><div class="postbox"><h3>Home page</h3><div class="inside">add_to_cart OK<br />purchase</div></div></div>',
-		// 	'tools'
-		// );
+		$this->wpSettingsUtil->addSettingsSection(
+			"theme_validator_status",
+			"Theme Validator",
+			'Theme Validator allows to quickly assess if all events supported by this plugin should work on your current theme: <strong>' . (wp_get_theme())->get('Name') . '</strong>. Your WordPress site must be publicly available to perform this test. Its url will be sent to our servers to perform validation and then it will be removed. <button id="gtm-ecommerce-woo-validate-theme" class="button">Validate Theme</button><div class="metabox-holder"><div class="postbox"><h3>Home page</h3><div class="inside">add_to_cart OK<br />purchase</div></div></div>',
+			'tools'
+		);
 
 		$this->wpSettingsUtil->addSettingsField(
 			'disabled',
