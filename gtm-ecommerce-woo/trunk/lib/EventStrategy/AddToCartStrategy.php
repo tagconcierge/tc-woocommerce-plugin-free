@@ -47,6 +47,10 @@ class AddToCartStrategy extends AbstractEventStrategy {
      */
     public function singleProduct() {
         global $product;
+        // if product is null then this must be other WP post
+		if (is_null($product)) {
+			return false;
+		}
         if (is_product() && $this->firstPost === false) {
             $item = $this->wcTransformer->getItemFromProduct($product);
             $this->onCartSubmitScript($item);
