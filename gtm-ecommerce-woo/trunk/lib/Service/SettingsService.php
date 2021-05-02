@@ -28,8 +28,7 @@ class SettingsService {
 
 		$this->wpSettingsUtil->addTab(
 			'tools',
-			"Tools",
-			false
+			"Tools"
 		);
 
 		$this->wpSettingsUtil->addTab(
@@ -131,9 +130,17 @@ class SettingsService {
 		);
 
 		$this->wpSettingsUtil->addSettingsSection(
-			"theme_validator_status",
+			"event_inspector",
+			"Event Inspector",
+			'Events Inspector provide basic way of confirming that events are being tracked. Depending on the setting below it will show a small window at the bottom of every page with all eCommerce events captured during a given session.',
+			'tools'
+		);
+
+		$this->wpSettingsUtil->addSettingsSection(
+			"theme_validator",
 			"Theme Validator",
-			'Theme Validator allows to quickly assess if all events supported by this plugin should work on your current theme: <strong>' . (wp_get_theme())->get('Name') . '</strong>. Your WordPress site must be publicly available to perform this test. Its url will be sent to our servers to perform validation and then it will be removed. <button id="gtm-ecommerce-woo-validate-theme" class="button">Validate Theme</button><div class="metabox-holder"><div class="postbox"><h3>Home page</h3><div class="inside">add_to_cart OK<br />purchase</div></div></div>',
+			'Theme Validator allows to assess if all events supported by this plugin can be tracked on your current theme: <strong>' . (wp_get_theme())->get('Name') . '</strong>. Your WordPress site must be publicly available to perform this test. It is a semi-manual operation and we usually can repond with initial analysis within 2 business days, but it can get longer depending on current queue size. Clicking the button below will send your email address and URL of this WordPress site to our servers to perform a remote static analysis. This static analysis will ensure all WordPress/WooCommerce internal hooks/actions and correct HTML elements are present in order to track all supported events, but it cannot detect issues with dynamic scripts and elements. For full testing the Event Inspector can be used.<br />
+			<div style="text-align: center"><input id="gtm-ecommerce-woo-theme-validator-email" type="text" name="email" placeholder="email" /><button id="gtm-ecommerce-woo-theme-validator" class="button">Request Theme Validation</button></div>',
 			'tools'
 		);
 
@@ -145,15 +152,6 @@ class SettingsService {
 			'When checked the plugin won\'t load anything in the page.'
 		);
 
-		// $this->wpSettingsUtil->addSettingsField(
-		//     'debugger_enabled',
-		//     'Enable Debugger?',
-		//     [$this, "checkboxField"],
-		//     'basic',
-		//     'Enable to help support team debug issues with tracking. Provide them with following information: `uuid_hash:'
-		//     	.md5($this->wpSettingsUtil->getOption('uuid')).'`.'
-		// );
-
 		$this->wpSettingsUtil->addSettingsField(
 			'theme_validator_enabled',
 			'Enable Theme Validator?',
@@ -161,6 +159,22 @@ class SettingsService {
 			'basic',
 			'Allow the plugin and the support team to validate theme by issuing a special HTTP request. Provide them with following information: `uuid_hash:'
 			.md5($this->wpSettingsUtil->getOption('uuid')).'`.'
+		);
+
+		$this->wpSettingsUtil->addSettingsField(
+			'event_inspector_enabled',
+			'Enable Event Inspector?',
+			[$this, "selectField"],
+			'event_inspector',
+			'Decide if and how to enable the Event Inspector. When querystring option is selected "gtm-inspector=1" needs to be added to url to show Inspector.',
+			[
+				'options' => [
+					'no' => 'Disabled',
+					'yes-querystring' => 'Enabled, with querystring',
+					'yes-admin' => 'Enabled, for admins',
+					'yes-demo' => 'Enabled, for everybody - DEMO MODE',
+				]
+			]
 		);
 
 		$this->wpSettingsUtil->addSettingsField(

@@ -30,6 +30,7 @@ $container->getSettingsService()->initialize();
 $container->getGtmSnippetService()->initialize();
 $container->getEventStrategiesService()->initialize();
 $container->getThemeValidatorService()->initialize();
+$container->getEventInspectorService()->initialize();
 
 $debuggerService = $container->getDebuggerService();
 $debuggerService->initialize();

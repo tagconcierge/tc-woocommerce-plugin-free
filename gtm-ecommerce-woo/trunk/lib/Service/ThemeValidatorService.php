@@ -45,8 +45,6 @@ class ThemeValidatorService {
 	}
 
 	public function ajaxPostValidateTheme() {
-		// get a product
-		// get an order
 		$query = new \WC_Order_Query( array(
 			'orderby' => 'date',
 			'order' => 'DESC',
@@ -81,6 +79,7 @@ class ThemeValidatorService {
 		}
 
 		$payload = [
+			'email' => $_GET['email'],
 			'platform' => 'woocommerce',
 			'uuid_hash' => md5($this->wpSettingsUtil->getOption('uuid')),
 			'urls' => [

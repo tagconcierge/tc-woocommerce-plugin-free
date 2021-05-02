@@ -9,6 +9,7 @@ use GtmEcommerceWoo\Lib\Service\SettingsService;
 use GtmEcommerceWoo\Lib\Service\PluginService;
 use GtmEcommerceWoo\Lib\Service\DebuggerService;
 use GtmEcommerceWoo\Lib\Service\ThemeValidatorService;
+use GtmEcommerceWoo\Lib\Service\EventInspectorService;
 
 use GtmEcommerceWoo\Lib\Util\WpSettingsUtil;
 use GtmEcommerceWoo\Lib\Util\WcOutputUtil;
@@ -47,6 +48,7 @@ class Container {
         $this->pluginService = new PluginService($spineCaseNamespace);
         $this->debuggerService = new DebuggerService($snakeCaseNamespace, $spineCaseNamespace, $wcTransformerUtil, $wpSettingsUtil, $wcOutputUtil);
         $this->themeValidatorService = new ThemeValidatorService($snakeCaseNamespace, $spineCaseNamespace, $wcTransformerUtil, $wpSettingsUtil, $wcOutputUtil);
+        $this->eventInspectorService = new EventInspectorService($wpSettingsUtil);
 
     }
 
@@ -72,5 +74,9 @@ class Container {
 
     public function getThemeValidatorService() {
         return $this->themeValidatorService;
+    }
+
+    public function getEventInspectorService() {
+        return $this->eventInspectorService;
     }
 }

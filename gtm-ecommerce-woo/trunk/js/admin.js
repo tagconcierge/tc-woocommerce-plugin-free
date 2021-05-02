@@ -53,11 +53,13 @@
 
 
 	jQuery(function($) {
-		$("#gtm-ecommerce-woo-validate-theme").click(function(ev) {
+		$("#gtm-ecommerce-woo-theme-validator").click(function(ev) {
 			ev.preventDefault();
+			var email = $("#gtm-ecommerce-woo-theme-validator-email").val();
 			return $.ajax({
 				url: ajaxurl,
 				data: {
+					email: email,
 					action: 'gtm_ecommerce_woo_post_validate_theme',
 				}
 			}).then(function(res) {
