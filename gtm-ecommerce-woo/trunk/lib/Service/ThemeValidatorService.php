@@ -31,7 +31,8 @@ class ThemeValidatorService {
 		if ($this->wpSettingsUtil->getOption('theme_validator_enabled') !== '1') {
 			return;
 		}
-		if (@$_GET['gtm-ecommerce-woo-validator'] !== md5($this->wpSettingsUtil->getOption('uuid'))) {
+		if (!isset($_GET['gtm-ecommerce-woo-validator'])
+			|| $_GET['gtm-ecommerce-woo-validator'] !== md5($this->wpSettingsUtil->getOption('uuid'))) {
 			return;
 		}
 		add_action( 'wp', [$this, 'wp'] );
@@ -89,6 +90,7 @@ class ThemeValidatorService {
 				'checkout' => wc_get_checkout_url(),
 				'home' => get_home_url(),
 				'thank_you' => $thankYou,
+				'shop' => get_permalink(wc_get_page_id('shop'))
 				// 'thank_you' =>    $return_url = $order->get_checkout_order_received_url();
 				//     } else {
 				//         $return_url = wc_get_endpoint_url( 'order-received', '', wc_get_checkout_url() );
@@ -101,9 +103,9 @@ class ThemeValidatorService {
 			],
 			'data_format' => 'body',
 		];
-		var_dump(json_encode($payload));
-		// $response = wp_remote_post( 'https://api.tagconcierge.com/v2/validate-theme', $args );
-		$response = wp_remote_post( 'http://api-concierge/v2/validate-theme', $args );
+
+		$response = wp_remote_post( 'https://api.tagconcierge.com/v2/validate-theme', $args );
+		// $response = wp_remote_post( 'http://api-concierge/v2/validate-theme', $args );
 		$body     = wp_remote_retrieve_body( $response );
 		wp_send_json(json_decode($body));
 		wp_die();

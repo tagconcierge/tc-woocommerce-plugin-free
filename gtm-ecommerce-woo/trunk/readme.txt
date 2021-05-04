@@ -37,7 +37,7 @@ After the plugin is installed it automatically tracks the following events:
 
 Which are a great base for **conversion measurements** and building **sales funnels** related to cart behavior.
 
-**Need more events? Checkout out [PRO version in the official WooCommerce Marketplace](https://woocommerce.com/products/google-tag-manager-for-woocommerce-pro/).**
+**Need more events? Checkout out [PRO version in the official WooCommerce Marketplace](https://go.tagconcierge.com/MSm8e).**
 
 ## Advantage over alternative solutions
 
@@ -92,9 +92,10 @@ We know that settings up the GTM workspace may be cumbersome. That's why the plu
 
 See the Installation tab above or [our guides](https://handcraftbyte.com/gtm-ecommerce-for-woocommerce) for details.
 
-= What Ecommerce events are supported? =
+= What eCommerce events are supported? =
 
-This version of the plugin supports just `purchase` and `add_to_cart` events. If you need more let us know [here](https://michal159509.typeform.com/to/Epux8hoP).
+This version of the plugin supports just `purchase` and `add_to_cart` events.
+Our PRO version available in the official WooCommerce Marketplace [here](https://go.tagconcierge.com/MSm8e) supports more.
 
 = Is GA4 and Universal Analytics supported? =
 

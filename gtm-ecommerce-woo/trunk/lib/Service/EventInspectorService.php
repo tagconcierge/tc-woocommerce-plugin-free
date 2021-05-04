@@ -20,7 +20,7 @@ class EventInspectorService {
         }
 
         if ($this->wpSettingsUtil->getOption("event_inspector_enabled") === 'yes-querystring') {
-            if (@$_GET['gtm-inspector'] !== "1") {
+            if (!isset($_GET['gtm-inspector']) || $_GET['gtm-inspector'] !== "1") {
 				return;
 			}
         }
