@@ -121,6 +121,7 @@ The plugin always emits events in GA4 compatible format, but the UA preset conta
 
 * move injecting dataLayer down in wp_footer hook to allow loading jQuery in the footer
 * safeguard add_to_cart event when non-product is loaded in the page
+* tools for verifying tracking: Event Inspector & Theme Validator
 
 = 1.6.0 =
 
