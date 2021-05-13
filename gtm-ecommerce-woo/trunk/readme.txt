@@ -117,6 +117,10 @@ The plugin always emits events in GA4 compatible format, but the UA preset conta
 
 == Changelog ==
 
+* fix handling taxes
+* introduce "google_business_vertical" property
+* Theme Validator enhancements
+
 = 1.7.0 =
 
 * move injecting dataLayer down in wp_footer hook to allow loading jQuery in the footer

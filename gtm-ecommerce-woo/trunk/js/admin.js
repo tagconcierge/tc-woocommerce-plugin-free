@@ -33,9 +33,9 @@
 					$(".events-list", $preset).pointer({ content: "<p>- " + (preset.events || []).join("<br />- ") + "</p>" });
 					$presetsGrid.append($preset);
 				});
-				// if nothing is locked then we hide the button
-				if (locked === false) {
-					$("#gtm-ecommerce-woo-presets-upgrade").css("display", "none");
+				// if something is locked then we show the button
+				if (locked === true) {
+					$("#gtm-ecommerce-woo-presets-upgrade").css("display", "block");
 				}
 			})
 			.then(function() {
@@ -55,6 +55,7 @@
 	jQuery(function($) {
 		$("#gtm-ecommerce-woo-theme-validator").click(function(ev) {
 			ev.preventDefault();
+			$("#gtm-ecommerce-woo-theme-validator").attr("disabled", "disabled");
 			var email = $("#gtm-ecommerce-woo-theme-validator-email").val();
 			return $.ajax({
 				url: ajaxurl,
@@ -63,6 +64,8 @@
 					action: 'gtm_ecommerce_woo_post_validate_theme',
 				}
 			}).then(function(res) {
+				$("#gtm-ecommerce-woo-validator-section").css("display", "none");
+				$("#gtm-ecommerce-woo-validator-sent").css("display", "block")
 				console.log(res);
 				return res;
 			});

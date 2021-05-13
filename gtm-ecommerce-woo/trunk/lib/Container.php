@@ -47,7 +47,7 @@ class Container {
         $this->settingsService = new SettingsService($wpSettingsUtil, $events, $proEvents);
         $this->pluginService = new PluginService($spineCaseNamespace);
         $this->debuggerService = new DebuggerService($snakeCaseNamespace, $spineCaseNamespace, $wcTransformerUtil, $wpSettingsUtil, $wcOutputUtil);
-        $this->themeValidatorService = new ThemeValidatorService($snakeCaseNamespace, $spineCaseNamespace, $wcTransformerUtil, $wpSettingsUtil, $wcOutputUtil);
+        $this->themeValidatorService = new ThemeValidatorService($snakeCaseNamespace, $spineCaseNamespace, $wcTransformerUtil, $wpSettingsUtil, $wcOutputUtil, $events);
         $this->eventInspectorService = new EventInspectorService($wpSettingsUtil);
 
     }

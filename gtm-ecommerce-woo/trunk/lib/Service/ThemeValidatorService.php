@@ -10,13 +10,15 @@ class ThemeValidatorService {
 	protected $spineCaseNamespace;
 	protected $wcTransformerUtil;
 	protected $tests;
+	protected $events;
 
-	public function __construct($snakeCaseNamespace, $spineCaseNamespace, $wcTransformerUtil, $wpSettingsUtil, $wcOutputUtil) {
+	public function __construct($snakeCaseNamespace, $spineCaseNamespace, $wcTransformerUtil, $wpSettingsUtil, $wcOutputUtil, $events) {
 		$this->snakeCaseNamespace = $snakeCaseNamespace;
 		$this->spineCaseNamespace = $spineCaseNamespace;
 		$this->wcTransformerUtil = $wcTransformerUtil;
 		$this->wpSettingsUtil = $wpSettingsUtil;
 		$this->wcOutputUtil = $wcOutputUtil;
+		$this->events = $events;
 
 		$this->tests = [
 			'homepage',
@@ -83,6 +85,7 @@ class ThemeValidatorService {
 			'email' => $_GET['email'],
 			'platform' => 'woocommerce',
 			'uuid_hash' => md5($this->wpSettingsUtil->getOption('uuid')),
+			'events' => $this->events,
 			'urls' => [
 				'product_category' => $productCatUrl,
 				'product' => $productUrl,
