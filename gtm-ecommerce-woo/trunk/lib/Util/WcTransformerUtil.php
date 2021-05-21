@@ -34,6 +34,7 @@ class WcTransformerUtil {
 			);
 			$item->setItemCategories($categories);
 		}
+		$item = apply_filters("gtm_ecommerce_woo_item", $item, $product);
 		return $item;
 	}
 
@@ -54,6 +55,7 @@ class WcTransformerUtil {
 			);
 			$item->setItemCategories($categories);
 		}
+		$item = apply_filters("gtm_ecommerce_woo_item", $item, $product);
 		return $item;
 	}
 
@@ -74,6 +76,7 @@ class WcTransformerUtil {
 			$item = $this->getItemFromOrderItem($orderItem);
 			$event->addItem($item);
 		}
+		$event = apply_filters("gtm_ecommerce_woo_purchase_event", $event, $order);
 		return $event;
 	}
 }

@@ -43,8 +43,8 @@ Which are a great base for **conversion measurements** and building **sales funn
 
 ### Only single plugin needed
 
-Without GTM Ecommerce for WooCommerce plugin, you would need a separate plugin for each of those integrations. And each additional plugin may make your Wordpress setup more complex.
-With GTM Ecommerce for WooCommerce, all data is sent in standardized Google format to GTM and everything else is configured there.
+Without Google Tag Manager for WooCommerce plugin, you would need a separate plugin for each of those integrations. And each additional plugin may make your Wordpress setup more complex.
+With Google Tag Manager for WooCommerce, all data is sent in standardized Google format to GTM and everything else is configured there.
 
 ### Reporting consistency
 
@@ -57,14 +57,14 @@ Using GTM and dataLayer allows to build more complex scenarios, such as only pro
 
 == Installation ==
 
-1. Upload or install GTM Ecommerce for WooCommerce plugin from WordPress plugins directory.
+1. Upload or install Google Tag Manager for WooCommerce plugin from WordPress plugins directory.
 2. Activate the plugin through the `Plugins` menu in WordPress.
-3. That's it! If GTM is already implemented in your WordPress your eCommerce data will be pushed to GTM DataLayer. If not head to `Settings > GTM Ecommerce` and paste in GTM snippets.
+3. That's it! If GTM is already implemented in your WordPress your eCommerce data will be pushed to GTM DataLayer. If not head to `Settings > Google Tag Manager` and paste in GTM snippets.
 4. Go to your Google Tag Manager workspace and define what you want to do with the tracked data. We know that settings up the GTM workspace may be cumbersome. That's why the plugin comes with a GTM container presets that you can import to your GTM workspace to create all required Tags, Triggers, and Variables in few simple clicks.
 
 ### How to use JSON file with GTM container?
 
-In order to perform such import go to `Settings > GTM Ecommerce` and scroll down. There is a link to the JSON file with the GTM container. Save it as a JSON file on your computer.
+In order to perform such import go to `Settings > Google Tag Manager` and scroll down. There is a link to the JSON file with the GTM container. Save it as a JSON file on your computer.
 
 Then in GTM go to the `Admin` panel of your workspace. Click `Import Container`. Choose the container file you have just downloaded. Decide which workspace it should go to. Then select `Merge` and `Overwrite conflicting tags, triggers and variables.` as import options.
 Hit `Confirm` to create tags, variables, and triggers for pushing Ecommerce events to the GA4 property.
@@ -105,7 +105,7 @@ The plugin always emits events in GA4 compatible format, but the UA preset conta
 
 == Screenshots ==
 
-1. **GTM Ecommerce for WooCommerce** settings and GTM snippets
+1. **Google Tag Manager for WooCommerce** settings and GTM snippets
 2. eCommerce results in GA4 property
 3. eCommerce results in Universal Analytics property
 4. `add_to_cart` event captured in GTM debugger
@@ -117,8 +117,10 @@ The plugin always emits events in GA4 compatible format, but the UA preset conta
 
 == Changelog ==
 
+= 1.8.0 =
+
 * fix handling taxes
-* introduce "google_business_vertical" property
+* introduce filters to customize events and properties
 * Theme Validator enhancements
 
 = 1.7.0 =

@@ -9,6 +9,7 @@ class Item implements \JsonSerializable {
 	public function __construct($itemName) {
 		$this->itemName = $itemName;
 		$this->itemCategories = [];
+		$this->extraProps = [];
 	}
 
 	public function setItemName($itemName) {
@@ -63,6 +64,11 @@ class Item implements \JsonSerializable {
 		return $this;
 	}
 
+	public function setExtraProperty($propName, $propValue) {
+		$this->extraProps[$propName] = $propValue;
+		return $this;
+	}
+
 	public function jsonSerialize() {
 		$jsonItem = [
 			'item_name' => $this->itemName,
@@ -79,7 +85,6 @@ class Item implements \JsonSerializable {
 			'item_list_id' => @$this->itemListId,
 			'index' => @$this->index,
 			'quantity' => @$this->quantity,
-			'google_business_vertical' => 'retail'
 		];
 
 		foreach ($this->itemCategories as $index => $category) {
@@ -88,6 +93,10 @@ class Item implements \JsonSerializable {
 				$categoryParam .= "_" . ($index + 1);
 			}
 			$jsonItem[$categoryParam] = $category;
+		}
+
+		foreach ($this->extraProps as $propName => $propValue) {
+			$jsonItem[$propName] = $propValue;
 		}
 
 		return array_filter($jsonItem, function($value) { return !is_null($value) && $value !== ''; });

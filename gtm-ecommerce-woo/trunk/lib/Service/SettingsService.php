@@ -31,6 +31,12 @@ class SettingsService {
 			"Tools"
 		);
 
+		// $this->wpSettingsUtil->addTab(
+		// 	'tag_concierge',
+		// 	'Tag Concierge <pre style="display: inline; text-transform: uppercase;">beta</pre>',
+		// 	false
+		// );
+
 		$this->wpSettingsUtil->addTab(
 			'support',
 			"Support",
