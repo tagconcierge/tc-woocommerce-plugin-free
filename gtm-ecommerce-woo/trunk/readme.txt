@@ -1,8 +1,8 @@
 === Google Tag Manager for WooCommerce FREE ===
 Contributors: Handcraft Byte
 Tags: google tag manager, GA4, ecommerce events, Google Analytics, Facebook Pixel, shopping behavior
-Requires at least: 5.1
-Tested up to: 5.6
+Requires at least: 5.1.0
+Tested up to: 5.7.2
 Requires PHP: 7.2
 Stable tag: trunk
 License: GPLv2 or later
@@ -116,6 +116,10 @@ The plugin always emits events in GA4 compatible format, but the UA preset conta
 
 
 == Changelog ==
+
+= 1.8.1 =
+
+* tested with most recent versions of WordPress and WooCommerce
 
 = 1.8.0 =
 
