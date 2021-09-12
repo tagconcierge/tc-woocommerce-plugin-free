@@ -31,11 +31,10 @@ class SettingsService {
 			"Tools"
 		);
 
-		// $this->wpSettingsUtil->addTab(
-		// 	'tag_concierge',
-		// 	'Tag Concierge <pre style="display: inline; text-transform: uppercase;">beta</pre>',
-		// 	false
-		// );
+		$this->wpSettingsUtil->addTab(
+			'tag_concierge',
+			'Tag Concierge <pre style="display: inline; text-transform: uppercase;">beta</pre>'
+		);
 
 		$this->wpSettingsUtil->addTab(
 			'support',
@@ -118,6 +117,13 @@ class SettingsService {
 			"Events",
 			'Select which events should be tracked:',
 			'settings'
+		);
+
+		$this->wpSettingsUtil->addSettingsSection(
+			"tag_concierge",
+			"Tag Concierge",
+			'Want to learn more? <a  href="mailto:support@handcraftbyte.com">Contact Support</a>',
+			'tag_concierge'
 		);
 
 		$this->wpSettingsUtil->addSettingsSection(
@@ -218,6 +224,16 @@ class SettingsService {
 			'Paste the second snippet provided by GTM. It will be load after opening <body> tag.',
 			['rows'        => 6]
 		);
+
+
+		$this->wpSettingsUtil->addSettingsField(
+			'monitor_enabled',
+			'Enable Tag Concierge Monitor?',
+			[$this, "checkboxField"],
+			'tag_concierge',
+			'Enable sending some of the eCommerce events to Tag Concierge Monitor for active tracking monitoring.'
+		);
+
 
 		foreach ($this->events as $eventName) {
 			$this->wpSettingsUtil->addSettingsField(

@@ -32,12 +32,12 @@ $container->getEventStrategiesService()->initialize();
 $container->getThemeValidatorService()->initialize();
 $container->getEventInspectorService()->initialize();
 
-$debuggerService = $container->getDebuggerService();
-$debuggerService->initialize();
+$monitorService = $container->getMonitorService();
+$monitorService->initialize();
 
 $pluginService = $container->getPluginService();
 $pluginService->initialize();
 
 register_activation_hook( __FILE__, [$pluginService, 'activationHook'] );
-register_deactivation_hook( __FILE__, [$debuggerService, 'deactivationHook'] );
+register_deactivation_hook( __FILE__, [$monitorService, 'deactivationHook'] );
 
