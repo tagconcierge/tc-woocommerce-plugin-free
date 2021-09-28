@@ -122,7 +122,7 @@ class SettingsService {
 		$this->wpSettingsUtil->addSettingsSection(
 			"tag_concierge",
 			"Tag Concierge",
-			'Want to learn more? <a  href="mailto:support@handcraftbyte.com">Contact Support</a>',
+			'Want to learn more? <a href="https://tagconcierge.com/platform/" target="_blank">See overview here</a>',
 			'tag_concierge'
 		);
 

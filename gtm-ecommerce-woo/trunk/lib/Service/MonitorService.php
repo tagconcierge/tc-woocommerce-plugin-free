@@ -37,7 +37,6 @@ class MonitorService {
 		}
 
 		add_action( 'woocommerce_add_to_cart', [$this, 'addToCart'], 10, 6 );
-		add_action( 'woocommerce_remove_cart_item', [$this, 'removeFromCart'], 10, 2 );
 		add_action( 'woocommerce_thankyou', [$this, 'purchase'] );
 
 	}
@@ -75,12 +74,12 @@ class MonitorService {
 				'transaction_currency' => $order->get_currency(),
 				'transaction_payment_method' => $order->get_payment_method(),
 				'transaction_items' => $parsedItems,
-				'transaction_purchase_event_tracked' => $eventTracked
+				'transaction_purchase_event_tracked' => $eventTracked,
+				'transaction_confirmation_page' => $order->get_checkout_order_received_url()
 			];
 		}, $orders);
 		$uuid = $this->wpSettingsUtil->getOption('uuid');
 
-		var_dump($query, $transactions);
 		$args = [
 			'body' => json_encode([
 				'uuid_hash' => $this->hash($uuid),
@@ -91,6 +90,7 @@ class MonitorService {
 			],
 			'data_format' => 'body',
 		];
+
 		$response = wp_remote_post( $this->tagConciergeApiUrl . '/v2/monitor/transactions', $args );
 	}
 
@@ -117,38 +117,6 @@ class MonitorService {
 			'data_format' => 'body',
 		];
 
-		try {
-			$response = wp_remote_post( $this->tagConciergeApiUrl . '/v2/monitor/events', $args );
-		} catch (Exception $err) {
-
-		}
-	}
-
-	public function removeFromCart($cart_item_key, $cart) {
-		$cartItemData = $cart->cart_contents[ $cart_item_key ];
-		$product = $cartItemData['variation_id'] ?
-			wc_get_product( $cartItemData['variation_id'] )
-			: wc_get_product( $cartItemData['product_id'] );
-		$item = $this->wcTransformerUtil->getItemFromProduct($product);
-		$item->quantity = $cartItemData['quantity'];
-		$event = [
-			'event_name' => 'remove_from_cart',
-			'event_timestamp' => (new \Datetime('now'))->format('Y-m-d H:i:s'),
-			'event_items' => [$item],
-			'event_location' => $_SERVER['HTTP_REFERER']
-		];
-		$uuid = $this->wpSettingsUtil->getOption('uuid');
-		$args = [
-			'body' => json_encode([
-				'uuid_hash' => $this->hash($uuid),
-				'origin' => 'server',
-				'events' => [$event]
-			]),
-			'headers' => [
-				'content-type' => 'application/json'
-			],
-			'data_format' => 'body',
-		];
 		try {
 			$response = wp_remote_post( $this->tagConciergeApiUrl . '/v2/monitor/events', $args );
 		} catch (Exception $err) {
