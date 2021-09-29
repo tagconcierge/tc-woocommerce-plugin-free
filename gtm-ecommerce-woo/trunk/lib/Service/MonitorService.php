@@ -52,6 +52,7 @@ class MonitorService {
 		if ($lastRun === false) {
 			$lastRun = time() - HOUR_IN_SECONDS * 24;
 		}
+
 		set_transient( $this->snakeCaseNamespace . '_monitor_last_run', time() );
 		$query = new \WC_Order_Query( array(
 			'orderby' => 'date',
