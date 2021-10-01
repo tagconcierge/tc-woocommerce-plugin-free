@@ -231,7 +231,7 @@ class SettingsService {
 			'Enable Tag Concierge Monitor?',
 			[$this, "checkboxField"],
 			'tag_concierge',
-			'Enable sending some of the eCommerce events to Tag Concierge Monitor for active tracking monitoring.'
+			'Enable sending some of the eCommerce events to Tag Concierge Monitor for active tracking monitoring. <br /><a href="https://app.tagconcierge.com/?uuid='.$this->wpSettingsUtil->getOption('uuid').'" target="_blank">Open Tag Concierge App</a>'
 		);
 
 
