@@ -89,6 +89,7 @@ class MonitorService {
             },$items);
             $eventTracked = get_post_meta( $order->get_id(), 'gtm_ecommerce_woo_purchase_event_tracked', true );
 
+            $confirmationPageFragments = parse_url($order->get_checkout_order_received_url());
             return [
                 'transaction_id' => '***'.substr($order->get_id(), -1),
                 'transaction_id_hash' => $this->hash($order->get_id()),
@@ -100,11 +101,10 @@ class MonitorService {
                 'transaction_payment_method' => $order->get_payment_method(),
                 'transaction_items' => $parsedItems,
                 'transaction_purchase_event_tracked' => $eventTracked,
-                'transaction_confirmation_page' => $order->get_checkout_order_received_url()
+                'transaction_confirmation_page' => trim($confirmationPageFragments['path'] . '?' . $confirmationPageFragments['query'], '?')
             ];
         }, $orders);
         $uuid = $this->wpSettingsUtil->getOption('uuid');
-
         $args = [
             'body' => json_encode([
                 'uuid_hash' => $this->hash($uuid),
