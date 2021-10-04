@@ -62,6 +62,7 @@ class Event implements \JsonSerializable {
             $jsonEvent = [
                 'event' => 'purchase',
                 'ecommerce' => [
+                    // backwards compat
                     'purchase' => [
                         'transaction_id' => $this->transationId,
                         'affiliation' => $this->affiliation,
@@ -71,7 +72,15 @@ class Event implements \JsonSerializable {
                         'currency' => $this->currency,
                         'coupon' => @$this->coupon,
                         'items' => $this->items
-                    ]
+                    ],
+                    'transaction_id' => $this->transationId,
+                    'affiliation' => $this->affiliation,
+                    'value' => $this->value,
+                    'tax' => $this->tax,
+                    'shipping' => $this->shipping,
+                    'currency' => $this->currency,
+                    'coupon' => @$this->coupon,
+                    'items' => $this->items
                 ]
             ];
         } else {
