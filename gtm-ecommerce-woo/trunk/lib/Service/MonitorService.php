@@ -24,14 +24,14 @@ class MonitorService {
     }
 
     public function initialize() {
-        $cronName = $this->snakeCaseNamespace.'_cron_debugger';
+        $cronName = $this->snakeCaseNamespace.'_cron_monitor';
         if ($this->wpSettingsUtil->getOption("monitor_enabled") !== '1') {
             $timestamp = wp_next_scheduled( $cronName );
             wp_unschedule_event( $timestamp, $cronName );
             return;
         }
 
-        add_action( $cronName, [$this, 'recentTransactions'] );
+        add_action( $cronName, [$this, 'cronJob'] );
         if ( ! wp_next_scheduled( $cronName ) ) {
             wp_schedule_event( time(), 'hourly', $cronName );
         }
@@ -47,6 +47,8 @@ class MonitorService {
 
         add_action( 'woocommerce_add_to_cart', [$this, 'addToCart'], 10, 6 );
         add_action( 'woocommerce_thankyou', [$this, 'purchase'] );
+
+        add_action( 'woocommerce_order_status_changed', [$this, 'orderStatusChanged']);
     }
 
     function deactivationHook() {
@@ -69,46 +71,42 @@ class MonitorService {
 
 
     // switch to save_post_shop_order hook
-    public function recentTransactions() {
+    public function cronJob() {
         $lastRun = get_transient( $this->snakeCaseNamespace . '_monitor_last_run' );
         if ($lastRun === false) {
             $lastRun = time() - HOUR_IN_SECONDS * 24;
         }
 
         set_transient( $this->snakeCaseNamespace . '_monitor_last_run', time() );
-        $query = new \WC_Order_Query( array(
-            'orderby' => 'date',
-            'order' => 'DESC',
-            'date_modified' => '>' . $lastRun,
-        ) );
-        $orders = $query->get_orders();
-        $transactions = array_map(function($order) {
-            $items = $order->get_items();
-            $parsedItems = array_map(function($item) {
-                return $this->wcTransformerUtil->getItemFromOrderItem($item);
-            },$items);
-            $eventTracked = get_post_meta( $order->get_id(), 'gtm_ecommerce_woo_purchase_event_tracked', true );
+    }
 
-            $confirmationPageFragments = parse_url($order->get_checkout_order_received_url());
-            return [
-                'transaction_id' => '***'.substr($order->get_id(), -1),
-                'transaction_id_hash' => $this->hash($order->get_id()),
-                'transaction_timestamp' => (string) $order->get_date_created(),
-                'transaction_status' => $order->get_status(),
-                'transaction_value' => $order->get_total() * 100,
-                'transaction_value_refunded' => $order->get_total_refunded() * 100,
-                'transaction_currency' => $order->get_currency(),
-                'transaction_payment_method' => $order->get_payment_method(),
-                'transaction_items' => $parsedItems,
-                'transaction_purchase_event_tracked' => $eventTracked,
-                'transaction_confirmation_page' => trim($confirmationPageFragments['path'] . '?' . $confirmationPageFragments['query'], '?')
-            ];
-        }, $orders);
+    public function orderStatusChanged($orderId) {
+    	$order = wc_get_order( $orderId );
+        $items = $order->get_items();
+        $parsedItems = array_map(function($item) {
+            return $this->wcTransformerUtil->getItemFromOrderItem($item);
+        },$items);
+        $eventTracked = get_post_meta( $order->get_id(), 'gtm_ecommerce_woo_purchase_event_tracked', true );
+
+        $confirmationPageFragments = parse_url($order->get_checkout_order_received_url());
+        $transaction = [
+            'transaction_id' => '***'.substr($order->get_id(), -1),
+            'transaction_id_hash' => $this->hash($order->get_id()),
+            'transaction_timestamp' => (string) $order->get_date_created(),
+            'transaction_status' => $order->get_status(),
+            'transaction_value' => $order->get_total() * 100,
+            'transaction_value_refunded' => $order->get_total_refunded() * 100,
+            'transaction_currency' => $order->get_currency(),
+            'transaction_payment_method' => $order->get_payment_method(),
+            'transaction_items' => $parsedItems,
+            'transaction_purchase_event_tracked' => $eventTracked,
+            'transaction_confirmation_page' => trim($confirmationPageFragments['path'] . '?' . $confirmationPageFragments['query'], '?')
+        ];
         $uuid = $this->wpSettingsUtil->getOption('uuid');
         $args = [
             'body' => json_encode([
                 'uuid_hash' => $this->hash($uuid),
-                'transactions' => $transactions
+                'transactions' => [$transaction]
             ]),
             'headers' => [
                 'content-type' => 'application/json',
@@ -186,6 +184,7 @@ class MonitorService {
         } catch (Exception $err) {
 
         }
+        $this->orderStatusChanged($orderId);
     }
 
     public function hash($value) {
