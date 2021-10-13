@@ -7,11 +7,12 @@ namespace GtmEcommerceWoo\Lib\Service;
  */
 class SettingsService {
 
-	public function __construct($wpSettingsUtil, $events, $proEvents) {
+	public function __construct($wpSettingsUtil, $events, $proEvents, $tagConciergeApiUrl) {
 		$this->wpSettingsUtil = $wpSettingsUtil;
 		$this->events = $events;
 		$this->proEvents = $proEvents;
 		$this->uuidPrefix = 'gtm-ecommerce-woo-basic';
+		$this->tagConciergeApiUrl = $tagConciergeApiUrl;
 	}
 
 	public function initialize() {
@@ -51,7 +52,7 @@ class SettingsService {
 
 	function ajaxGetPresets() {
 		$uuid = $this->wpSettingsUtil->getOption('uuid');
-		$response = wp_remote_get( 'https://api.tagconcierge.com/v2/presets?uuid=' . $uuid );
+		$response = wp_remote_get( $this->tagConciergeApiUrl . '/v2/presets?uuid=' . $uuid );
 		$body     = wp_remote_retrieve_body( $response );
 		wp_send_json(json_decode($body));
 		wp_die();
@@ -76,7 +77,7 @@ class SettingsService {
 			],
 			'data_format' => 'body',
 		];
-		$response = wp_remote_post( 'https://api.tagconcierge.com/v2/preset', $args );
+		$response = wp_remote_post( $this->tagConciergeApiUrl . '/v2/preset', $args );
 		$body     = wp_remote_retrieve_body( $response );
 		header("Cache-Control: public");
 		header("Content-Description: File Transfer");
@@ -129,7 +130,7 @@ class SettingsService {
 		$this->wpSettingsUtil->addSettingsSection(
 			"gtm_container_jsons",
 			"Google Tag Manager presets",
-			'It\'s time to define what to do with tracked eCommerce events. We know that settings up GTM workspace may be cumbersome. That\'s why the plugin comes with a set of presets you can import to your GTM workspace to create all required Tags, Triggers and Variables. Select a preset in dropdown below, download the JSON file and import it in Admin panel in your GTM workspace, see plugin <a href="https://handcraftbyte.com/gtm-ecommerce-for-woocommerce/#documentation" target="_blank">Documentation</a> for details):<br /><br /><div id="gtm-ecommerce-woo-presets-loader" style="text-align: center;"><span class="spinner is-active" style="float: none;"></span></div><div class="metabox-holder"><div id="gtm-ecommerce-woo-presets-grid" class="postbox-container" style="float: none;"><div id="gtm-ecommerce-woo-preset-tmpl" style="display: none;"><div style="display: inline-block;
+			'It\'s time to define what to do with tracked eCommerce events. We know that settings up GTM workspace may be cumbersome. That\'s why the plugin comes with a set of presets you can import to your GTM workspace to create all required Tags, Triggers and Variables. Select a preset in dropdown below, download the JSON file and import it in Admin panel in your GTM workspace, see plugin <a href="https://tagconcierge.com/google-tag-manager-for-woocommerce/#documentation" target="_blank">Documentation</a> for details):<br /><br /><div id="gtm-ecommerce-woo-presets-loader" style="text-align: center;"><span class="spinner is-active" style="float: none;"></span></div><div class="metabox-holder"><div id="gtm-ecommerce-woo-presets-grid" class="postbox-container" style="float: none;"><div id="gtm-ecommerce-woo-preset-tmpl" style="display: none;"><div style="display: inline-block;
     margin-left: 4%; width: 45%" class="postbox"><h3 class="name">Google Analytics 4</h3><div class="inside"><p class="description">Description</p><p><b>Supported events:</b> <span class="events-count">2</span> <span class="events-list dashicons dashicons-info-outline" style="cursor: pointer;"></span></p><p><a class="download button button-primary" href="#">Download</a></p></div></div></div></div></div><br /><div id="gtm-ecommerce-woo-presets-upgrade" style="text-align: center"><a style="display: none;" class="button button-primary" href="https://go.tagconcierge.com/MSm8e" target="_blank">Upgrade to PRO</a></div>',
 			'gtm_presets'
 		);
@@ -137,7 +138,7 @@ class SettingsService {
 		$this->wpSettingsUtil->addSettingsSection(
 			"support",
 			"Support",
-			'<a class="button button-primary" href="https://handcraftbyte.com/gtm-ecommerce-for-woocommerce/#documentation" target="_blank">Documentation</a><br /><br /><a class="button button-primary" href="mailto:support@handcraftbyte.com">Contact Support</a>',
+			'<a class="button button-primary" href="https://tagconcierge.com/google-tag-manager-for-woocommerce/#documentation" target="_blank">Documentation</a><br /><br /><a class="button button-primary" href="mailto:support@handcraftbyte.com">Contact Support</a>',
 			'support'
 		);
 
@@ -231,7 +232,7 @@ class SettingsService {
 			'Enable Tag Concierge Monitor?',
 			[$this, "checkboxField"],
 			'tag_concierge',
-			'Enable sending some of the eCommerce events to Tag Concierge Monitor for active tracking monitoring. <br /><a href="https://app.tagconcierge.com/?uuid='.$this->wpSettingsUtil->getOption('uuid').'" target="_blank">Open Tag Concierge App</a>'
+			'Enable sending the eCommerce events to Tag Concierge Monitor for active tracking monitoring. <br />Make sure that you have downloaded and installed <a class="download" href="#" data-id="presets/tag-concierge-monitor-basic">Monitoring GTM preset</a> too.<br />Then <a href="https://app.tagconcierge.com/?uuid='.$this->wpSettingsUtil->getOption('uuid').'" target="_blank">Open Tag Concierge App</a>'
 		);
 
 

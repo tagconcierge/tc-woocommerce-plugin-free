@@ -2,7 +2,7 @@
 Contributors: Handcraft Byte
 Tags: google tag manager, GA4, ecommerce events, Google Analytics, Facebook Pixel, shopping behavior
 Requires at least: 5.1.0
-Tested up to: 5.7.2
+Tested up to: 5.8.1
 Requires PHP: 7.2
 Stable tag: trunk
 License: GPLv2 or later
@@ -19,7 +19,7 @@ Once this information is available in your GTM workspace you can plugin and use 
 
 Check [live demo here](https://gtm-ecommerce-woo.handcraftbyte.com/) (perform typical shop activities - add to cart, purchase - to see how events are triggered).
 
-More information and documentation can be found [here](https://handcraftbyte.com/gtm-ecommerce-for-woocommerce).
+More information and documentation can be found [here](https://tagconcierge.com/google-tag-manager-for-woocommerce/).
 
 ## Example scenarios
 
@@ -77,7 +77,7 @@ If you are importing `Facebook Pixel` preset you can find the tracking ID in `FB
 
 Save and submit all the changes to make it live.
 
-You can find more detailed guides [here](https://handcraftbyte.com/gtm-ecommerce-for-woocommerce#documentation).
+You can find more detailed guides [here](https://tagconcierge.com/google-tag-manager-for-woocommerce/#documentation).
 
 == Frequently Asked Questions ==
 
@@ -90,7 +90,7 @@ It can also embed GTM snippets, go to settings to configure it.
 
 We know that settings up the GTM workspace may be cumbersome. That's why the plugin comes with GTM container presets that you can import to your GTM workspace to create all required Tags, Triggers, and Variables.
 
-See the Installation tab above or [our guides](https://handcraftbyte.com/gtm-ecommerce-for-woocommerce) for details.
+See the Installation tab above or [our guides](https://tagconcierge.com/google-tag-manager-for-woocommerce/) for details.
 
 = What eCommerce events are supported? =
 
@@ -116,6 +116,12 @@ The plugin always emits events in GA4 compatible format, but the UA preset conta
 
 
 == Changelog ==
+
+= 1.9.0 =
+
+* tested with most recent versions of WordPress and WooCommerce
+* moved purchase data into top level ecommerce property
+* added Tag Concierge Monitoring integration
 
 = 1.8.1 =
 

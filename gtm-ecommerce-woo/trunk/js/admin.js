@@ -50,7 +50,13 @@
 			})
 	});
 
-
+	jQuery(function($) {
+		$("[data-id].download").click(function(ev) {
+			ev.preventDefault();
+			var preset = $(ev.currentTarget).attr("data-id");
+			window.location = ajaxurl + '?action=gtm_ecommerce_woo_post_preset&preset=' + encodeURIComponent(preset);
+		});
+	});
 
 	jQuery(function($) {
 		$("#gtm-ecommerce-woo-theme-validator").click(function(ev) {

@@ -12,13 +12,14 @@ class ThemeValidatorService {
 	protected $tests;
 	protected $events;
 
-	public function __construct($snakeCaseNamespace, $spineCaseNamespace, $wcTransformerUtil, $wpSettingsUtil, $wcOutputUtil, $events) {
+	public function __construct($snakeCaseNamespace, $spineCaseNamespace, $wcTransformerUtil, $wpSettingsUtil, $wcOutputUtil, $events, $tagConciergeApiUrl) {
 		$this->snakeCaseNamespace = $snakeCaseNamespace;
 		$this->spineCaseNamespace = $spineCaseNamespace;
 		$this->wcTransformerUtil = $wcTransformerUtil;
 		$this->wpSettingsUtil = $wpSettingsUtil;
 		$this->wcOutputUtil = $wcOutputUtil;
 		$this->events = $events;
+		$this->tagConciergeApiUrl = $tagConciergeApiUrl;
 
 		$this->tests = [
 			'homepage',
@@ -107,8 +108,7 @@ class ThemeValidatorService {
 			'data_format' => 'body',
 		];
 
-		$response = wp_remote_post( 'https://api.tagconcierge.com/v2/validate-theme', $args );
-		// $response = wp_remote_post( 'http://api-concierge/v2/validate-theme', $args );
+		$response = wp_remote_post( $this->tagConciergeApiUrl . '/v2/validate-theme', $args );
 		$body     = wp_remote_retrieve_body( $response );
 		wp_send_json(json_decode($body));
 		wp_die();

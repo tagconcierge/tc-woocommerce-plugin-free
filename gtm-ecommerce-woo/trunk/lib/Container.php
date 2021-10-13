@@ -44,10 +44,10 @@ class Container {
 
         $this->eventStrategiesService = new EventStrategiesService($wpSettingsUtil, $eventStrategies);
         $this->gtmSnippetService = new GtmSnippetService($wpSettingsUtil);
-        $this->settingsService = new SettingsService($wpSettingsUtil, $events, $proEvents);
+        $this->settingsService = new SettingsService($wpSettingsUtil, $events, $proEvents, $tagConciergeApiUrl);
         $this->pluginService = new PluginService($spineCaseNamespace);
         $this->monitorService = new MonitorService($snakeCaseNamespace, $spineCaseNamespace, $wcTransformerUtil, $wpSettingsUtil, $wcOutputUtil, $tagConciergeApiUrl);
-        $this->themeValidatorService = new ThemeValidatorService($snakeCaseNamespace, $spineCaseNamespace, $wcTransformerUtil, $wpSettingsUtil, $wcOutputUtil, $events);
+        $this->themeValidatorService = new ThemeValidatorService($snakeCaseNamespace, $spineCaseNamespace, $wcTransformerUtil, $wpSettingsUtil, $wcOutputUtil, $events, $tagConciergeApiUrl);
         $this->eventInspectorService = new EventInspectorService($wpSettingsUtil);
 
     }
