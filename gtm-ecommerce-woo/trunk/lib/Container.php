@@ -27,7 +27,7 @@ class Container {
         	"remove_from_cart",
         	"begin_checkout",
         ];
-        $tagConciergeApiUrl = getenv("TAG_CONCIERGE_API_URL") ? getenv("TAG_CONCIERGE_API_URL") : "https://api-ng.tagconcierge.com";
+        $tagConciergeApiUrl = getenv("TAG_CONCIERGE_API_URL") ? getenv("TAG_CONCIERGE_API_URL") : "https://api.tagconcierge.com";
 
         $wpSettingsUtil = new WpSettingsUtil($snakeCaseNamespace, $spineCaseNamespace);
         $wcTransformerUtil = new WcTransformerUtil();
