@@ -13,6 +13,7 @@ class SettingsService {
 		$this->proEvents = $proEvents;
 		$this->uuidPrefix = 'gtm-ecommerce-woo-basic';
 		$this->tagConciergeApiUrl = $tagConciergeApiUrl;
+		$this->tagConciergeMonitorPreset = 'presets/tag-concierge-monitor-basic';
 	}
 
 	public function initialize() {
@@ -232,7 +233,7 @@ class SettingsService {
 			'Enable Tag Concierge Monitor?',
 			[$this, "checkboxField"],
 			'tag_concierge',
-			'Enable sending the eCommerce events to Tag Concierge Monitor for active tracking monitoring. <br />Make sure that you have downloaded and installed <a class="download" href="#" data-id="presets/tag-concierge-monitor-basic">Monitoring GTM preset</a> too.<br />Then <a href="https://app.tagconcierge.com/?uuid='.$this->wpSettingsUtil->getOption('uuid').'" target="_blank">Open Tag Concierge App</a>'
+			'Enable sending the eCommerce events to Tag Concierge Monitor for active tracking monitoring. <br />Make sure that you have downloaded and installed <a class="download" href="#" data-id="' . $this->tagConciergeMonitorPreset . '">Monitoring GTM preset</a> too.<br />Then <a href="https://app.tagconcierge.com/?uuid='.$this->wpSettingsUtil->getOption('uuid').'" target="_blank">Open Tag Concierge App</a>'
 		);
 
 
@@ -262,6 +263,16 @@ class SettingsService {
 
 		$uuid = $this->wpSettingsUtil->getOption('uuid');
 		if (empty($uuid) || strlen($uuid) === 13) {
+			$this->wpSettingsUtil->updateOption('uuid', $this->uuidPrefix . '_' . bin2hex(random_bytes(20)));
+		}
+
+		// if we have different uuidPrefix then we upgrade uuid
+		if (substr($uuid, 0, -41) !== $this->uuidPrefix) {
+			$previousUuids = is_array($this->wpSettingsUtil->getOption('previous_uuids')) ?
+				$this->wpSettingsUtil->getOption('previous_uuids')
+				: [];
+			$previousUuids[] = $uuid;
+			$this->wpSettingsUtil->updateOption('previous_uuids', $previousUuids);
 			$this->wpSettingsUtil->updateOption('uuid', $this->uuidPrefix . '_' . bin2hex(random_bytes(20)));
 		}
 
