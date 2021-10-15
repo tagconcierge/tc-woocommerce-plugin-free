@@ -24,7 +24,10 @@ use GtmEcommerceWoo\Lib\Container;
 define('MAIN_FILE', __FILE__);
 define('MAIN_DIR', __DIR__);
 
-$container = new Container();
+$pluginData = get_file_data(__FILE__, array('Version' => 'Version'), false);
+$pluginVersion = $pluginData['Version'];
+
+$container = new Container($pluginVersion);
 
 $container->getSettingsService()->initialize();
 $container->getGtmSnippetService()->initialize();

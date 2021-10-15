@@ -31,6 +31,9 @@
 					}
 					$(".events-count", $preset).text((preset.events || []).length);
 					$(".events-list", $preset).pointer({ content: "<p>- " + (preset.events || []).join("<br />- ") + "</p>" });
+
+					$(".version", $preset).text(preset.version || "N/A");
+					// $(".changelog", $preset).pointer({ content: "<p>- " + (preset.changelog || []).join("<br />- ") + "</p>" });
 					$presetsGrid.append($preset);
 				});
 				// if something is locked then we show the button
