@@ -7,7 +7,7 @@ namespace GtmEcommerceWoo\Lib\Service;
  */
 class SettingsService {
 
-	public function __construct($wpSettingsUtil, $events, $proEvents, $tagConciergeApiUrl, $pluginVersion) {
+	public function __construct( $wpSettingsUtil, $events, $proEvents, $tagConciergeApiUrl, $pluginVersion) {
 		$this->wpSettingsUtil = $wpSettingsUtil;
 		$this->events = $events;
 		$this->proEvents = $proEvents;
@@ -20,18 +20,18 @@ class SettingsService {
 	public function initialize() {
 		$this->wpSettingsUtil->addTab(
 			'settings',
-			"Settings"
+			'Settings'
 		);
 
 		$this->wpSettingsUtil->addTab(
 			'gtm_presets',
-			"GTM Presets",
+			'GTM Presets',
 			false
 		);
 
 		$this->wpSettingsUtil->addTab(
 			'tools',
-			"Tools"
+			'Tools'
 		);
 
 		$this->wpSettingsUtil->addTab(
@@ -41,7 +41,7 @@ class SettingsService {
 
 		$this->wpSettingsUtil->addTab(
 			'support',
-			"Support",
+			'Support',
 			false
 		);
 
@@ -52,7 +52,7 @@ class SettingsService {
 		add_action( 'wp_ajax_gtm_ecommerce_woo_post_preset', [$this, 'ajaxPostPresets'] );
 	}
 
-	function ajaxGetPresets() {
+	public function ajaxGetPresets() {
 		$uuid = $this->wpSettingsUtil->getOption('uuid');
 		$response = wp_remote_get( $this->tagConciergeApiUrl . '/v2/presets?uuid=' . $uuid );
 		$body     = wp_remote_retrieve_body( $response );
@@ -60,7 +60,7 @@ class SettingsService {
 		wp_die();
 	}
 
-	function ajaxPostPresets() {
+	public function ajaxPostPresets() {
 		$uuid = $this->wpSettingsUtil->getOption('uuid');
 		$disabled = $this->wpSettingsUtil->getOption('disabled');
 		$gtmSnippetHead = $this->wpSettingsUtil->getOption('gtm_snippet_head');
@@ -82,57 +82,57 @@ class SettingsService {
 		];
 		$response = wp_remote_post( $this->tagConciergeApiUrl . '/v2/preset', $args );
 		$body     = wp_remote_retrieve_body( $response );
-		header("Cache-Control: public");
-		header("Content-Description: File Transfer");
-		header("Content-Disposition: attachment; filename=".$presetName);
-		header("Content-Transfer-Encoding: binary");
+		header('Cache-Control: public');
+		header('Content-Description: File Transfer');
+		header('Content-Disposition: attachment; filename=' . $presetName);
+		header('Content-Transfer-Encoding: binary');
 		wp_send_json(json_decode($body));
 		wp_die();
 	}
 
-	function enqueueScripts($hook) {
+	public function enqueueScripts( $hook) {
 		if ( 'settings_page_gtm-ecommerce-woo' != $hook ) {
 			return;
 		}
 		wp_enqueue_script( 'wp-pointer' );
-        wp_enqueue_style( 'wp-pointer' );
+		wp_enqueue_style( 'wp-pointer' );
 		wp_enqueue_script( 'gtm-ecommerce-woo-admin', plugin_dir_url( __DIR__ . '/../../../' ) . 'js/admin.js', [], '1.0' );
 	}
 
-	function settingsInit() {
+	public function settingsInit() {
 		$this->wpSettingsUtil->registerSetting('uuid');
 
 		$this->wpSettingsUtil->addSettingsSection(
-			"basic",
-			"Basic Settings",
+			'basic',
+			'Basic Settings',
 			'This plugin push eCommerce events from WooCommerce shop to Google Tag Manager instance. After enabling, add tags and triggers to your GTM container in order to use and analyze captured data. For quick start use one of the GTM presets available below.',
 			'settings'
 		);
 
 		$this->wpSettingsUtil->addSettingsSection(
-			"gtm_snippet",
-			"Google Tag Manager snippet",
+			'gtm_snippet',
+			'Google Tag Manager snippet',
 			'Paste two snippets provided by GTM. To find those snippets navigate to `Admin` tab in GTM console and click `Install Google Tag Manager`. If you already implemented GTM snippets in your page, paste them below, but select appropriate `Prevent loading GTM Snippet` option.',
 			'settings'
 		);
 
 		$this->wpSettingsUtil->addSettingsSection(
-			"events",
-			"Events",
+			'events',
+			'Events',
 			'Select which events should be tracked:',
 			'settings'
 		);
 
 		$this->wpSettingsUtil->addSettingsSection(
-			"tag_concierge",
-			"Tag Concierge",
+			'tag_concierge',
+			'Tag Concierge',
 			'Want to learn more? <a href="https://tagconcierge.com/platform/" target="_blank">See overview here</a>',
 			'tag_concierge'
 		);
 
 		$this->wpSettingsUtil->addSettingsSection(
-			"gtm_container_jsons",
-			"Google Tag Manager presets",
+			'gtm_container_jsons',
+			'Google Tag Manager presets',
 			'It\'s time to define what to do with tracked eCommerce events. We know that settings up GTM workspace may be cumbersome. That\'s why the plugin comes with a set of presets you can import to your GTM workspace to create all required Tags, Triggers and Variables. Select a preset in dropdown below, download the JSON file and import it in Admin panel in your GTM workspace, see plugin <a href="https://tagconcierge.com/google-tag-manager-for-woocommerce/#documentation" target="_blank">Documentation</a> for details):<br /><br />
 				<div id="gtm-ecommerce-woo-presets-loader" style="text-align: center;"><span class="spinner is-active" style="float: none;"></span></div><div class="metabox-holder"><div id="gtm-ecommerce-woo-presets-grid" class="postbox-container" style="float: none;"><div id="gtm-ecommerce-woo-preset-tmpl" style="display: none;"><div style="display: inline-block;
     margin-left: 4%; width: 45%" class="postbox"><h3 class="name">Google Analytics 4</h3><div class="inside"><p class="description">Description</p><p><b>Supported events:</b> <span class="events-count">2</span> <span class="events-list dashicons dashicons-info-outline" style="cursor: pointer;"></span></p><p><a class="download button button-primary" href="#">Download</a></p><p>Version: <span class="version">N/A</span><br />Downloaded version: N/A</p></div></div></div></div></div><br /><div id="gtm-ecommerce-woo-presets-upgrade" style="text-align: center; display: none;"><a class="button button-primary" href="https://go.tagconcierge.com/MSm8e" target="_blank">Upgrade to PRO</a></div>',
@@ -140,23 +140,23 @@ class SettingsService {
 		);
 
 		$this->wpSettingsUtil->addSettingsSection(
-			"support",
-			"Support",
+			'support',
+			'Support',
 			'<a class="button button-primary" href="https://tagconcierge.com/google-tag-manager-for-woocommerce/#documentation" target="_blank">Documentation</a><br /><br /><a class="button button-primary" href="mailto:support@handcraftbyte.com">Contact Support</a>',
 			'support'
 		);
 
 		$this->wpSettingsUtil->addSettingsSection(
-			"event_inspector",
-			"Event Inspector",
+			'event_inspector',
+			'Event Inspector',
 			'Events Inspector provide basic way of confirming that events are being tracked. Depending on the setting below it will show a small window at the bottom of every page with all eCommerce events captured during a given session.',
 			'tools'
 		);
 
 		$this->wpSettingsUtil->addSettingsSection(
-			"theme_validator",
-			"Theme Validator",
-			'Theme Validator allows to assess if all events supported by this plugin can be tracked on your current theme: <strong>' . (wp_get_theme())->get('Name') . '</strong>. Your WordPress site must be publicly available to perform this test. It is a semi-manual operation and we usually can repond with initial analysis within 2 business days, but it can get longer depending on current queue size. Clicking the button below will send your email address and URL of this WordPress site to our servers to perform a remote static analysis. This static analysis will ensure all WordPress/WooCommerce internal hooks/actions and correct HTML elements are present in order to track all supported events, but it cannot detect issues with dynamic scripts and elements. For full testing the Event Inspector can be used.<br />
+			'theme_validator',
+			'Theme Validator',
+			'Theme Validator allows to assess if all events supported by this plugin can be tracked on your current theme: <strong>' . ( wp_get_theme() )->get('Name') . '</strong>. Your WordPress site must be publicly available to perform this test. It is a semi-manual operation and we usually can repond with initial analysis within 2 business days, but it can get longer depending on current queue size. Clicking the button below will send your email address and URL of this WordPress site to our servers to perform a remote static analysis. This static analysis will ensure all WordPress/WooCommerce internal hooks/actions and correct HTML elements are present in order to track all supported events, but it cannot detect issues with dynamic scripts and elements. For full testing the Event Inspector can be used.<br />
 			<div style="text-align: center" id="gtm-ecommerce-woo-validator-section"><input id="gtm-ecommerce-woo-theme-validator-email" type="text" name="email" placeholder="email" /><button id="gtm-ecommerce-woo-theme-validator" class="button">Request Theme Validation</button></div>
 			<div style="text-align: center; display: none" id="gtm-ecommerce-woo-validator-sent">Your Theme Validation request was sent, you will hear from us within 2 business days.</div>',
 			'tools'
@@ -165,7 +165,7 @@ class SettingsService {
 		$this->wpSettingsUtil->addSettingsField(
 			'disabled',
 			'Disable?',
-			[$this, "checkboxField"],
+			[$this, 'checkboxField'],
 			'basic',
 			'When checked the plugin won\'t load anything in the page.'
 		);
@@ -173,16 +173,16 @@ class SettingsService {
 		$this->wpSettingsUtil->addSettingsField(
 			'theme_validator_enabled',
 			'Enable Theme Validator?',
-			[$this, "checkboxField"],
+			[$this, 'checkboxField'],
 			'basic',
 			'Allow the plugin and the support team to validate theme by issuing a special HTTP request. Provide them with following information: `uuid_hash:'
-			.md5($this->wpSettingsUtil->getOption('uuid')).'`.'
+			. md5($this->wpSettingsUtil->getOption('uuid')) . '`.'
 		);
 
 		$this->wpSettingsUtil->addSettingsField(
 			'event_inspector_enabled',
 			'Enable Event Inspector?',
-			[$this, "selectField"],
+			[$this, 'selectField'],
 			'event_inspector',
 			'Decide if and how to enable the Event Inspector. When querystring option is selected "gtm-inspector=1" needs to be added to url to show Inspector.',
 			[
@@ -198,7 +198,7 @@ class SettingsService {
 		$this->wpSettingsUtil->addSettingsField(
 			'gtm_snippet_prevent_load',
 			'Prevent loading GTM Snippet?',
-			[$this, "selectField"],
+			[$this, 'selectField'],
 			'gtm_snippet',
 			'Select if GTM snippet is already implemented in your store or if the plugin should inject snippets provided below.',
 			[
@@ -214,7 +214,7 @@ class SettingsService {
 		$this->wpSettingsUtil->addSettingsField(
 			'gtm_snippet_head',
 			'GTM Snippet Head',
-			[$this, "textareaField"],
+			[$this, 'textareaField'],
 			'gtm_snippet',
 			'Paste the first snippet provided by GTM. It will be loaded in the <head> of the page.',
 			['rows'        => 9]
@@ -224,7 +224,7 @@ class SettingsService {
 		$this->wpSettingsUtil->addSettingsField(
 			'gtm_snippet_body',
 			'GTM Snippet body',
-			[$this, "textareaField"],
+			[$this, 'textareaField'],
 			'gtm_snippet',
 			'Paste the second snippet provided by GTM. It will be load after opening <body> tag.',
 			['rows'        => 6]
@@ -234,9 +234,9 @@ class SettingsService {
 		$this->wpSettingsUtil->addSettingsField(
 			'monitor_enabled',
 			'Enable Tag Concierge Monitor?',
-			[$this, "checkboxField"],
+			[$this, 'checkboxField'],
 			'tag_concierge',
-			'Enable sending the eCommerce events to Tag Concierge Monitor for active tracking monitoring. <br />Make sure that you have downloaded and installed <a class="download" href="#" data-id="' . $this->tagConciergeMonitorPreset . '">Monitoring GTM preset</a> too.<br />Then <a href="https://app.tagconcierge.com/?uuid='.$this->wpSettingsUtil->getOption('uuid').'" target="_blank">Open Tag Concierge App</a>'
+			'Enable sending the eCommerce events to Tag Concierge Monitor for active tracking monitoring. <br />Make sure that you have downloaded and installed <a class="download" href="#" data-id="' . $this->tagConciergeMonitorPreset . '">Monitoring GTM preset</a> too.<br />Then <a href="https://app.tagconcierge.com/?uuid=' . $this->wpSettingsUtil->getOption('uuid') . '" target="_blank">Open Tag Concierge App</a>'
 		);
 
 
@@ -244,7 +244,7 @@ class SettingsService {
 			$this->wpSettingsUtil->addSettingsField(
 				'event_' . $eventName,
 				$eventName,
-				[$this, "checkboxField"],
+				[$this, 'checkboxField'],
 				'events'
 			);
 			if ($this->wpSettingsUtil->getOption('event_' . $eventName) === false) {
@@ -256,10 +256,10 @@ class SettingsService {
 			$this->wpSettingsUtil->addSettingsField(
 				'event_' . $eventName,
 				$eventName,
-				[$this, "checkboxField"],
+				[$this, 'checkboxField'],
 				'events',
 				'<a style="font-size: 0.7em" href="https://go.tagconcierge.com/MSm8e" target="_blank">Upgrade to PRO</a>',
-				['disabled' => true, "title" => "Upgrade to PRO version above."]
+				['disabled' => true, 'title' => 'Upgrade to PRO version above.']
 			);
 		}
 
@@ -284,7 +284,7 @@ class SettingsService {
 		}
 	}
 
-	function checkboxField( $args ) {
+	public function checkboxField( $args ) {
 		// Get the value of the setting we've registered with register_setting()
 		$value = get_option( $args['label_for'] );
 		?>
@@ -292,11 +292,11 @@ class SettingsService {
 		type="checkbox"
 		id="<?php echo esc_attr( $args['label_for'] ); ?>"
 		name="<?php echo esc_attr( $args['label_for'] ); ?>"
-		<?php if (@$args['disabled'] === true): ?>
+		<?php if (true === @$args['disabled']) : ?>
 		disabled="disabled"
 		<?php endif; ?>
-		<?php if (@$args['title']): ?>
-		title="<?php echo $args['title'] ?>"
+		<?php if (@$args['title']) : ?>
+		title="<?php echo $args['title']; ?>"
 		<?php endif; ?>
 		value="1"
 		<?php checked( $value, 1 ); ?> />
@@ -306,7 +306,7 @@ class SettingsService {
 		<?php
 	}
 
-	function selectField( $args ) {
+	public function selectField( $args ) {
 		// Get the value of the setting we've registered with register_setting()
 		$selectedValue = get_option( $args['label_for'] );
 		?>
@@ -314,16 +314,16 @@ class SettingsService {
 		type="checkbox"
 		id="<?php echo esc_attr( $args['label_for'] ); ?>"
 		name="<?php echo esc_attr( $args['label_for'] ); ?>"
-		<?php if (@$args['disabled'] === true): ?>
+		<?php if (true === @$args['disabled']) : ?>
 		disabled="disabled"
 		<?php endif; ?>
 		>
-		<?php foreach ($args['options'] as $value => $label): ?>
-			<option value="<?php echo esc_attr($value) ?>"
-				<?php if ($selectedValue == $value): ?>
+		<?php foreach ($args['options'] as $value => $label) : ?>
+			<option value="<?php echo esc_attr($value); ?>"
+				<?php if ($selectedValue == $value) : ?>
 				selected
 				<?php endif; ?>
-				><?php echo esc_html($label) ?></option>
+				><?php echo esc_html($label); ?></option>
 		<?php endforeach ?>
 		</select>
 	  <p class="description">
@@ -333,7 +333,7 @@ class SettingsService {
 	}
 
 
-	function textareaField( $args ) {
+	public function textareaField( $args ) {
 		// Get the value of the setting we've registered with register_setting()
 		$value = get_option( $args['label_for'] );
 		?>
@@ -348,7 +348,7 @@ class SettingsService {
 		<?php
 	}
 
-	function optionsPage() {
+	public function optionsPage() {
 		$this->wpSettingsUtil->addSubmenuPage(
 			'options-general.php',
 			'Google Tag Manager for WooCommerce FREE',

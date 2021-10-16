@@ -6,65 +6,65 @@ class Item implements \JsonSerializable {
 
 	public $itemName;
 
-	public function __construct($itemName) {
+	public function __construct( $itemName) {
 		$this->itemName = $itemName;
 		$this->itemCategories = [];
 		$this->extraProps = [];
 	}
 
-	public function setItemName($itemName) {
+	public function setItemName( $itemName) {
 		$this->itemName = $itemName;
 	}
 
-	public function setItemId($itemId) {
+	public function setItemId( $itemId) {
 		$this->itemId = $itemId;
 	}
 
-	public function setPrice($price) {
+	public function setPrice( $price) {
 		$this->price = $price;
 	}
 
-	public function setItemBrand($itemBrand) {
+	public function setItemBrand( $itemBrand) {
 		$this->itemBrand = $itemBrand;
 	}
 
-	public function setItemVariant($itemVariant) {
+	public function setItemVariant( $itemVariant) {
 		$this->itemVariant = $itemVariant;
 	}
 
-	public function setItemCategories($itemCategories) {
+	public function setItemCategories( $itemCategories) {
 		$this->itemCategories = $itemCategories;
 	}
 
-	public function addItemCategory($itemCategory) {
+	public function addItemCategory( $itemCategory) {
 		$this->itemCategories[] = $itemCategory;
 	}
 
-	public function setItemCoupon($itemCoupon) {
+	public function setItemCoupon( $itemCoupon) {
 		$this->itemCoupon = $itemCoupon;
 	}
 
-	public function setIndex($index) {
+	public function setIndex( $index) {
 		$this->index = $index;
 		return $this;
 	}
 
-	public function setItemListName($itemListName) {
+	public function setItemListName( $itemListName) {
 		$this->itemListName = $itemListName;
 		return $this;
 	}
 
-	public function setItemListId($itemListId) {
+	public function setItemListId( $itemListId) {
 		$this->itemListId = $itemListId;
 		return $this;
 	}
 
-	public function setQuantity($quantity) {
+	public function setQuantity( $quantity) {
 		$this->quantity = $quantity;
 		return $this;
 	}
 
-	public function setExtraProperty($propName, $propValue) {
+	public function setExtraProperty( $propName, $propValue) {
 		$this->extraProps[$propName] = $propValue;
 		return $this;
 	}
@@ -88,9 +88,9 @@ class Item implements \JsonSerializable {
 		];
 
 		foreach ($this->itemCategories as $index => $category) {
-			$categoryParam = "item_category";
+			$categoryParam = 'item_category';
 			if ($index > 0) {
-				$categoryParam .= "_" . ($index + 1);
+				$categoryParam .= '_' . ( $index + 1 );
 			}
 			$jsonItem[$categoryParam] = $category;
 		}
@@ -99,6 +99,8 @@ class Item implements \JsonSerializable {
 			$jsonItem[$propName] = $propValue;
 		}
 
-		return array_filter($jsonItem, function($value) { return !is_null($value) && $value !== ''; });
+		return array_filter($jsonItem, function( $value) {
+			return !is_null($value) && '' !== $value;
+		});
 	}
 }

@@ -13,11 +13,11 @@ class PurchaseStrategy extends AbstractEventStrategy {
 	}
 
 
-	function thankyou( $orderId ) {
+	public function thankyou( $orderId ) {
 		$event = $this->wcTransformer->getPurchaseFromOrderId($orderId);
 
 		$this->wcOutput->dataLayerPush($event);
 
-		update_post_meta( $orderId, 'gtm_ecommerce_woo_purchase_event_tracked', "1" );
+		update_post_meta( $orderId, 'gtm_ecommerce_woo_purchase_event_tracked', '1' );
 	}
 }

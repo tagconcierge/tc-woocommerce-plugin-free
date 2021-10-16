@@ -11,30 +11,30 @@ class WpSettingsUtil {
 	protected $tabs;
 	protected $sections;
 
-	public function __construct($snakeCaseNamespace, $spineCaseNamespace) {
+	public function __construct( $snakeCaseNamespace, $spineCaseNamespace) {
 		$this->snakeCaseNamespace = $snakeCaseNamespace;
 		$this->spineCaseNamespace = $spineCaseNamespace;
 		$this->tabs = [];
 		$this->sections = [];
 	}
 
-	public function getOption($optionName) {
+	public function getOption( $optionName) {
 		return get_option($this->snakeCaseNamespace . '_' . $optionName);
 	}
 
-	public function deleteOption($optionName) {
+	public function deleteOption( $optionName) {
 		return delete_option($this->snakeCaseNamespace . '_' . $optionName);
 	}
 
-	public function updateOption($optionName, $optioValue) {
+	public function updateOption( $optionName, $optioValue) {
 		return update_option($this->snakeCaseNamespace . '_' . $optionName, $optioValue);
 	}
 
-	public function registerSetting($settingName) {
+	public function registerSetting( $settingName) {
 		return register_setting( $this->snakeCaseNamespace, $this->snakeCaseNamespace . '_' . $settingName );
 	}
 
-	public function addTab($tabName, $tabTitle, $showSaveButton = true) {
+	public function addTab( $tabName, $tabTitle, $showSaveButton = true) {
 		$this->tabs[$tabName] = [
 			'name' => $tabName,
 			'title' => $tabTitle,
@@ -42,7 +42,7 @@ class WpSettingsUtil {
 		];
 	}
 
-	public function addSettingsSection($sectionName, $sectionTitle, $description, $tab) {
+	public function addSettingsSection( $sectionName, $sectionTitle, $description, $tab) {
 		$spineCaseNamespace = $this->spineCaseNamespace;
 		$this->sections[$sectionName] = [
 			'name' => $sectionName,
@@ -51,16 +51,16 @@ class WpSettingsUtil {
 		add_settings_section(
 			$this->snakeCaseNamespace . '_' . $sectionName,
 			__( $sectionTitle, $this->spineCaseNamespace ),
-			function($args) use ($spineCaseNamespace, $description) {
+			function( $args) use ( $spineCaseNamespace, $description) {
 				?>
-			  <p id="<?php echo esc_attr( $args['id'] ); ?>"><?php echo $description ?></p>
+			  <p id="<?php echo esc_attr( $args['id'] ); ?>"><?php echo $description; ?></p>
 				<?php
 			},
 			$this->snakeCaseNamespace . '_' . $tab
 		);
 	}
 
-	public function addSettingsField($fieldName, $fieldTitle, $fieldCallback, $fieldSection, $fieldDescription = "", $extraAttrs = []) {
+	public function addSettingsField( $fieldName, $fieldTitle, $fieldCallback, $fieldSection, $fieldDescription = '', $extraAttrs = []) {
 		$attrs = array_merge([
 			'label_for'   => $this->snakeCaseNamespace . '_' . $fieldName,
 			'description' => $fieldDescription,
@@ -78,7 +78,7 @@ class WpSettingsUtil {
 		);
 	}
 
-	public function addSubmenuPage($options, $title1, $title2, $capabilities) {
+	public function addSubmenuPage( $options, $title1, $title2, $capabilities) {
 		$snakeCaseNamespace = $this->snakeCaseNamespace;
 		$spineCaseNamespace = $this->spineCaseNamespace;
 		$activeTab = isset( $_GET[ 'tab' ] ) ? $_GET[ 'tab' ] : array_keys($this->tabs)[0];
@@ -88,7 +88,7 @@ class WpSettingsUtil {
 			$title2,
 			$capabilities,
 			$this->spineCaseNamespace,
-			function() use ($capabilities, $snakeCaseNamespace, $spineCaseNamespace, $activeTab) {
+			function() use ( $capabilities, $snakeCaseNamespace, $spineCaseNamespace, $activeTab) {
 				// check user capabilities
 				if ( ! current_user_can( $capabilities ) ) {
 					return;
@@ -101,8 +101,8 @@ class WpSettingsUtil {
 				<h1><?php echo esc_html( get_admin_page_title() ); ?></h1>
 
 				<h2 class="nav-tab-wrapper">
-					<?php foreach ($this->tabs as $tab): ?>
-					<a href="?page=<?php echo $this->spineCaseNamespace ?>&tab=<?php echo $tab['name']; ?>" class="nav-tab <?php echo $activeTab == $tab['name'] ? 'nav-tab-active' : ''; ?>"><?php echo $tab['title'] ?></a>
+					<?php foreach ($this->tabs as $tab) : ?>
+					<a href="?page=<?php echo $this->spineCaseNamespace; ?>&tab=<?php echo $tab['name']; ?>" class="nav-tab <?php echo $activeTab == $tab['name'] ? 'nav-tab-active' : ''; ?>"><?php echo $tab['title']; ?></a>
 					<?php endforeach; ?>
 				</h2>
 
@@ -114,7 +114,7 @@ class WpSettingsUtil {
 					// (sections are registered for "wporg", each field is registered to a specific section)
 					do_settings_sections( $snakeCaseNamespace . '_' . $activeTab );
 					// output save settings button
-					if ($this->tabs[$activeTab]['show_save_button'] !== false) {
+					if (false !== $this->tabs[$activeTab]['show_save_button']) {
 						submit_button( __( 'Save Settings', $spineCaseNamespace ) );
 					}
 					?>

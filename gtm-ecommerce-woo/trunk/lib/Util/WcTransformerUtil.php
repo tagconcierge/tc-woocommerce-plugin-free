@@ -12,10 +12,11 @@ class WcTransformerUtil {
 
 
 	/**
+	 * See:
 	 * https://woocommerce.github.io/code-reference/classes/WC-Order-Item.html
 	 * https://woocommerce.github.io/code-reference/classes/WC-Order-Item-Product.html
 	 */
-	public function getItemFromOrderItem($orderItem): Item {
+	public function getItemFromOrderItem( $orderItem): Item {
 		$product      = $orderItem->get_product();
 		$variantProduct = ( $orderItem->get_variation_id() ) ? wc_get_product( $orderItem->get_variation_id() ) : '';
 
@@ -29,20 +30,22 @@ class WcTransformerUtil {
 		$itemCats = get_the_terms( $product->get_id(), 'product_cat' );
 		if (is_array($itemCats)) {
 			$categories = array_map(
-				function($category) { return $category->name; },
+				function( $category) {
+ return $category->name; },
 				get_the_terms( $product->get_id(), 'product_cat' )
 			);
 			$item->setItemCategories($categories);
 		}
-		$item = apply_filters("gtm_ecommerce_woo_item", $item, $product);
+		$item = apply_filters('gtm_ecommerce_woo_item', $item, $product);
 		return $item;
 	}
 
 	/**
+	 * See
 	 * https://woocommerce.github.io/code-reference/classes/WC-Product.html
 	 * https://woocommerce.github.io/code-reference/classes/WC-Product-Simple.html
 	 */
-	public function getItemFromProduct($product): Item {
+	public function getItemFromProduct( $product): Item {
 		$item = new Item($product->get_name());
 		$item->setItemId($product->get_id());
 		$item->setPrice($product->get_price());
@@ -50,16 +53,17 @@ class WcTransformerUtil {
 		$productCats = get_the_terms( $product->get_id(), 'product_cat' );
 		if (is_array($productCats)) {
 			$categories = array_map(
-				function($category) { return $category->name; },
+				function( $category) {
+ return $category->name; },
 				$productCats
 			);
 			$item->setItemCategories($categories);
 		}
-		$item = apply_filters("gtm_ecommerce_woo_item", $item, $product);
+		$item = apply_filters('gtm_ecommerce_woo_item', $item, $product);
 		return $item;
 	}
 
-	public function getPurchaseFromOrderId($orderId): Event {
+	public function getPurchaseFromOrderId( $orderId): Event {
 		$order = wc_get_order( $orderId );
 		$event = new Event('purchase');
 		$event->setCurrency($order->get_currency());
@@ -76,7 +80,7 @@ class WcTransformerUtil {
 			$item = $this->getItemFromOrderItem($orderItem);
 			$event->addItem($item);
 		}
-		$event = apply_filters("gtm_ecommerce_woo_purchase_event", $event, $order);
+		$event = apply_filters('gtm_ecommerce_woo_purchase_event', $event, $order);
 		return $event;
 	}
 }

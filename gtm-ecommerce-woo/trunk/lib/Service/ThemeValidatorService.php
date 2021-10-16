@@ -12,7 +12,7 @@ class ThemeValidatorService {
 	protected $tests;
 	protected $events;
 
-	public function __construct($snakeCaseNamespace, $spineCaseNamespace, $wcTransformerUtil, $wpSettingsUtil, $wcOutputUtil, $events, $tagConciergeApiUrl) {
+	public function __construct( $snakeCaseNamespace, $spineCaseNamespace, $wcTransformerUtil, $wpSettingsUtil, $wcOutputUtil, $events, $tagConciergeApiUrl) {
 		$this->snakeCaseNamespace = $snakeCaseNamespace;
 		$this->spineCaseNamespace = $spineCaseNamespace;
 		$this->wcTransformerUtil = $wcTransformerUtil;
@@ -35,7 +35,7 @@ class ThemeValidatorService {
 			return;
 		}
 		if (!isset($_GET['gtm-ecommerce-woo-validator'])
-			|| $_GET['gtm-ecommerce-woo-validator'] !== md5($this->wpSettingsUtil->getOption('uuid'))) {
+			|| md5($this->wpSettingsUtil->getOption('uuid')) !== $_GET['gtm-ecommerce-woo-validator']) {
 			return;
 		}
 		add_action( 'wp', [$this, 'wp'] );
@@ -121,13 +121,13 @@ class ThemeValidatorService {
 		$parentName = null;
 		$parentVersion = null;
 		if ($parent) {
-			$parentName = $parent->get("Name");
-			$parentVersion = $parent->get("Version");
+			$parentName = $parent->get('Name');
+			$parentVersion = $parent->get('Version');
 		}
 
 		$params = [
-			'theme_name' => $theme->get("Name"),
-			'theme_version' => $theme->get("Version"),
+			'theme_name' => $theme->get('Name'),
+			'theme_version' => $theme->get('Version'),
 			'theme_parent_name' => $parentName,
 			'theme_parent_version' => $parentVersion,
 			'is_woocommerce' => is_woocommerce(),
@@ -141,10 +141,10 @@ class ThemeValidatorService {
 			'post_type' => get_post_type()
 		];
 
-		$string = array_reduce(array_keys($params), function($agg, $key) use ($params) {
+		$string = array_reduce(array_keys($params), function( $agg, $key) use ( $params) {
 			$value = $params[$key];
 			if (is_bool($value)) {
-				$value = ($value === true) ? "true" : "false";
+				$value = ( true === $value ) ? 'true' : 'false';
 			}
 			$agg .= "$key: $value; ";
 			return $agg;
@@ -156,7 +156,7 @@ class ThemeValidatorService {
 		echo "<!-- gtm-ecommerce-woo: wp_head -->\n";
 	}
 
-	public function thePost($post) {
+	public function thePost( $post) {
 		$id = null;
 		if ($post) {
 			$id = $post->ID;
@@ -176,11 +176,11 @@ class ThemeValidatorService {
 		echo "<!-- gtm-ecommerce-woo: woocommerce_before_checkout_form -->\n";
 	}
 
-	public function theWidget($widget) {
+	public function theWidget( $widget) {
 		echo "<!-- gtm-ecommerce-woo: the_widget; widget: $widget -->\n";
 	}
 
-	public function renderBlock($blockContent, $block) {
+	public function renderBlock( $blockContent, $block) {
 		echo "<!-- gtm-ecommerce-woo: render_block; block_name: ${block['blockName']} -->\n";
 		return $blockContent;
 	}

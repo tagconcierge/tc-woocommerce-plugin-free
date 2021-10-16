@@ -28,7 +28,7 @@ class AddToCartStrategy extends AbstractEventStrategy {
 		$this->singleProduct();
 	}
 
-	function productLoop() {
+	public function productLoop() {
 		global $product;
 		if (is_a($product, 'WC_Product')) {
 			$item = $this->wcTransformer->getItemFromProduct($product);
@@ -43,7 +43,7 @@ class AddToCartStrategy extends AbstractEventStrategy {
 	}
 
 	/**
-	 * we are on the single product page
+	 * We are on the single product page
 	 */
 	public function singleProduct() {
 		global $product;
@@ -51,7 +51,7 @@ class AddToCartStrategy extends AbstractEventStrategy {
 		if (is_null($product)) {
 			return false;
 		}
-		if (is_product() && $this->firstPost === false) {
+		if (is_product() && false === $this->firstPost) {
 			$item = $this->wcTransformer->getItemFromProduct($product);
 			$this->onCartSubmitScript($item);
 			$this->firstPost = true;
@@ -59,9 +59,9 @@ class AddToCartStrategy extends AbstractEventStrategy {
 	}
 
 	/**
-	 * supports the button that is supposed to live in a form object
+	 * Supports the button that is supposed to live in a form object
 	 */
-	public function onCartSubmitScript($item) {
+	public function onCartSubmitScript( $item) {
 		$this->wcOutput->globalVariable('gtm_ecommerce_woo_item', $item);
 		$this->wcOutput->script(<<<EOD
 jQuery(document).on('submit', '.cart', function(ev) {
@@ -83,9 +83,9 @@ EOD
 	}
 
 	/**
-	 * supports a single link that's present on product lists
+	 * Supports a single link that's present on product lists
 	 */
-	public function onCartLinkClick($items) {
+	public function onCartLinkClick( $items) {
 		$this->wcOutput->globalVariable('gtm_ecommerce_woo_items_by_product_id', $items);
 		$this->wcOutput->script(<<<EOD
 jQuery(document).on('click', '.ajax_add_to_cart', function(ev) {

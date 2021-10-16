@@ -10,13 +10,13 @@ class EventStrategiesService {
 	protected $eventStrategies = [];
 	protected $wpSettingsUtil;
 
-	public function __construct($wpSettingsUtil, $eventStrategies) {
+	public function __construct( $wpSettingsUtil, $eventStrategies) {
 		$this->eventStrategies = $eventStrategies;
 		$this->wpSettingsUtil = $wpSettingsUtil;
 	}
 
 	public function initialize() {
-		if ($this->wpSettingsUtil->getOption("disabled") === '1') {
+		if ($this->wpSettingsUtil->getOption('disabled') === '1') {
 			return;
 		}
 		foreach ($this->eventStrategies as $eventStrategy) {
