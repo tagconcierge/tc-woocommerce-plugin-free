@@ -3,7 +3,7 @@
 namespace GtmEcommerceWoo\Lib\Service;
 
 /**
- * General Logic of the plugin
+ * General Logic of the plugin for loading and running each eCommerce event
  */
 class EventStrategiesService {
 

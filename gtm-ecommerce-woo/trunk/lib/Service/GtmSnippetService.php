@@ -3,7 +3,7 @@
 namespace GtmEcommerceWoo\Lib\Service;
 
 /**
- * Logic to handle embedding Gtm Snippet
+ * Logic to handle embedding GTM Snippet
  */
 class GtmSnippetService {
 	protected $wpSettingsUtil;

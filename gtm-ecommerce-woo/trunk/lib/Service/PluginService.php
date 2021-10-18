@@ -3,7 +3,7 @@
 namespace GtmEcommerceWoo\Lib\Service;
 
 /**
- * Logic to handle embedding Gtm Snippet
+ * Logic to handle general plugin hooks.
  */
 class PluginService {
 	protected $spineCaseNamespace;

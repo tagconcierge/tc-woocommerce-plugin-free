@@ -119,7 +119,8 @@ The plugin always emits events in GA4 compatible format, but the UA preset conta
 
 = 1.9.1 =
 
-* show preset versions
+* show presets versions
+* WordPress code styling applied
 
 = 1.9.0 =
 

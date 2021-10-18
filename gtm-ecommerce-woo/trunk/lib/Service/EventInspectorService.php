@@ -3,8 +3,10 @@
 namespace GtmEcommerceWoo\Lib\Service;
 
 /**
- * Logic to handle embedding Gtm Snippet
- * wp option set gtm_ecommerce_woo_event_inspector_demo_mode 1
+ * Service to inject dataLayer eCommerce events inspector which is a box
+ * fixed to the bottom part of the browser.
+ *
+ * To enable special demo mode: wp option set gtm_ecommerce_woo_event_inspector_demo_mode 1
  */
 class EventInspectorService {
 	protected $wpSettingsUtil;
