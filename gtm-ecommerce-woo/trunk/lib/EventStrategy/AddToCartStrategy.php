@@ -64,7 +64,7 @@ class AddToCartStrategy extends AbstractEventStrategy {
 	public function onCartSubmitScript( $item) {
 		$this->wcOutput->globalVariable('gtm_ecommerce_woo_item', $item);
 		$this->wcOutput->script(<<<EOD
-jQuery(document).on('submit', '.cart', function(ev) {
+jQuery('.cart').on('click', '.single_add_to_cart_button', function(ev) {
 	var quantity = jQuery('[name="quantity"]', ev.currentTarget).val();
 	var product_id = jQuery('[name="add-to-cart"]', ev.currentTarget).val();
 
