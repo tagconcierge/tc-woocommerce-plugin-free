@@ -86,6 +86,7 @@ class ThemeValidatorService {
 			'email' => $_GET['email'],
 			'platform' => 'woocommerce',
 			'uuid_hash' => md5($this->wpSettingsUtil->getOption('uuid')),
+			'uuid' => $this->wpSettingsUtil->getOption('uuid'),
 			'events' => $this->events,
 			'urls' => [
 				'product_category' => $productCatUrl,
