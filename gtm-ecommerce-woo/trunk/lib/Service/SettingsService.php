@@ -102,6 +102,26 @@ class SettingsService {
 	public function settingsInit() {
 		$this->wpSettingsUtil->registerSetting('uuid');
 
+
+		$uuid = $this->wpSettingsUtil->getOption('uuid');
+		if (empty($uuid) || strlen($uuid) === 13) {
+			$this->wpSettingsUtil->updateOption('uuid', $this->uuidPrefix . '_' . bin2hex(random_bytes(20)));
+		}
+
+		// if we have different uuidPrefix then we upgrade uuid
+		if (substr($uuid, 0, -41) !== $this->uuidPrefix) {
+			$previousUuids = is_array($this->wpSettingsUtil->getOption('previous_uuids')) ?
+				$this->wpSettingsUtil->getOption('previous_uuids')
+				: [];
+			$previousUuids[] = $uuid;
+			$this->wpSettingsUtil->updateOption('previous_uuids', $previousUuids);
+			$this->wpSettingsUtil->updateOption('uuid', $this->uuidPrefix . '_' . bin2hex(random_bytes(20)));
+		}
+
+		if ($this->wpSettingsUtil->getOption('theme_validator_enabled') === false) {
+			$this->wpSettingsUtil->updateOption('theme_validator_enabled', 1);
+		}
+
 		$this->wpSettingsUtil->addSettingsSection(
 			'basic',
 			'Basic Settings',
@@ -156,9 +176,9 @@ class SettingsService {
 		$this->wpSettingsUtil->addSettingsSection(
 			'theme_validator',
 			'Theme Validator',
-			'Theme Validator allows to assess if all events supported by this plugin can be tracked on your current theme: <strong>' . ( wp_get_theme() )->get('Name') . '</strong>. Your WordPress site must be publicly available to perform this test. It is a semi-manual operation and we usually can repond with initial analysis within 2 business days, but it can get longer depending on current queue size. Clicking the button below will send your email address and URL of this WordPress site to our servers to perform a remote static analysis. This static analysis will ensure all WordPress/WooCommerce internal hooks/actions and correct HTML elements are present in order to track all supported events, but it cannot detect issues with dynamic scripts and elements. For full testing the Event Inspector can be used.<br />
-			<div style="text-align: center" id="gtm-ecommerce-woo-validator-section"><input id="gtm-ecommerce-woo-theme-validator-email" type="text" name="email" placeholder="email" /><button id="gtm-ecommerce-woo-theme-validator" class="button">Request Theme Validation</button></div>
-			<div style="text-align: center; display: none" id="gtm-ecommerce-woo-validator-sent">Your Theme Validation request was sent, you will hear from us within 2 business days.</div>',
+			'Theme Validator allows to assess if all events supported by this plugin can be tracked on your current theme: <strong>' . ( wp_get_theme() )->get('Name') . '</strong>. Your WordPress site must be publicly available to perform this test. Clicking the button below will send URL of this WordPress site to our servers to perform a remote static analysis. It will ensure all WordPress/WooCommerce internal hooks/actions and correct HTML elements are present in order to track all supported events. It cannot detect issues with dynamic scripts and elements, for full testing the Event Inspector available above can be used. It is mostly automated service, but processing times can get up to few hours. <br />
+			<div style="text-align: center" id="gtm-ecommerce-woo-validator-section"><button id="gtm-ecommerce-woo-theme-validator" class="button">Request Theme Validation</button></div>
+			<div style="text-align: center; display: none" id="gtm-ecommerce-woo-validator-sent">Your Theme Validation request was sent, please check link below if results are ready.</div><br /><div style="text-align: center;"><a href="https://app.tagconcierge.com/theme-validator?uuid=' . $uuid . '" target="_blank">See results in Tag Concierge</a></div>',
 			'tools'
 		);
 
@@ -261,26 +281,6 @@ class SettingsService {
 				'<a style="font-size: 0.7em" href="https://go.tagconcierge.com/MSm8e" target="_blank">Upgrade to PRO</a>',
 				['disabled' => true, 'title' => 'Upgrade to PRO version above.']
 			);
-		}
-
-
-		$uuid = $this->wpSettingsUtil->getOption('uuid');
-		if (empty($uuid) || strlen($uuid) === 13) {
-			$this->wpSettingsUtil->updateOption('uuid', $this->uuidPrefix . '_' . bin2hex(random_bytes(20)));
-		}
-
-		// if we have different uuidPrefix then we upgrade uuid
-		if (substr($uuid, 0, -41) !== $this->uuidPrefix) {
-			$previousUuids = is_array($this->wpSettingsUtil->getOption('previous_uuids')) ?
-				$this->wpSettingsUtil->getOption('previous_uuids')
-				: [];
-			$previousUuids[] = $uuid;
-			$this->wpSettingsUtil->updateOption('previous_uuids', $previousUuids);
-			$this->wpSettingsUtil->updateOption('uuid', $this->uuidPrefix . '_' . bin2hex(random_bytes(20)));
-		}
-
-		if ($this->wpSettingsUtil->getOption('theme_validator_enabled') === false) {
-			$this->wpSettingsUtil->updateOption('theme_validator_enabled', 1);
 		}
 	}
 
