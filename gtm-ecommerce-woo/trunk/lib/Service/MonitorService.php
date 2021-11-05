@@ -13,14 +13,16 @@ class MonitorService {
 	protected $spineCaseNamespace;
 	protected $wcTransformerUtil;
 	protected $tagConciergeApiUrl;
+	protected $tagConciergeEdgeUrl;
 
-	public function __construct( $snakeCaseNamespace, $spineCaseNamespace, $wcTransformerUtil, $wpSettingsUtil, $wcOutputUtil, $tagConciergeApiUrl) {
+	public function __construct( $snakeCaseNamespace, $spineCaseNamespace, $wcTransformerUtil, $wpSettingsUtil, $wcOutputUtil, $tagConciergeApiUrl, $tagConciergeEdgeUrl) {
 		$this->snakeCaseNamespace = $snakeCaseNamespace;
 		$this->spineCaseNamespace = $spineCaseNamespace;
 		$this->wcTransformerUtil = $wcTransformerUtil;
 		$this->wpSettingsUtil = $wpSettingsUtil;
 		$this->wcOutputUtil = $wcOutputUtil;
 		$this->tagConciergeApiUrl = $tagConciergeApiUrl;
+		$this->tagConciergeEdgeUrl = $tagConciergeEdgeUrl;
 	}
 
 	public function initialize() {
@@ -65,7 +67,7 @@ class MonitorService {
 		echo 'window.dataLayer = window.dataLayer || [];';
 		echo "(function(dataLayer) {\n";
 		echo "dataLayer.push({ uuid_hash: '" . $this->hash($uuid) . "' });";
-		echo "dataLayer.push({ monitor_url: '" . $this->tagConciergeApiUrl . "' });";
+		echo "dataLayer.push({ monitor_url: '" . $this->tagConciergeEdgeUrl . "' });";
 		echo '})(dataLayer);';
 		echo "</script>\n";
 	}
@@ -115,7 +117,11 @@ class MonitorService {
 			'data_format' => 'body',
 		];
 
-		$response = wp_remote_post( $this->tagConciergeApiUrl . '/v2/monitor/transactions', $args );
+		try {
+			$response = wp_remote_post( $this->tagConciergeEdgeUrl . '/v2/monitor/transactions', $args );
+		} catch (Exception $err) {
+			error_log( 'Tag Concierge Monitor add_to_cart failed' );
+		}
 	}
 
 	public function addToCart( $cart_item_key, $product_id, $quantity, $variation_id, $variation, $cart_item_data) {
@@ -143,7 +149,7 @@ class MonitorService {
 		];
 
 		try {
-			$response = wp_remote_post( $this->tagConciergeApiUrl . '/v2/monitor/events', $args );
+			$response = wp_remote_post( $this->tagConciergeEdgeUrl . '/v2/monitor/events', $args );
 		} catch (Exception $err) {
 			error_log( 'Tag Concierge Monitor add_to_cart failed' );
 		}
@@ -181,7 +187,7 @@ class MonitorService {
 			'data_format' => 'body',
 		];
 		try {
-			$response = wp_remote_post( $this->tagConciergeApiUrl . '/v2/monitor/events', $args );
+			$response = wp_remote_post( $this->tagConciergeEdgeUrl . '/v2/monitor/events', $args );
 		} catch (Exception $err) {
 			error_log( 'Tag Concierge Monitor purchase failed' );
 		}

@@ -117,6 +117,10 @@ The plugin always emits events in GA4 compatible format, but the UA preset conta
 
 == Changelog ==
 
+= 1.9.3 =
+
+* switch the monitoring API to edge endpoints for performance gains
+
 = 1.9.2 =
 
 * improve add_to_cart JS not to be blocked by other scripts (click vs submit)
