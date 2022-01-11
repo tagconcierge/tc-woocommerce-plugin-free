@@ -34,6 +34,22 @@ class ThemeValidatorService {
 		if ($this->wpSettingsUtil->getOption('theme_validator_enabled') !== '1') {
 			return;
 		}
+
+		add_action(
+			'rest_api_init',
+			function () {
+				register_rest_route(
+					'gtm-ecommerce-woo/v1',
+					'/theme-validator/',
+					array(
+						'methods'             => 'GET',
+						'callback'            => array( $this, 'getThemeValidator' ),
+						'permission_callback' => array( $this, 'verifyRequest'),
+					)
+				);
+			}
+		);
+
 		if (!isset($_GET['gtm-ecommerce-woo-validator'])
 			|| md5($this->wpSettingsUtil->getOption('uuid')) !== $_GET['gtm-ecommerce-woo-validator']) {
 			return;
@@ -48,11 +64,99 @@ class ThemeValidatorService {
 		add_filter( 'render_block', [$this, 'renderBlock'], 10, 2 );
 	}
 
+	public function verifyRequest($data) {
+		if (!is_string($data->get_header('X-TC-Signature'))
+			|| !is_string($data->get_header('X-TC-Timestamp'))) {
+			return new \WP_Error("missing-signature", "Missing Signature");
+		}
+
+		if ($data->get_header('X-TC-Timestamp') >= time()) {
+			return new \WP_Error("wrong-signature", "Wrong Signature");
+		}
+
+		$response  = wp_remote_get( $this->tagConciergeApiUrl . '/v2/public-key');
+		$publicKey = wp_remote_retrieve_body( $response );
+
+		try {
+			$verified = openssl_verify(
+				$data->get_header('X-TC-Timestamp'),
+				base64_decode($data->get_header('X-TC-Signature')),
+				$publicKey,
+				"sha512"
+			);
+		} catch (\Exception $err) {
+			return new \WP_Error("wrong-signature", "Wrong Signature");
+		}
+
+		if ($verified !== 1) {
+			return new \WP_Error("wrong-signature", "Wrong Signature");
+		}
+
+		return true;
+	}
+
+	public function getThemeValidator( $data ) {
+		$query = new \WC_Order_Query( array(
+			'orderby' => 'date',
+			'order' => 'DESC',
+			'limit' => 1,
+			'type' => 'shop_order',
+			'status' => ['on-hold', 'completed']
+		) );
+		$orders = $query->get_orders();
+		if (count($orders) === 0) {
+			$thankYou = null;
+		} else {
+			$thankYou = $orders[0]->get_checkout_order_received_url();
+		}
+
+		$query = new \WC_Product_Query( array(
+			'orderby' => 'date',
+			'order' => 'DESC',
+			'limit' => 1,
+			'status' => ['publish']
+		) );
+		$products = $query->get_products();
+		if (count($products) === 0) {
+			$productUrl = null;
+		} else {
+			$productUrl = $products[0]->get_permalink();
+		}
+
+		$categories = get_terms( ['taxonomy' => 'product_cat'] );
+		if (count($categories) === 0) {
+			$productCatUrl = null;
+		} else {
+			$productCatUrl = get_term_link($categories[0]);
+		}
+
+		$payload = [
+			'platform' => 'woocommerce',
+			'uuid_hash' => md5($this->wpSettingsUtil->getOption('uuid')),
+			'uuid' => $this->wpSettingsUtil->getOption('uuid'),
+			'events' => $this->events,
+			'urls' => [
+				'product_category' => $productCatUrl,
+				'product' => $productUrl,
+				'cart' => wc_get_cart_url(),
+				'checkout' => wc_get_checkout_url(),
+				'home' => get_home_url(),
+				'thank_you' => $thankYou,
+				'shop' => get_permalink(wc_get_page_id('shop'))
+				// 'thank_you' =>    $return_url = $order->get_checkout_order_received_url();
+				//     } else {
+				//         $return_url = wc_get_endpoint_url( 'order-received', '', wc_get_checkout_url() );
+			]
+		];
+		return $payload;
+	}
+
 	public function ajaxPostValidateTheme() {
 		$query = new \WC_Order_Query( array(
 			'orderby' => 'date',
 			'order' => 'DESC',
 			'limit' => 1,
+			'type' => 'shop_order',
 			'status' => ['on-hold', 'completed']
 		) );
 		$orders = $query->get_orders();

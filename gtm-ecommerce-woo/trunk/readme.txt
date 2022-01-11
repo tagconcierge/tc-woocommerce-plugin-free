@@ -2,7 +2,7 @@
 Contributors: Handcraft Byte
 Tags: google tag manager, GA4, ecommerce events, Google Analytics, Facebook Pixel, shopping behavior
 Requires at least: 5.1.0
-Tested up to: 5.8.1
+Tested up to: 5.8.3
 Requires PHP: 7.2
 Stable tag: trunk
 License: GPLv2 or later
@@ -116,6 +116,12 @@ The plugin always emits events in GA4 compatible format, but the UA preset conta
 
 
 == Changelog ==
+
+= 1.9.4 =
+
+* remove testing code
+* test against latest WooCommerce and WordPress versions
+* introduce secured endpoint for obtaining debugging info
 
 = 1.9.3 =
 

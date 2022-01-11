@@ -55,7 +55,6 @@ class EventInspectorService {
 
 
 	public function footerHtml() {
-		var_dump($this->wpSettingsUtil->getOption('event_inspector_demo_mode'));
 		if ($this->isDisabled()) {
 			return;
 		}
