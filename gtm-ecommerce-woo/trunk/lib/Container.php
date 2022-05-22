@@ -17,7 +17,7 @@ use GtmEcommerceWoo\Lib\Util\WcTransformerUtil;
 
 class Container {
 
-	public function __construct( $pluginVersion) {
+	public function __construct( $pluginVersion ) {
 		$snakeCaseNamespace = 'gtm_ecommerce_woo';
 		$spineCaseNamespace = 'gtm-ecommerce-woo';
 		$proEvents = [
@@ -48,7 +48,7 @@ class Container {
 		$this->settingsService = new SettingsService($wpSettingsUtil, $events, $proEvents, $tagConciergeApiUrl, $pluginVersion);
 		$this->pluginService = new PluginService($spineCaseNamespace);
 		$this->monitorService = new MonitorService($snakeCaseNamespace, $spineCaseNamespace, $wcTransformerUtil, $wpSettingsUtil, $wcOutputUtil, $tagConciergeApiUrl, $tagConciergeEdgeUrl);
-		$this->themeValidatorService = new ThemeValidatorService($snakeCaseNamespace, $spineCaseNamespace, $wcTransformerUtil, $wpSettingsUtil, $wcOutputUtil, $events, $tagConciergeApiUrl);
+		$this->themeValidatorService = new ThemeValidatorService($snakeCaseNamespace, $spineCaseNamespace, $wcTransformerUtil, $wpSettingsUtil, $wcOutputUtil, $events, $tagConciergeApiUrl, $pluginVersion);
 		$this->eventInspectorService = new EventInspectorService($wpSettingsUtil);
 
 	}

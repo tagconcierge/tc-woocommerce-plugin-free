@@ -9,10 +9,11 @@ class ThemeValidatorService {
 	protected $snakeCaseNamespace;
 	protected $spineCaseNamespace;
 	protected $wcTransformerUtil;
+	protected $pluginVersion;
 	protected $tests;
 	protected $events;
 
-	public function __construct( $snakeCaseNamespace, $spineCaseNamespace, $wcTransformerUtil, $wpSettingsUtil, $wcOutputUtil, $events, $tagConciergeApiUrl) {
+	public function __construct( $snakeCaseNamespace, $spineCaseNamespace, $wcTransformerUtil, $wpSettingsUtil, $wcOutputUtil, $events, $tagConciergeApiUrl, $pluginVersion) {
 		$this->snakeCaseNamespace = $snakeCaseNamespace;
 		$this->spineCaseNamespace = $spineCaseNamespace;
 		$this->wcTransformerUtil = $wcTransformerUtil;
@@ -20,6 +21,7 @@ class ThemeValidatorService {
 		$this->wcOutputUtil = $wcOutputUtil;
 		$this->events = $events;
 		$this->tagConciergeApiUrl = $tagConciergeApiUrl;
+		$this->pluginVersion = $pluginVersion;
 
 		$this->tests = [
 			'homepage',
@@ -40,7 +42,7 @@ class ThemeValidatorService {
 			function () {
 				register_rest_route(
 					'gtm-ecommerce-woo/v1',
-					'/theme-validator/',
+					'/diagnostic-data/',
 					array(
 						'methods'             => 'GET',
 						'callback'            => array( $this, 'getThemeValidator' ),
@@ -99,7 +101,7 @@ class ThemeValidatorService {
 		$query = new \WC_Order_Query( array(
 			'orderby' => 'date',
 			'order' => 'DESC',
-			'limit' => 1,
+			'limit' => 5,
 			'type' => 'shop_order',
 			'status' => ['on-hold', 'completed']
 		) );
@@ -107,32 +109,39 @@ class ThemeValidatorService {
 		if (count($orders) === 0) {
 			$thankYou = null;
 		} else {
-			$thankYou = $orders[0]->get_checkout_order_received_url();
+			$thankYou = array_map(function($order) {
+				return $order->get_checkout_order_received_url();
+			}, $orders);
 		}
 
 		$query = new \WC_Product_Query( array(
 			'orderby' => 'date',
 			'order' => 'DESC',
-			'limit' => 1,
+			'limit' => 5,
 			'status' => ['publish']
 		) );
 		$products = $query->get_products();
 		if (count($products) === 0) {
-			$productUrl = null;
+			$productUrl = [];
 		} else {
-			$productUrl = $products[0]->get_permalink();
+			$productUrl = array_map(function($product) {
+				return $product->get_permalink();
+			}, $products);
 		}
 
 		$categories = get_terms( ['taxonomy' => 'product_cat'] );
 		if (count($categories) === 0) {
-			$productCatUrl = null;
+			$productCatUrl = [];
 		} else {
-			$productCatUrl = get_term_link($categories[0]);
+			$productCatUrl = array_map(function($category) {
+				return get_term_link($category);
+			}, array_values($categories));
 		}
 
 		$payload = [
 			'platform' => 'woocommerce',
-			'uuid_hash' => md5($this->wpSettingsUtil->getOption('uuid')),
+			'plugin_version' => $this->pluginVersion,
+			'platform_version' => defined('WC_VERSION') ? WC_VERSION : null,
 			'uuid' => $this->wpSettingsUtil->getOption('uuid'),
 			'events' => $this->events,
 			'urls' => [
@@ -143,9 +152,6 @@ class ThemeValidatorService {
 				'home' => get_home_url(),
 				'thank_you' => $thankYou,
 				'shop' => get_permalink(wc_get_page_id('shop'))
-				// 'thank_you' =>    $return_url = $order->get_checkout_order_received_url();
-				//     } else {
-				//         $return_url = wc_get_endpoint_url( 'order-received', '', wc_get_checkout_url() );
 			]
 		];
 		return $payload;

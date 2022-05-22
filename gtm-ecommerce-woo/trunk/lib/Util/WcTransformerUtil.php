@@ -18,7 +18,7 @@ class WcTransformerUtil {
 	 */
 	public function getItemFromOrderItem( $orderItem): Item {
 		$product      = $orderItem->get_product();
-		$variantProduct = ( $orderItem->get_variation_id() ) ? wc_get_product( $orderItem->get_variation_id() ) : '';
+		$variantProduct = ( $orderItem->get_variation_id() ) ? (wc_get_product( $orderItem->get_variation_id() ))->get_name() : '';
 
 		$item = new Item($orderItem->get_name());
 		$item->setItemId($product->get_id());
@@ -27,12 +27,12 @@ class WcTransformerUtil {
 		$item->setQuantity($orderItem->get_quantity());
 		// $item->setItemBrand('');
 
-		$itemCats = get_the_terms( $product->get_id(), 'product_cat' );
+		$itemCats = ( $orderItem->get_variation_id() ) ? get_the_terms( $product->get_parent_id(), 'product_cat' ) : get_the_terms( $product->get_id(), 'product_cat' );
 		if (is_array($itemCats)) {
 			$categories = array_map(
 				function( $category) {
  return $category->name; },
-				get_the_terms( $product->get_id(), 'product_cat' )
+				$itemCats
 			);
 			$item->setItemCategories($categories);
 		}
@@ -45,12 +45,15 @@ class WcTransformerUtil {
 	 * https://woocommerce.github.io/code-reference/classes/WC-Product.html
 	 * https://woocommerce.github.io/code-reference/classes/WC-Product-Simple.html
 	 */
-	public function getItemFromProduct( $product): Item {
+	public function getItemFromProduct( $product ): Item {
 		$item = new Item($product->get_name());
 		$item->setItemId($product->get_id());
 		$item->setPrice($product->get_price());
 		// $item->setItemBrand('');
-		$productCats = get_the_terms( $product->get_id(), 'product_cat' );
+		$productCats = ( get_class( $product ) === 'WC_Product_Variation' )
+			? get_the_terms( $product->get_parent_id(), 'product_cat' )
+			: get_the_terms( $product->get_id(), 'product_cat' );
+
 		if (is_array($productCats)) {
 			$categories = array_map(
 				function( $category) {

@@ -63,16 +63,18 @@ class AddToCartStrategy extends AbstractEventStrategy {
 	 */
 	public function onCartSubmitScript( $item) {
 		$this->wcOutput->globalVariable('gtm_ecommerce_woo_item', $item);
-		$this->wcOutput->script(<<<EOD
+		$this->wcOutput->script(<<<'EOD'
 jQuery('.cart').on('click', '.single_add_to_cart_button', function(ev) {
-	var quantity = jQuery('[name="quantity"]', ev.currentTarget).val();
-	var product_id = jQuery('[name="add-to-cart"]', ev.currentTarget).val();
+	var $form = jQuery(ev.currentTarget).parent('form');
+	var quantity = jQuery('[name="quantity"]', $form).val();
+	var product_id = jQuery('[name="add-to-cart"]', $form).val();
 
 	var item = gtm_ecommerce_woo_item;
 	item.quantity = quantity;
 	dataLayer.push({
 	  'event': 'add_to_cart',
 	  'ecommerce': {
+		'value': (item.price * quantity),
 		'items': [item]
 	  }
 	});
@@ -87,7 +89,7 @@ EOD
 	 */
 	public function onCartLinkClick( $items) {
 		$this->wcOutput->globalVariable('gtm_ecommerce_woo_items_by_product_id', $items);
-		$this->wcOutput->script(<<<EOD
+		$this->wcOutput->script(<<<'EOD'
 jQuery(document).on('click', '.ajax_add_to_cart', function(ev) {
 	var quantity = jQuery(ev.currentTarget).data('quantity');
 	var product_id = jQuery(ev.currentTarget).data('product_id');
@@ -96,6 +98,7 @@ jQuery(document).on('click', '.ajax_add_to_cart', function(ev) {
 	dataLayer.push({
 	  'event': 'add_to_cart',
 	  'ecommerce': {
+		'value': (item.price * quantity),
 		'items': [item]
 	  }
 	});

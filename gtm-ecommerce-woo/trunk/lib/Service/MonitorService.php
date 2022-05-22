@@ -133,7 +133,7 @@ class MonitorService {
 			'event_name' => 'add_to_cart',
 			'event_timestamp' => ( new \Datetime('now') )->format('Y-m-d H:i:s'),
 			'event_items' => [$item],
-			'event_location' => parse_url($_SERVER['HTTP_REFERER'], PHP_URL_PATH)
+			'event_location' => isset($_SERVER['HTTP_REFERER']) ? parse_url($_SERVER['HTTP_REFERER'], PHP_URL_PATH) : ''
 		];
 		$uuid = $this->wpSettingsUtil->getOption('uuid');
 		$args = [

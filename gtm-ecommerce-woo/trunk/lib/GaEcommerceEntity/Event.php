@@ -9,6 +9,7 @@ class Event implements \JsonSerializable {
 
 	public function __construct( $name) {
 		$this->name = $name;
+		$this->extraProps = [];
 	}
 
 	public function setItems( $items) {
@@ -56,8 +57,23 @@ class Event implements \JsonSerializable {
 		return $this;
 	}
 
+	public function setExtraProperty( $propName, $propValue) {
+		$this->extraProps[$propName] = $propValue;
+		return $this;
+	}
+
+	public function getValue() {
+		if (!is_array($this->items) || count($this->items) === 0) {
+			return 0;
+		}
+		return array_reduce($this->items, function($carry, $item) {
+			return $carry + ($item->price ? $item->price : 0);
+		}, 0);
+	}
 
 	public function jsonSerialize() {
+		apply_filters('gtm_ecommerce_woo_event', $this);
+
 		if ('purchase' === $this->name) {
 			$jsonEvent = [
 				'event' => 'purchase',
@@ -87,9 +103,14 @@ class Event implements \JsonSerializable {
 			$jsonEvent = [
 				'event' => $this->name,
 				'ecommerce' => [
+					'value' => $this->getValue(),
 					'items' => $this->items,
 				]
 			];
+		}
+
+		foreach ($this->extraProps as $propName => $propValue) {
+			$jsonEvent[$propName] = $propValue;
 		}
 
 		return array_filter($jsonEvent, function( $value) {
