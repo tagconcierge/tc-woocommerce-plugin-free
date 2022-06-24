@@ -1,7 +1,5 @@
 (function($) {
-    if (!dataLayer) {
-        return;
-    }
+    dataLayer = window.dataLayer || [];
 
     var dataLayerIndex = 0;
 
