@@ -153,7 +153,7 @@ class SettingsService {
 		$this->wpSettingsUtil->addSettingsSection(
 			'gtm_container_jsons',
 			'Google Tag Manager presets',
-			'It\'s time to define what to do with tracked eCommerce events. We know that settings up GTM workspace may be cumbersome. That\'s why the plugin comes with a set of presets you can import to your GTM workspace to create all required Tags, Triggers and Variables. Select a preset in dropdown below, download the JSON file and import it in Admin panel in your GTM workspace, see plugin <a href="https://tagconcierge.com/google-tag-manager-for-woocommerce/#documentation" target="_blank">Documentation</a> for details):<br /><br />
+			'It\'s time to define what to do with tracked eCommerce events. We know that settings up GTM workspace may be cumbersome. That\'s why the plugin comes with a set of presets you can import to your GTM workspace to create all required Tags, Triggers and Variables. Select a preset in dropdown below, download the JSON file and import it in Admin panel in your GTM workspace, see plugin <a href="https://docs.tagconcierge.com/" target="_blank">Documentation</a> for details):<br /><br />
 				<div id="gtm-ecommerce-woo-presets-loader" style="text-align: center;"><span class="spinner is-active" style="float: none;"></span></div><div class="metabox-holder"><div id="gtm-ecommerce-woo-presets-grid" class="postbox-container" style="float: none;"><div id="gtm-ecommerce-woo-preset-tmpl" style="display: none;"><div style="display: inline-block;
     margin-left: 4%; width: 45%" class="postbox"><h3 class="name">Google Analytics 4</h3><div class="inside"><p class="description">Description</p><p><b>Supported events:</b> <span class="events-count">2</span> <span class="events-list dashicons dashicons-info-outline" style="cursor: pointer;"></span></p><p><a class="download button button-primary" href="#">Download</a></p><p>Version: <span class="version">N/A</span></p></div></div></div></div></div><br /><div id="gtm-ecommerce-woo-presets-upgrade" style="text-align: center; display: none;"><a class="button button-primary" href="https://go.tagconcierge.com/MSm8e" target="_blank">Upgrade to PRO</a></div>',
 			'gtm_presets'
@@ -162,7 +162,7 @@ class SettingsService {
 		$this->wpSettingsUtil->addSettingsSection(
 			'support',
 			'Support',
-			'<a class="button button-primary" href="https://tagconcierge.com/google-tag-manager-for-woocommerce/#documentation" target="_blank">Documentation</a><br /><br /><a class="button button-primary" href="mailto:support@handcraftbyte.com">Contact Support</a>',
+			'<a class="button button-primary" href="https://docs.tagconcierge.com/" target="_blank">Documentation</a><br /><br /><a class="button button-primary" target="_blank" href="https://tagconcierge.com/contact">Contact Support</a>',
 			'support'
 		);
 

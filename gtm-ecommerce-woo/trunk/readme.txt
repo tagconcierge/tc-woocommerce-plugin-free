@@ -2,7 +2,7 @@
 Contributors: Handcraft Byte
 Tags: google tag manager, GA4, ecommerce events, Google Analytics, Facebook Pixel, shopping behavior
 Requires at least: 5.1.0
-Tested up to: 5.9.3
+Tested up to: 6.0.0
 Requires PHP: 7.2
 Stable tag: trunk
 License: GPLv2 or later
@@ -19,7 +19,7 @@ Once this information is available in your GTM workspace you can plugin and use 
 
 Check [live demo here](https://gtm-ecommerce-woo.handcraftbyte.com/) (perform typical shop activities - add to cart, purchase - to see how events are triggered).
 
-More information and documentation can be found [here](https://tagconcierge.com/google-tag-manager-for-woocommerce/).
+More information and documentation can be found [here](https://docs.tagconcierge.com/).
 
 ## Example scenarios
 
@@ -77,7 +77,7 @@ If you are importing `Facebook Pixel` preset you can find the tracking ID in `FB
 
 Save and submit all the changes to make it live.
 
-You can find more detailed guides [here](https://tagconcierge.com/google-tag-manager-for-woocommerce/#documentation).
+You can find more detailed guides [here](https://docs.tagconcierge.com/).
 
 == Frequently Asked Questions ==
 
@@ -116,6 +116,11 @@ The plugin always emits events in GA4 compatible format, but the UA preset conta
 
 
 == Changelog ==
+
+= 1.10.1 =
+
+* updated documentation
+* tested against latest versions of WordPress and WooCommerce
 
 = 1.10.0 =
 

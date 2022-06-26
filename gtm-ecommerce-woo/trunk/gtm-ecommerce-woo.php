@@ -3,7 +3,7 @@
  * Plugin Name: Google Tag Manager for WooCommerce FREE
  * Plugin URI:  https://wordpress.org/plugins/gtm-ecommerce-woo
  * Description: Push WooCommerce eCommerce (GA4 and UA compatible) information to GTM DataLayer. Use any GTM integration to measure your customers' activites.
- * Version:     1.10.0
+ * Version:     1.10.1
  * Author:      Handcraft Byte
  * Author URI:  https://handcraftbyte.com/
  * License:     GPLv2 or later
@@ -12,7 +12,7 @@
  * Domain Path: /languages
  *
  * WC requires at least: 4.0
- * WC tested up to: 6.5.1
+ * WC tested up to: 6.6.1
  */
 
 namespace GtmEcommerceWoo;
