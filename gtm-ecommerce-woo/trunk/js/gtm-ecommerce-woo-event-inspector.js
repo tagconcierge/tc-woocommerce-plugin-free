@@ -23,7 +23,9 @@
 
     function renderItems(items) {
         var template = $('#gtm-ecommerce-woo-event-inspector-list-template').html();
-        var rendered = items.map(function(item) {
+        // render items in reverse order
+        var reverseItems = items.reverse();
+        var rendered = reverseItems.map(function(item) {
 
             var eventName = item.event;
 
@@ -64,7 +66,8 @@
         $("#gtm-ecommerce-woo-event-inspector-list").on("click", "li", function(ev) {
             var index = $(ev.target).index();
             var existingStoredEvents = JSON.parse(sessionStorage.getItem("gtmDatalayerDebugger")) || [];
-            alert(JSON.stringify(existingStoredEvents[index], null, 2));
+            // since items are stored in chronological order, but we render them in reverse order:
+            alert(JSON.stringify(existingStoredEvents.reverse()[index], null, 2));
         });
 
         var existingStoredEvents = JSON.parse(sessionStorage.getItem("gtmDatalayerDebugger")) || [];
