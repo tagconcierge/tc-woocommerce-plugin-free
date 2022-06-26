@@ -16,7 +16,7 @@ class WcTransformerUtil {
 	 * https://woocommerce.github.io/code-reference/classes/WC-Order-Item.html
 	 * https://woocommerce.github.io/code-reference/classes/WC-Order-Item-Product.html
 	 */
-	public function getItemFromOrderItem( $orderItem): Item {
+	public function getItemFromOrderItem( $orderItem ): Item {
 		$product      = $orderItem->get_product();
 		$variantProduct = ( $orderItem->get_variation_id() ) ? (wc_get_product( $orderItem->get_variation_id() ))->get_name() : '';
 
