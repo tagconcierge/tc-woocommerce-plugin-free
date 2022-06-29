@@ -117,6 +117,10 @@ The plugin always emits events in GA4 compatible format, but the UA preset conta
 
 == Changelog ==
 
+= 1.10.2 =
+
+* fix casting issue PHP 8.0
+
 = 1.10.1 =
 
 * updated documentation

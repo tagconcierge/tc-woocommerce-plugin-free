@@ -69,7 +69,7 @@ class Event implements \JsonSerializable {
 		return array_reduce($this->items, function($carry, $item) {
 			$itemPrice = isset($item->price) ? $item->price : 0;
 			$itemQuantity = isset($item->quantity) ? $item->quantity : 1;
-			return $carry + ($itemPrice * $itemQuantity);
+			return $carry + ((float) $itemPrice * (float) $itemQuantity);
 		}, 0);
 	}
 
