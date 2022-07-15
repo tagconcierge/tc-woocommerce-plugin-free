@@ -60,7 +60,7 @@ class Item implements \JsonSerializable {
 	}
 
 	public function setQuantity( $quantity) {
-		$this->quantity = $quantity;
+		$this->quantity = (int) $quantity;
 		return $this;
 	}
 
