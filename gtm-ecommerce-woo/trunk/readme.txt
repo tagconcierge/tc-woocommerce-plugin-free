@@ -2,7 +2,7 @@
 Contributors: Handcraft Byte
 Tags: google tag manager, GA4, ecommerce events, Google Analytics, Facebook Pixel, shopping behavior
 Requires at least: 5.1.0
-Tested up to: 6.0.0
+Tested up to: 6.0.1
 Requires PHP: 7.2
 Stable tag: trunk
 License: GPLv2 or later
@@ -116,6 +116,10 @@ The plugin always emits events in GA4 compatible format, but the UA preset conta
 
 
 == Changelog ==
+
+= 1.10.3 =
+
+* fix picking up the quantity in add_to_cart event
 
 = 1.10.2 =
 
