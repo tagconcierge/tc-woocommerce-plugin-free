@@ -70,7 +70,7 @@ jQuery('.cart').on('click', '.single_add_to_cart_button', function(ev) {
 	var product_id = jQuery('[name="add-to-cart"]', $form).val();
 
 	var item = gtm_ecommerce_woo_item;
-	item.quantity = quantity;
+	item.quantity = parseInt(quantity);
 	dataLayer.push({
 	  'event': 'add_to_cart',
 	  'ecommerce': {
