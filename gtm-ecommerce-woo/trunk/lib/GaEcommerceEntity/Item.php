@@ -21,7 +21,7 @@ class Item implements \JsonSerializable {
 	}
 
 	public function setPrice( $price) {
-		$this->price = $price;
+		$this->price = (float) $price;
 	}
 
 	public function setItemBrand( $itemBrand) {
@@ -60,7 +60,7 @@ class Item implements \JsonSerializable {
 	}
 
 	public function setQuantity( $quantity) {
-		$this->quantity = $quantity;
+		$this->quantity = (int) $quantity;
 		return $this;
 	}
 
