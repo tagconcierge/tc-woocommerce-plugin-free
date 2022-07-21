@@ -8,10 +8,12 @@ namespace GtmEcommerceWoo\Lib\Service;
 class PluginService {
 	protected $spineCaseNamespace;
 	protected $wpSettingsUtil;
+	protected $pluginVersion;
 
-	public function __construct( $spineCaseNamespace, $wpSettingsUtil ) {
+	public function __construct( $spineCaseNamespace, $wpSettingsUtil, $pluginVersion ) {
 		$this->spineCaseNamespace = $spineCaseNamespace;
 		$this->wpSettingsUtil = $wpSettingsUtil;
+		$this->pluginVersion = $pluginVersion;
 	}
 
 	public function initialize() {
@@ -24,9 +26,9 @@ class PluginService {
 			$numberOfDays = $earliest->diff(new \DateTime())->format('%a');
 
 			if ($numberOfDays >= 7) {
-				$this->wpSettingsUtil->updateOption('feedback_prompt_at', (new \DateTime())->format('Y-m-d H:i:s'));
 				add_action( 'admin_notices', [$this, 'satisfactionNotice'] );
 				add_action( 'admin_enqueue_scripts', [$this, 'enqueueScripts'] );
+				add_action( 'wp_ajax_gtm_ecommerce_woo_dismiss_feedback', [$this, 'dismissFeedback'] );
 			}
 		}
 
@@ -36,7 +38,6 @@ class PluginService {
 		
 
 		if (! in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
-
 			add_action( 'admin_notices', [$this, 'inactiveWooCommerceNoticeError'] );
 		}
 	}
@@ -81,6 +82,12 @@ class PluginService {
 			<p><?php _e( '<strong>Google Tag Manager for WooCommerce</strong>: it seems WooCommerce is not installed or activated in this WordPress installation. GTM for WooCommerce plugin won\'t work without WooCommerce. To resolve this problem either activate WooCommerce or deactivate GTM for WooCommerce plugin.', $this->spineCaseNamespace ); ?></p>
 	  	</div>
 		<?php
+	}
+
+	public function dismissFeedback() {
+		$this->wpSettingsUtil->updateOption('feedback_prompt_at', (new \DateTime())->format('Y-m-d H:i:s'));
+		wp_send_json(["status" => true]);
+		wp_die();
 	}
 
 	public function satisfactionNotice() {
