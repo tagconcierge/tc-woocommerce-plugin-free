@@ -117,6 +117,10 @@ The plugin always emits events in GA4 compatible format, but the UA preset conta
 
 == Changelog ==
 
+= 1.10.4 =
+
+* ask for feedback to enhance user support
+
 = 1.10.3 =
 
 * fix picking up the quantity in add_to_cart event
