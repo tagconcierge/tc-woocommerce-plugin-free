@@ -22,7 +22,6 @@ class PluginService {
 			$earliest = new \DateTime($this->wpSettingsUtil->getOption('earliest_active_at'));
 
 			$numberOfDays = $earliest->diff(new \DateTime())->format('%a');
-			var_dump($numberOfDays);
 
 			if ($numberOfDays >= 7) {
 				$this->wpSettingsUtil->updateOption('feedback_prompt_at', (new \DateTime())->format('Y-m-d H:i:s'));
