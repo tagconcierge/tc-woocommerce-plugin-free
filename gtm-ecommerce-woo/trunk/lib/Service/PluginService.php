@@ -85,26 +85,11 @@ class PluginService {
 	}
 
 	public function satisfactionNotice() {
-
-		if ( true || get_transient( $this->spineCaseNamespace . '\activation-transient' ) ) {
-
-			// Build and escape the URL.
-			$url = esc_url(
-				add_query_arg(
-					'page',
-					$this->spineCaseNamespace,
-					get_admin_url() . 'options-general.php'
-				)
-			);
-			// Create the link.
-			?>
-		  <div class="notice notice-success is-dismissible" data-gtm-ecommerce-woo-feedback>
-			  <p><?php _e( 'Are you happy using <strong>Google Tag Manager for WooCommerce</strong>? <span data-section="questions"><a href="#" data-target="answer-yes">Yes!</a> <a href="#" data-target="answer-no">Not really...</a></span> <span style="display: none" data-section="answer-yes">That\'s great! We humbly ask you to consider <a href="https://wordpress.org/plugins/gtm-ecommerce-woo/#reviews" target="_blank">giving us a review</a>. That will allow us to extend support for the plugin.</span> <span style="display: none" data-section="answer-no">We are sorry to hear that. <a href="https://tagconcierge.com/contact" target="_blank">Contact us</a> and we may be able to help!</span>', $this->spineCaseNamespace ); ?></p>
-		  </div>
-			
-			<?php
-			/* Delete transient, only display this notice once. */
-			// delete_transient( $this->spineCaseNamespace . '\activation-transient' );
+		?>
+		<div class="notice notice-success is-dismissible" data-gtm-ecommerce-woo-feedback>
+			<p><?php _e( 'Are you happy using <strong>Google Tag Manager for WooCommerce</strong>? <span data-section="questions"><a href="#" data-target="answer-yes">Yes!</a> <a href="#" data-target="answer-no">Not really...</a></span> <span style="display: none" data-section="answer-yes">That\'s great! We humbly ask you to consider <a href="https://wordpress.org/plugins/gtm-ecommerce-woo/#reviews" target="_blank">giving us a review</a>. That will allow us to extend support for the plugin.</span> <span style="display: none" data-section="answer-no">We are sorry to hear that. <a href="https://tagconcierge.com/contact" target="_blank">Contact us</a> and we may be able to help!</span>', $this->spineCaseNamespace ); ?></p>
+		</div>
+		<?php
 		}
 	}
 
