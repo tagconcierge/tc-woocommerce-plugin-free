@@ -117,6 +117,13 @@ The plugin always emits events in GA4 compatible format, but the UA preset conta
 
 == Changelog ==
 
+= 1.10.4 =
+
+* enhanced add_to_cart event to work on dynamic product pages
+* upgraded dependencies
+* added 'data-cfasync' attribute
+* ask for feedback to enhance user support
+
 = 1.10.3 =
 
 * fix picking up the quantity in add_to_cart event
