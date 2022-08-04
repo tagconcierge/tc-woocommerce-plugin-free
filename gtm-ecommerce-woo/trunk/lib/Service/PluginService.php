@@ -34,10 +34,9 @@ class PluginService {
 			}
 		}
 
-		if (!$this->wpSettingsUtil->getOption('earliest_active_at')) {
-			$this->wpSettingsUtil->updateOption('earliest_active_at', (new \DateTime())->format('Y-m-d H:i:s'));
+		if (!$this->wpSettingsUtil->getOption( 'earliest_active_at' )) {
+			$this->wpSettingsUtil->updateOption( 'earliest_active_at', (new \DateTime())->format('Y-m-d H:i:s') );
 		}
-		
 
 		if (! in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
 			add_action( 'admin_notices', [$this, 'inactiveWooCommerceNoticeError'] );
