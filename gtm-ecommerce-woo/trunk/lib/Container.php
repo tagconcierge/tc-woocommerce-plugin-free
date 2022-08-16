@@ -26,6 +26,16 @@ class Container {
 			'select_item',
 			'remove_from_cart',
 			'begin_checkout',
+			'add_billing_info',
+			'add_payment_info',
+			'add_shipping_info'
+		];
+		$serverEvents = [
+			// 'add_to_cart',
+			// 'remove_from_cart',
+			// 'begin_checkout',
+			'purchase',
+			// 'refund',
 		];
 		$tagConciergeApiUrl = getenv('TAG_CONCIERGE_API_URL') ? getenv('TAG_CONCIERGE_API_URL') : 'https://api.tagconcierge.com';
 		$tagConciergeEdgeUrl = getenv('TAG_CONCIERGE_EDGE_URL') ? getenv('TAG_CONCIERGE_EDGE_URL') : 'https://edge.tagconcierge.com';
@@ -45,7 +55,7 @@ class Container {
 
 		$this->eventStrategiesService = new EventStrategiesService($wpSettingsUtil, $eventStrategies);
 		$this->gtmSnippetService = new GtmSnippetService($wpSettingsUtil);
-		$this->settingsService = new SettingsService($wpSettingsUtil, $events, $proEvents, $tagConciergeApiUrl, $pluginVersion);
+		$this->settingsService = new SettingsService($wpSettingsUtil, $events, $proEvents, $serverEvents, $tagConciergeApiUrl, $pluginVersion);
 		$this->pluginService = new PluginService($spineCaseNamespace, $wpSettingsUtil, $pluginVersion);
 		$this->monitorService = new MonitorService($snakeCaseNamespace, $spineCaseNamespace, $wcTransformerUtil, $wpSettingsUtil, $wcOutputUtil, $tagConciergeApiUrl, $tagConciergeEdgeUrl);
 		$this->themeValidatorService = new ThemeValidatorService($snakeCaseNamespace, $spineCaseNamespace, $wcTransformerUtil, $wpSettingsUtil, $wcOutputUtil, $events, $tagConciergeApiUrl, $pluginVersion);

@@ -21,7 +21,12 @@ class EventStrategiesService {
 		}
 		foreach ($this->eventStrategies as $eventStrategy) {
 			$eventName = $eventStrategy->getEventName();
-			if ($this->wpSettingsUtil->getOption('event_' . $eventName) === '') {
+
+			if ('' === $this->wpSettingsUtil->getOption('event_server_' . $eventName) && 'server' === $eventStrategy->getEventType()) {
+				continue;
+			}
+
+			if ('' === $this->wpSettingsUtil->getOption('event_' . $eventName) && 'server' !== $eventStrategy->getEventType()) {
 				continue;
 			}
 			foreach ($eventStrategy->getActions() as $hook => $action) {
