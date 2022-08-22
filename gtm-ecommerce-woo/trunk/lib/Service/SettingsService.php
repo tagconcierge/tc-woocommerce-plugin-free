@@ -55,16 +55,7 @@ class SettingsService {
 		add_action( 'admin_init', [$this, 'settingsInit'] );
 		add_action( 'admin_menu', [$this, 'optionsPage'] );
 		add_action( 'admin_enqueue_scripts', [$this, 'enqueueScripts'] );
-		add_action( 'wp_ajax_gtm_ecommerce_woo_get_presets', [$this, 'ajaxGetPresets'] );
 		add_action( 'wp_ajax_gtm_ecommerce_woo_post_preset', [$this, 'ajaxPostPresets'] );
-	}
-
-	public function ajaxGetPresets() {
-		$uuid = $this->wpSettingsUtil->getOption('uuid');
-		$response = wp_remote_get( $this->tagConciergeApiUrl . '/v2/presets?uuid=' . $uuid );
-		$body     = wp_remote_retrieve_body( $response );
-		wp_send_json(json_decode($body));
-		wp_die();
 	}
 
 	public function ajaxPostPresets() {

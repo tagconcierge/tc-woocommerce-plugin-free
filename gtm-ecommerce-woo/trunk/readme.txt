@@ -8,7 +8,7 @@ Stable tag: trunk
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Push WooCommerce eCommerce (**GA4 Ecommerce and UA Enhanced Ecommerce compatible**) information to GTM DataLayer. Use any GTM integration to measure your customers' activities.
+Push WooCommerce eCommerce information (**GA4 Ecommerce and UA Enhanced Ecommerce compatible**) to GTM DataLayer. Use any GTM integration to measure your customers' activities.
 
 == Description ==
 
@@ -17,7 +17,7 @@ Do you own **WooCommerce shop** and you want to track and analyze your customers
 This plugin push standard eCommerce information to GTM Data Layer.
 Once this information is available in your GTM workspace you can plugin and use any tool available. Even if you are unsure yet which tool you would need or like to use.
 
-Check [live demo here](https://gtm-ecommerce-woo.handcraftbyte.com/) (perform typical shop activities - add to cart, purchase - to see how events are triggered).
+Check [live demo here](https://demo-woocommerce.tagconcierge.com/) (perform typical shop activities - add to cart, purchase - to see how events are triggered). This demo showcase all PRO plugin features - FREE version is limited to 2 events listed below.
 
 More information and documentation can be found [here](https://docs.tagconcierge.com/).
 
@@ -37,7 +37,7 @@ After the plugin is installed it automatically tracks the following events:
 
 Which are a great base for **conversion measurements** and building **sales funnels** related to cart behavior.
 
-**Need more events? Checkout out [PRO version in the official WooCommerce Marketplace](https://go.tagconcierge.com/MSm8e).**
+**For full eCommerce events coverage, improved handling and professional support [buy PRO version](https://tagconcierge.com/google-tag-manager-for-woocommerce/).**
 
 ## Advantage over alternative solutions
 
@@ -95,7 +95,7 @@ See the Installation tab above or [our guides](https://tagconcierge.com/google-t
 = What eCommerce events are supported? =
 
 This version of the plugin supports just `purchase` and `add_to_cart` events.
-Our PRO version available in the official WooCommerce Marketplace [here](https://go.tagconcierge.com/MSm8e) supports more.
+Our PRO version available [here](https://tagconcierge.com/google-tag-manager-for-woocommerce/) supports more.
 
 = Is GA4 and Universal Analytics supported? =
 
@@ -116,6 +116,12 @@ The plugin always emits events in GA4 compatible format, but the UA preset conta
 
 
 == Changelog ==
+
+= 1.10.5 =
+
+* simplify loading the GTM Presets gallery
+* removed missing WooCommerce notification
+* removed 'data-cfasync' attribute as it was causing issues in certain scenarios
 
 = 1.10.4 =
 

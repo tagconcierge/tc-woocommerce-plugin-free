@@ -2,13 +2,16 @@
 
 	function getPresets() {
 		return $.ajax({
-			url: ajaxurl,
-			data: {
-				action: 'gtm_ecommerce_woo_get_presets',
-			}
-		}).then(function(res) {
-			return res;
+			url: 'https://api.tagconcierge.com/v2/presets'
 		});
+		// return $.ajax({
+		// 	url: ajaxurl,
+		// 	data: {
+		// 		action: 'gtm_ecommerce_woo_get_presets',
+		// 	}
+		// }).then(function(res) {
+		// 	return res;
+		// });
 	}
 
 	jQuery(function($) {
