@@ -17,7 +17,7 @@ class WcOutputUtil {
 			echo '<!-- gtm-ecommerce-woo no-scripts -->';
 			return;
 		}
-		echo '<script type="text/javascript" data-cfasync="false" data-gtm-ecommerce-woo-scripts>';
+		echo '<script type="text/javascript" data-gtm-ecommerce-woo-scripts>';
 		echo 'window.dataLayer = window.dataLayer || [];';
 		echo "(function(dataLayer, jQuery) {\n";
 		foreach ($this->scripts as $script) {

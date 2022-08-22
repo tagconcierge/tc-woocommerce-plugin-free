@@ -37,10 +37,6 @@ class PluginService {
 		if (!$this->wpSettingsUtil->getOption( 'earliest_active_at' )) {
 			$this->wpSettingsUtil->updateOption( 'earliest_active_at', (new \DateTime())->format('Y-m-d H:i:s') );
 		}
-
-		if (! in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
-			add_action( 'admin_notices', [$this, 'inactiveWooCommerceNoticeError'] );
-		}
 	}
 
 	public function enqueueScripts( $hook) {
@@ -74,15 +70,6 @@ class PluginService {
 			/* Delete transient, only display this notice once. */
 			delete_transient( $this->spineCaseNamespace . '\activation-transient' );
 		}
-	}
-
-
-	public function inactiveWooCommerceNoticeError() {
-		?>
-		<div class="notice notice-error is-dismissible">
-			<p><?php _e( '<strong>Google Tag Manager for WooCommerce</strong>: it seems WooCommerce is not installed or activated in this WordPress installation. GTM for WooCommerce plugin won\'t work without WooCommerce. To resolve this problem either activate WooCommerce or deactivate GTM for WooCommerce plugin.', $this->spineCaseNamespace ); ?></p>
-	  	</div>
-		<?php
 	}
 
 	public function dismissFeedback() {
