@@ -165,7 +165,7 @@ class MonitorService {
 			'event_items' => $event->items,
 			'event_location' => $wp->request,
 			'event_data' => [
-				'transaction_id_hash' => $this->hash($event->transationId),
+				'transaction_id_hash' => $this->hash($event->transactionId),
 				'affiliation' => $event->affiliation,
 				'value' => $event->value,
 				'tax' => $event->tax,
@@ -246,7 +246,7 @@ class MonitorService {
 				'ecommerce_order' => $even->eCommerceOrder,
 				'ecommerce' => [
 					'purchase' => [
-						'transaction_id_hash' => $this->hash($event->transationId),
+						'transaction_id_hash' => $this->hash($event->transactionId),
 						'affiliation_present' => $this->present($event->affiliation),
 						'value_present' => $this->present($event->value),
 						'tax_present' => $this->present($event->tax),

@@ -66,11 +66,11 @@ class WcTransformerUtil {
 		return $item;
 	}
 
-	public function getPurchaseFromOrderId( $orderId): Event {
+	public function getPurchaseFromOrderId( $orderId ): Event {
 		$order = wc_get_order( $orderId );
 		$event = new Event('purchase');
 		$event->setCurrency($order->get_currency());
-		$event->setTransationId($order->get_order_number());
+		$event->setTransactionId($order->get_order_number());
 		$event->setAffiliation(get_bloginfo( 'name' ));
 		$event->setValue(number_format( $order->get_total(), 2, '.', '' ));
 		$event->setTax(number_format( $order->get_total_tax(), 2, '.', '' ));
@@ -78,6 +78,8 @@ class WcTransformerUtil {
 		if ( $order->get_coupon_codes() ) {
 			$event->setCoupon(implode( ',', $order->get_coupon_codes() ) );
 		}
+
+		$event->setExtraProperty('payment_method', $order->get_payment_method());
 
 		foreach ( $order->get_items() as $key => $orderItem ) {
 			$item = $this->getItemFromOrderItem($orderItem);

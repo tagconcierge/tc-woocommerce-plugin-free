@@ -5,7 +5,6 @@ namespace GtmEcommerceWoo\Lib\Util;
 class WcOutputUtil {
 
 	protected $scripts = [];
-
 	protected $scriptFiles = [];
 
 	public function __construct() {
@@ -14,7 +13,11 @@ class WcOutputUtil {
 	}
 
 	public function wpFooter() {
-		echo '<script type="text/javascript" data-cfasync="false">';
+		if (count($this->scripts) === 0) {
+			echo '<!-- gtm-ecommerce-woo no-scripts -->';
+			return;
+		}
+		echo '<script type="text/javascript" data-cfasync="false" data-gtm-ecommerce-woo-scripts>';
 		echo 'window.dataLayer = window.dataLayer || [];';
 		echo "(function(dataLayer, jQuery) {\n";
 		foreach ($this->scripts as $script) {

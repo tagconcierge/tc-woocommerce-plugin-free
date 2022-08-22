@@ -7,14 +7,16 @@ namespace GtmEcommerceWoo\Lib\Service;
  */
 class SettingsService {
 
-	public function __construct( $wpSettingsUtil, $events, $proEvents, $tagConciergeApiUrl, $pluginVersion) {
+	public function __construct( $wpSettingsUtil, $events, $proEvents, $serverEvents, $tagConciergeApiUrl, $pluginVersion) {
 		$this->wpSettingsUtil = $wpSettingsUtil;
 		$this->events = $events;
 		$this->proEvents = $proEvents;
+		$this->serverEvents = $serverEvents;
 		$this->uuidPrefix = 'gtm-ecommerce-woo-basic';
 		$this->tagConciergeApiUrl = $tagConciergeApiUrl;
 		$this->tagConciergeMonitorPreset = 'presets/tag-concierge-monitor-basic';
 		$this->pluginVersion = $pluginVersion;
+		$this->allowServerTracking = false;
 	}
 
 	public function initialize() {
@@ -32,6 +34,11 @@ class SettingsService {
 		$this->wpSettingsUtil->addTab(
 			'tools',
 			'Tools'
+		);
+
+		$this->wpSettingsUtil->addTab(
+			'gtm_server',
+			'GTM Server-side <pre style="display: inline; text-transform: uppercase;">beta</pre>'
 		);
 
 		$this->wpSettingsUtil->addTab(
@@ -138,9 +145,23 @@ class SettingsService {
 
 		$this->wpSettingsUtil->addSettingsSection(
 			'events',
-			'Events',
-			'Select which events should be tracked:',
+			'Events (Web)',
+			'Select which web events should be tracked:',
 			'settings'
+		);
+
+		$this->wpSettingsUtil->addSettingsSection(
+			'gtm_server_container',
+			'GTM Server Container',
+			'Specify details of your GTM Server-side container to enable Server Side Tracking. This is a `BETA` feature and currently only purchase event is available. When enabling a server-side tracking for an event disable a web based event to avoid duplicates. This features requires storing `client_id` parameter in details of WooCommerce order to link web and server events. Ensure that your privacy policy and GTM server container supports this.',
+			'gtm_server'
+		);
+
+		$this->wpSettingsUtil->addSettingsSection(
+			'events_server',
+			'Events (Server)',
+			'Select which server-side events should be tracked (disable the same web based event in the main settings to avoid duplicates):',
+			'gtm_server'
 		);
 
 		$this->wpSettingsUtil->addSettingsSection(
@@ -194,7 +215,7 @@ class SettingsService {
 			'theme_validator_enabled',
 			'Enable Theme Validator?',
 			[$this, 'checkboxField'],
-			'basic',
+			'theme_validator',
 			'Allow the plugin and the support team to validate theme by issuing a special HTTP request. Provide them with following information: `uuid_hash:'
 			. md5($this->wpSettingsUtil->getOption('uuid')) . '`.'
 		);
@@ -260,6 +281,25 @@ class SettingsService {
 		);
 
 
+		$this->wpSettingsUtil->addSettingsField(
+			'gtm_server_container_url',
+			'GTM Server Container URL',
+			[$this, 'inputField'],
+			'gtm_server_container',
+			'The full url of you GTM Server Container.',
+			['type'        => 'text', 'placeholder' => 'https://measure.example.com', 'disabled' => !$this->allowServerTracking]
+		);
+
+
+		$this->wpSettingsUtil->addSettingsField(
+			'gtm_server_ga4_client_activation_path',
+			'GA4 Client Activation Path',
+			[$this, 'inputField'],
+			'gtm_server_container',
+			'GA4 Client Activation path as defined in GTM Client',
+			['type'        => 'text', 'placeholder' => '/mp', 'disabled' => !$this->allowServerTracking]
+		);
+
 		foreach ($this->events as $eventName) {
 			$this->wpSettingsUtil->addSettingsField(
 				'event_' . $eventName,
@@ -280,6 +320,17 @@ class SettingsService {
 				'events',
 				'<a style="font-size: 0.7em" href="https://go.tagconcierge.com/MSm8e" target="_blank">Upgrade to PRO</a>',
 				['disabled' => true, 'title' => 'Upgrade to PRO version above.']
+			);
+		}
+
+		foreach ($this->serverEvents as $eventName) {
+			$this->wpSettingsUtil->addSettingsField(
+				'event_server_' . $eventName,
+				$eventName,
+				[$this, 'checkboxField'],
+				'events_server',
+				$this->allowServerTracking ? '' : '<a style="font-size: 0.7em" href="https://go.tagconcierge.com/MSm8e" target="_blank">Upgrade to PRO</a>',
+				['disabled' => !$this->allowServerTracking, 'title' => $this->allowServerTracking ? '' : 'Upgrade to PRO to use the beta of server-side tracking']
 			);
 		}
 	}
@@ -342,6 +393,26 @@ class SettingsService {
 		class="large-text code"
 		rows="<?php echo esc_html( $args['rows'] ); ?>"
 		name="<?php echo esc_attr( $args['label_for'] ); ?>"><?php echo $value; ?></textarea>
+	  <p class="description">
+		<?php echo esc_html( $args['description'] ); ?>
+	  </p>
+		<?php
+	}
+
+	public function inputField( $args ) {
+		// Get the value of the setting we've registered with register_setting()
+		$value = get_option( $args['label_for'] );
+		?>
+	  <input
+		id="<?php echo esc_attr( $args['label_for'] ); ?>"
+		class="large-text code"
+		type="<?php echo esc_html( $args['type'] ); ?>"
+		<?php if (true === @$args['disabled']) : ?>
+		disabled="disabled"
+		<?php endif; ?>
+		value="<?php echo $value; ?>"
+		placeholder="<?php echo esc_html( $args['placeholder'] ); ?>"
+		name="<?php echo esc_attr( $args['label_for'] ); ?>" />
 	  <p class="description">
 		<?php echo esc_html( $args['description'] ); ?>
 	  </p>
