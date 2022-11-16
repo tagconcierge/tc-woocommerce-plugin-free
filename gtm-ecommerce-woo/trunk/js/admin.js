@@ -2,7 +2,7 @@
 
 	function getPresets() {
 		return $.ajax({
-			url: 'https://api.tagconcierge.com/v2/presets'
+			url: 'https://api.tagconcierge.com/v2/presets?filter=' + params.filter + '&uuid=' + params.uuid
 		});
 		// return $.ajax({
 		// 	url: ajaxurl,
