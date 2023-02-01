@@ -97,8 +97,13 @@ jQuery(document).on('click', '.ajax_add_to_cart', function(ev) {
         return;
     }
 
-	var quantity = targetElement.data('quantity');
-	var product_id = targetElement.data('product_id');
+    var product_id = targetElement.data('product_id');
+
+    if (undefined === product_id) {
+        return;
+    }
+
+	var quantity = targetElement.data('quantity') ?? 1;
 	var item = gtm_ecommerce_woo_items_by_product_id[product_id];
 	item.quantity =  parseInt(quantity);
 	dataLayer.push({
