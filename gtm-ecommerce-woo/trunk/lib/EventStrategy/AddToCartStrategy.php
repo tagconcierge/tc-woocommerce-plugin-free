@@ -91,8 +91,19 @@ EOD
 		$this->wcOutput->globalVariable('gtm_ecommerce_woo_items_by_product_id', $items);
 		$this->wcOutput->script(<<<'EOD'
 jQuery(document).on('click', '.ajax_add_to_cart', function(ev) {
-	var quantity = jQuery(ev.currentTarget).data('quantity');
-	var product_id = jQuery(ev.currentTarget).data('product_id');
+    var targetElement = jQuery(ev.currentTarget);
+
+    if (0 === targetElement.length) {
+        return;
+    }
+
+    var product_id = targetElement.data('product_id');
+
+    if (undefined === product_id) {
+        return;
+    }
+
+	var quantity = targetElement.data('quantity') ?? 1;
 	var item = gtm_ecommerce_woo_items_by_product_id[product_id];
 	item.quantity =  parseInt(quantity);
 	dataLayer.push({
