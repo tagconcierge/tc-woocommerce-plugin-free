@@ -62,14 +62,18 @@ class AddToCartStrategy extends AbstractEventStrategy {
 	 * Supports the button that is supposed to live in a form object
 	 */
 	public function onCartSubmitScript( $item) {
-		$this->wcOutput->globalVariable('gtm_ecommerce_woo_item', $item);
-		$this->wcOutput->script(<<<'EOD'
-jQuery(document).on('click', '.cart .single_add_to_cart_button', function(ev) {
-	var $form = jQuery(ev.currentTarget).parents('form.cart');
-	var quantity = jQuery('[name="quantity"]', $form).val();
-	var product_id = jQuery('[name="add-to-cart"]', $form).val();
+		$bypassUnquote = <<<'EOD'
+var $form = jQuery(ev.currentTarget).parents('form.cart');
+var quantity = jQuery('[name="quantity"]', $form).val();
+var product_id = jQuery('[name="add-to-cart"]', $form).val();
+EOD;
 
-	var item = gtm_ecommerce_woo_item;
+		$jsonItem = json_encode($item);
+		$this->wcOutput->script(<<<EOD
+jQuery(document).on('click', '.cart .single_add_to_cart_button', function(ev) {
+	${bypassUnquote}
+
+	var item = ${jsonItem};
 	item.quantity = parseInt(quantity);
 	dataLayer.push({
 	  'event': 'add_to_cart',
