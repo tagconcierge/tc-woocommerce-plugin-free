@@ -92,7 +92,12 @@ EOD
 	 * Supports a single link that's present on product lists
 	 */
 	public function onCartLinkClick( $items) {
-		$this->wcOutput->globalVariable('gtm_ecommerce_woo_items_by_product_id', $items);
+		if (true === method_exists($this->wcOutput,'addItems')) {
+			$this->wcOutput->addItems($items, 'product_id');
+		} else {
+			$this->wcOutput->globalVariable('gtm_ecommerce_woo_items_by_product_id', $items);
+		}
+
 		$this->wcOutput->script(<<<'EOD'
 jQuery(document).on('click', '.ajax_add_to_cart', function(ev) {
     var targetElement = jQuery(ev.currentTarget);
@@ -108,7 +113,14 @@ jQuery(document).on('click', '.ajax_add_to_cart', function(ev) {
     }
 
 	var quantity = targetElement.data('quantity') ?? 1;
-	var item = gtm_ecommerce_woo_items_by_product_id[product_id];
+	var item = {};
+
+	if ('undefined' === typeof gtm_ecommerce_pro) {
+	    item = gtm_ecommerce_woo_items_by_product_id[product_id];
+	} else {
+	    item = gtm_ecommerce_pro.getItemByProductId(product_id);
+	}
+
 	item.quantity =  parseInt(quantity);
 	dataLayer.push({
 	  'event': 'add_to_cart',
