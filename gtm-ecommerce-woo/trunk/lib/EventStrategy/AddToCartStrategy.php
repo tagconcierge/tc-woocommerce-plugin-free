@@ -105,7 +105,7 @@ jQuery(document).on('click', '.ajax_add_to_cart', function(ev) {
 
 	var quantity = targetElement.data('quantity') ?? 1;
 	var item = gtm_ecommerce_woo_items_by_product_id[product_id];
-	item.quantity =  parseInt(quantity);
+	item.quantity = parseInt(quantity);
 	dataLayer.push({
 	  'event': 'add_to_cart',
 	  'ecommerce': {
