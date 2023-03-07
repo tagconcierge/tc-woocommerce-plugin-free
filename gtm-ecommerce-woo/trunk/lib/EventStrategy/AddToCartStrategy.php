@@ -101,17 +101,13 @@ EOD
 		$this->wcOutput->script(<<<'EOD'
 jQuery(document).on('click', '.ajax_add_to_cart', function(ev) {
     var targetElement = jQuery(ev.currentTarget);
-
     if (0 === targetElement.length) {
         return;
     }
-
     var product_id = targetElement.data('product_id');
-
     if (undefined === product_id) {
         return;
     }
-
 	var quantity = targetElement.data('quantity') ?? 1;
 	var item = {};
 
@@ -121,7 +117,7 @@ jQuery(document).on('click', '.ajax_add_to_cart', function(ev) {
 	    item = gtm_ecommerce_pro.getItemByProductId(product_id);
 	}
 
-	item.quantity =  parseInt(quantity);
+	item.quantity = parseInt(quantity);
 	dataLayer.push({
 	  'event': 'add_to_cart',
 	  'ecommerce': {
