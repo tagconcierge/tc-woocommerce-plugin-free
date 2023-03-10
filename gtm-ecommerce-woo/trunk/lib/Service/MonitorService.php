@@ -30,6 +30,11 @@ class MonitorService {
 			return;
 		}
 
+		$cronName = $this->snakeCaseNamespace . '_cron_monitor';
+		if ($timestamp = wp_next_scheduled( $cronName )) {
+			wp_unschedule_event( $timestamp, $cronName );
+		}
+
 		add_action( 'wp_head', [$this, 'uuidHash'] );
 
 		add_action( 'woocommerce_add_to_cart', [$this, 'addToCart'], 10, 6 );
