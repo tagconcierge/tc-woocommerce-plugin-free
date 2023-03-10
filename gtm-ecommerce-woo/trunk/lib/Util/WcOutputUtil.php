@@ -3,8 +3,7 @@
 namespace GtmEcommerceWoo\Lib\Util;
 
 class WcOutputUtil {
-
-	protected $pluginDir =  __DIR__ . '/../../../';
+	protected $pluginDir = __DIR__;
 	protected $pluginVersion = '';
 	protected $scripts = [];
 	protected $scriptFiles = [];
@@ -58,7 +57,7 @@ class WcOutputUtil {
 		foreach ($this->scriptFiles as $scriptFile) {
 			wp_enqueue_script(
 				$scriptFile['name'],
-				plugin_dir_url( $this->pluginDir ) . 'js/' . $scriptFile['name'] . '.js',
+				plugin_dir_url( dirname( $this->pluginDir ) ) . 'js/' . $scriptFile['name'] . '.js',
 				$scriptFile['deps'],
 				$this->pluginVersion,
 				$scriptFile['in_footer']
