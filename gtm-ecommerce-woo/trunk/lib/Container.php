@@ -42,7 +42,7 @@ class Container {
 
 		$wpSettingsUtil = new WpSettingsUtil($snakeCaseNamespace, $spineCaseNamespace);
 		$wcTransformerUtil = new WcTransformerUtil();
-		$wcOutputUtil = new WcOutputUtil();
+		$wcOutputUtil = new WcOutputUtil($pluginVersion);
 
 		$eventStrategies = [
 			new EventStrategy\AddToCartStrategy($wcTransformerUtil, $wcOutputUtil),
@@ -56,7 +56,7 @@ class Container {
 		$this->eventStrategiesService = new EventStrategiesService($wpSettingsUtil, $eventStrategies);
 		$this->gtmSnippetService = new GtmSnippetService($wpSettingsUtil);
 		$this->settingsService = new SettingsService($wpSettingsUtil, $events, $proEvents, $serverEvents, $tagConciergeApiUrl, $pluginVersion);
-		$this->pluginService = new PluginService($spineCaseNamespace, $wpSettingsUtil, $pluginVersion);
+		$this->pluginService = new PluginService($spineCaseNamespace, $wpSettingsUtil, $wcOutputUtil, $pluginVersion);
 		$this->monitorService = new MonitorService($snakeCaseNamespace, $spineCaseNamespace, $wcTransformerUtil, $wpSettingsUtil, $wcOutputUtil, $tagConciergeApiUrl, $tagConciergeEdgeUrl);
 		$this->themeValidatorService = new ThemeValidatorService($snakeCaseNamespace, $spineCaseNamespace, $wcTransformerUtil, $wpSettingsUtil, $wcOutputUtil, $events, $tagConciergeApiUrl, $pluginVersion);
 		$this->eventInspectorService = new EventInspectorService($wpSettingsUtil);

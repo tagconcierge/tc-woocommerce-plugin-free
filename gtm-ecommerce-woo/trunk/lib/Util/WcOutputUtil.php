@@ -4,10 +4,13 @@ namespace GtmEcommerceWoo\Lib\Util;
 
 class WcOutputUtil {
 
+	protected $pluginDir =  __DIR__ . '/../../../';
+	protected $pluginVersion = '';
 	protected $scripts = [];
 	protected $scriptFiles = [];
 
-	public function __construct() {
+	public function __construct($pluginVersion) {
+		$this->pluginVersion = $pluginVersion;
 		add_action( 'wp_footer', [$this, 'wpFooter'], 20 );
 		add_action( 'wp_enqueue_scripts', [$this, 'wpEnqueueScripts'] );
 	}
@@ -55,9 +58,9 @@ class WcOutputUtil {
 		foreach ($this->scriptFiles as $scriptFile) {
 			wp_enqueue_script(
 				$scriptFile['name'],
-				plugins_url( 'js/' . $scriptFile['name'] . '.js', MAIN_FILE ),
+				plugin_dir_url( $this->pluginDir ) . 'js/' . $scriptFile['name'] . '.js',
 				$scriptFile['deps'],
-				'1.0.0',
+				$this->pluginVersion,
 				$scriptFile['in_footer']
 			);
 		}

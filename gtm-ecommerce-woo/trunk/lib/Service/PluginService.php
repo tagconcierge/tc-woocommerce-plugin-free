@@ -2,19 +2,27 @@
 
 namespace GtmEcommerceWoo\Lib\Service;
 
+use GtmEcommerceWoo\Lib\Util\WcOutputUtil;
+use GtmEcommerceWoo\Lib\Util\WpSettingsUtil;
+
 /**
  * Logic to handle general plugin hooks.
  */
 class PluginService {
-	protected $spineCaseNamespace;
+	/** @var WpSettingsUtil */
 	protected $wpSettingsUtil;
+
+	/** @var WcOutputUtil */
+	protected $wcOutputUtil;
+	protected $spineCaseNamespace;
 	protected $pluginVersion;
 	protected $feedbackUrl = 'https://wordpress.org/plugins/gtm-ecommerce-woo/#reviews';
 	protected $feedbackDays = 7;
 
-	public function __construct( $spineCaseNamespace, $wpSettingsUtil, $pluginVersion ) {
+	public function __construct( $spineCaseNamespace, $wpSettingsUtil, $wcOutputUtil, $pluginVersion ) {
 		$this->spineCaseNamespace = $spineCaseNamespace;
 		$this->wpSettingsUtil = $wpSettingsUtil;
+		$this->wcOutputUtil = $wcOutputUtil;
 		$this->pluginVersion = $pluginVersion;
 	}
 
