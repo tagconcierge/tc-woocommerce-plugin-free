@@ -26,24 +26,14 @@ class MonitorService {
 	}
 
 	public function initialize() {
-		$cronName = $this->snakeCaseNamespace . '_cron_monitor';
 		if ($this->wpSettingsUtil->getOption('monitor_enabled') !== '1') {
-			$timestamp = wp_next_scheduled( $cronName );
-			wp_unschedule_event( $timestamp, $cronName );
 			return;
 		}
 
-		add_action( $cronName, [$this, 'cronJob'] );
-		if ( ! wp_next_scheduled( $cronName ) ) {
-			wp_schedule_event( time(), 'hourly', $cronName );
+		$cronName = $this->snakeCaseNamespace . '_cron_monitor';
+		if ($timestamp = wp_next_scheduled( $cronName )) {
+			wp_unschedule_event( $timestamp, $cronName );
 		}
-
-		// add_action( 'rest_api_init', function () {
-		//   register_rest_route( 'gtm-ecommerce-woo/v1', '/track', array(
-		//     'methods' => 'POST',
-		//     'callback' => [$this, 'trackEvents'],
-		//   ) );
-		// } );
 
 		add_action( 'wp_head', [$this, 'uuidHash'] );
 
@@ -52,14 +42,6 @@ class MonitorService {
 
 		add_action( 'woocommerce_order_status_changed', [$this, 'orderStatusChanged']);
 	}
-
-	public function deactivationHook() {
-		$cronName = $this->snakeCaseNamespace . '_cron_debugger';
-		$timestamp = wp_next_scheduled( $cronName );
-		wp_unschedule_event( $timestamp, $cronName );
-	}
-
-	// function
 
 	public function uuidHash() {
 		$uuid = $this->wpSettingsUtil->getOption('uuid');
@@ -70,17 +52,6 @@ class MonitorService {
 		echo "dataLayer.push({ monitor_url: '" . $this->tagConciergeEdgeUrl . "' });";
 		echo '})(dataLayer);';
 		echo "</script>\n";
-	}
-
-
-	// switch to save_post_shop_order hook
-	public function cronJob() {
-		$lastRun = get_transient( $this->snakeCaseNamespace . '_monitor_last_run' );
-		if (false === $lastRun) {
-			$lastRun = time() - HOUR_IN_SECONDS * 24;
-		}
-
-		set_transient( $this->snakeCaseNamespace . '_monitor_last_run', time() );
 	}
 
 	public function orderStatusChanged( $orderId) {
