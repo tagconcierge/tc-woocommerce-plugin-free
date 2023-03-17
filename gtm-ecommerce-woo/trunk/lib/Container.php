@@ -17,7 +17,28 @@ use GtmEcommerceWoo\Lib\Util\WcTransformerUtil;
 
 class Container {
 
-	public function __construct( $pluginVersion ) {
+	/** @var EventStrategiesService */
+	public $eventStrategiesService;
+
+	/** @var GtmSnippetService */
+	public $gtmSnippetService;
+
+	/** @var SettingsService */
+	public $settingsService;
+
+	/** @var PluginService */
+	public $pluginService;
+
+	/** @var MonitorService */
+	public $monitorService;
+
+	/** @var ThemeValidatorService */
+	public $themeValidatorService;
+
+	/** @var EventInspectorService */
+	public $eventInspectorService;
+
+	public function __construct( string $pluginVersion ) {
 		$snakeCaseNamespace = 'gtm_ecommerce_woo';
 		$spineCaseNamespace = 'gtm-ecommerce-woo';
 		$proEvents = [
@@ -37,8 +58,8 @@ class Container {
 			'purchase',
 			// 'refund',
 		];
-		$tagConciergeApiUrl = getenv('TAG_CONCIERGE_API_URL') ? getenv('TAG_CONCIERGE_API_URL') : 'https://api.tagconcierge.com';
-		$tagConciergeEdgeUrl = getenv('TAG_CONCIERGE_EDGE_URL') ? getenv('TAG_CONCIERGE_EDGE_URL') : 'https://edge.tagconcierge.com';
+		$tagConciergeApiUrl = getenv('TAG_CONCIERGE_API_URL') ?: 'https://api.tagconcierge.com';
+		$tagConciergeEdgeUrl = getenv('TAG_CONCIERGE_EDGE_URL') ?: 'https://edge.tagconcierge.com';
 
 		$wpSettingsUtil = new WpSettingsUtil($snakeCaseNamespace, $spineCaseNamespace);
 		$wcTransformerUtil = new WcTransformerUtil();
@@ -49,11 +70,11 @@ class Container {
 			new EventStrategy\PurchaseStrategy($wcTransformerUtil, $wcOutputUtil)
 		];
 
-		$events = array_map(function( $eventStrategy) {
+		$events = array_map(static function( $eventStrategy) {
 			return $eventStrategy->getEventName();
 		}, $eventStrategies);
 
-		$this->eventStrategiesService = new EventStrategiesService($wpSettingsUtil, $eventStrategies);
+		$this->eventStrategiesService = new EventStrategiesService($wpSettingsUtil, $wcOutputUtil, $eventStrategies);
 		$this->gtmSnippetService = new GtmSnippetService($wpSettingsUtil);
 		$this->settingsService = new SettingsService($wpSettingsUtil, $events, $proEvents, $serverEvents, $tagConciergeApiUrl, $pluginVersion);
 		$this->pluginService = new PluginService($spineCaseNamespace, $wpSettingsUtil, $wcOutputUtil, $pluginVersion);
@@ -63,31 +84,31 @@ class Container {
 
 	}
 
-	public function getSettingsService() {
+	public function getSettingsService(): SettingsService {
 		return $this->settingsService;
 	}
 
-	public function getGtmSnippetService() {
+	public function getGtmSnippetService(): GtmSnippetService {
 		return $this->gtmSnippetService;
 	}
 
-	public function getEventStrategiesService() {
+	public function getEventStrategiesService(): EventStrategiesService {
 		return $this->eventStrategiesService;
 	}
 
-	public function getPluginService() {
+	public function getPluginService(): PluginService {
 		return $this->pluginService;
 	}
 
-	public function getMonitorService() {
+	public function getMonitorService(): MonitorService {
 		return $this->monitorService;
 	}
 
-	public function getThemeValidatorService() {
+	public function getThemeValidatorService(): ThemeValidatorService {
 		return $this->themeValidatorService;
 	}
 
-	public function getEventInspectorService() {
+	public function getEventInspectorService(): EventInspectorService {
 		return $this->eventInspectorService;
 	}
 }
