@@ -140,7 +140,7 @@ class Event implements \JsonSerializable {
 			];
 		}
 
-		if (null === $this->coupon) {
+		if (null === $this->coupon || true === empty($this->coupon)) {
 			unset($jsonEvent['ecommerce']['coupon'], $jsonEvent['ecommerce']['purchase']['coupon']);
 		}
 
