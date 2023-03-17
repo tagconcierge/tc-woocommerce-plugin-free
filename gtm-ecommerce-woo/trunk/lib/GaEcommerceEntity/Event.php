@@ -89,11 +89,14 @@ class Event implements \JsonSerializable {
 		if (!is_array($this->items) || count($this->items) === 0) {
 			return 0;
 		}
-		return array_reduce($this->items, static function( $carry, $item ) {
+
+		$value = array_reduce($this->items, static function( $carry, $item ) {
 			$itemPrice = $item->price ?? 0;
 			$itemQuantity = $item->quantity ?? 1;
 			return $carry + ((float) $itemPrice * (float) $itemQuantity);
 		}, 0);
+
+		return number_format($value, 2);
 	}
 
 	public function jsonSerialize() {
