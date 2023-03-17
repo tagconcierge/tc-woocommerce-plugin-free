@@ -20,63 +20,78 @@ class Event implements \JsonSerializable {
 		$this->extraProps = [];
 	}
 
-	public function setItems( $items ) {
+	public function setItems( array $items ): Event
+	{
 		$this->items = array_values($items);
 		return $this;
 	}
 
-	public function addItem( $item ) {
+	public function addItem( Item $item ): Event
+	{
 		$this->items[] = $item;
 		return $this;
 	}
 
-	public function setCurrency( $currency ) {
+	public function setCurrency( string $currency ): Event
+	{
 		$this->currency = $currency;
 		return $this;
 	}
 
-	public function setTransactionId( $transactionId ) {
+	public function setTransactionId( $transactionId ): Event
+	{
 		$this->transactionId = $transactionId;
 		return $this;
 	}
 
-	public function setAffiliation( $affiliation ) {
+	public function setAffiliation( string $affiliation ): Event
+	{
 		$this->affiliation = $affiliation;
 		return $this;
 	}
 
-	public function setValue( $value ) {
+	public function setValue( float $value ): Event
+	{
 		$this->value = $value;
 		return $this;
 	}
 
-	public function setTax( $tax ) {
+	public function setTax( float $tax ): Event
+	{
 		$this->tax = $tax;
 		return $this;
 	}
 
-	public function setShipping( $shipping ) {
+	public function setShipping( float $shipping ): Event
+	{
 		$this->shipping = $shipping;
 		return $this;
 	}
 
-	public function setCoupon( $coupon ) {
+	public function setCoupon( string $coupon ): Event
+	{
 		$this->coupon = $coupon;
 		return $this;
 	}
 
-	public function setExtraProperty( $propName, $propValue ) {
+	public function setExtraProperty( string $propName, string $propValue ): Event
+	{
 		$this->extraProps[$propName] = $propValue;
 		return $this;
 	}
 
-	public function getValue() {
+	public function getValue(): float
+	{
+		if (null !== $this->value) {
+			return $this->value;
+		}
+
 		if (!is_array($this->items) || count($this->items) === 0) {
 			return 0;
 		}
-		return array_reduce($this->items, function( $carry, $item ) {
-			$itemPrice = isset($item->price) ? $item->price : 0;
-			$itemQuantity = isset($item->quantity) ? $item->quantity : 1;
+		return array_reduce($this->items, static function( $carry, $item ) {
+			$itemPrice = $item->price ?? 0;
+			$itemQuantity = $item->quantity ?? 1;
 			return $carry + ((float) $itemPrice * (float) $itemQuantity);
 		}, 0);
 	}
@@ -116,6 +131,7 @@ class Event implements \JsonSerializable {
 			$jsonEvent = [
 				'event' => $this->name,
 				'ecommerce' => [
+					'coupon' => $this->coupon,
 					'value' => $this->getValue(),
 					'items' => $this->items,
 				]
@@ -126,7 +142,7 @@ class Event implements \JsonSerializable {
 			$jsonEvent[$propName] = $propValue;
 		}
 
-		return array_filter($jsonEvent, function( $value ) {
+		return array_filter($jsonEvent, static function( $value ) {
 			return !is_null($value) && '' !== $value;
 		});
 	}
