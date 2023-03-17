@@ -2,17 +2,32 @@
 
 namespace GtmEcommerceWoo\Lib\Service;
 
+use GtmEcommerceWoo\Lib\EventStrategy\AbstractEventStrategy;
+use GtmEcommerceWoo\Lib\Util\WcOutputUtil;
+use GtmEcommerceWoo\Lib\Util\WpSettingsUtil;
+
 /**
  * General Logic of the plugin for loading and running each eCommerce event
  */
 class EventStrategiesService {
 
+	/** @var AbstractEventStrategy[] */
 	protected $eventStrategies = [];
+
+	/** @var WpSettingsUtil */
 	protected $wpSettingsUtil;
 
-	public function __construct( $wpSettingsUtil, $eventStrategies) {
+	/** @var WcOutputUtil */
+	protected $wcOutputUtil;
+
+	/**
+	 * @param WpSettingsUtil $wpSettingsUtil
+	 * @param AbstractEventStrategy[] $eventStrategies
+	 */
+	public function __construct( WpSettingsUtil $wpSettingsUtil, WcOutputUtil $wcOutputUtil, array $eventStrategies) {
 		$this->eventStrategies = $eventStrategies;
 		$this->wpSettingsUtil = $wpSettingsUtil;
+		$this->wcOutputUtil = $wcOutputUtil;
 	}
 
 	public function initialize() {
