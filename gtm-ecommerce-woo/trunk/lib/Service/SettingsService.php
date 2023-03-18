@@ -209,6 +209,15 @@ class SettingsService {
 		);
 
 		$this->wpSettingsUtil->addSettingsField(
+			'track_user_id',
+			'Track user id?',
+			[$this, 'checkboxField'],
+			'basic',
+			$this->allowServerTracking ? 'When checked the plugin will send logged client id to dataLayer.' : '<a style="font-size: 0.7em" href="https://go.tagconcierge.com/MSm8e" target="_blank">Upgrade to PRO to track user id.</a>',
+			['disabled' => !$this->allowServerTracking, 'title' => $this->allowServerTracking ? '' : 'Upgrade to PRO to use user tracking']
+		);
+
+		$this->wpSettingsUtil->addSettingsField(
 			'theme_validator_enabled',
 			'Enable Theme Validator?',
 			[$this, 'checkboxField'],
