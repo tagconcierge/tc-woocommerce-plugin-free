@@ -96,7 +96,7 @@ class Event implements \JsonSerializable {
 			return $carry + ((float) $itemPrice * (float) $itemQuantity);
 		}, 0);
 
-		return number_format($value, 2);
+		return round($value, 2);
 	}
 
 	public function jsonSerialize() {
