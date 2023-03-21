@@ -96,7 +96,7 @@ class SettingsService {
 		wp_enqueue_script( 'wp-pointer' );
 		wp_enqueue_style( 'wp-pointer' );
 		wp_enqueue_script( 'gtm-ecommerce-woo-admin', plugin_dir_url( __DIR__ . '/../../../' ) . 'js/admin.js', [], $this->pluginVersion );
-		wp_add_inline_script( 'gtm-ecommerce-woo-admin', "var params = "
+		wp_add_inline_script( 'gtm-ecommerce-woo-admin', 'var params = '
 		. json_encode([
 			'filter' => $this->filter,
 			'uuid' => $this->wpSettingsUtil->getOption( 'uuid' )

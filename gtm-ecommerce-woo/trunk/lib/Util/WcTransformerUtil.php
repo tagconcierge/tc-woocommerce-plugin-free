@@ -18,7 +18,7 @@ class WcTransformerUtil {
 	 */
 	public function getItemFromOrderItem( $orderItem ): Item {
 		$product      = $orderItem->get_product();
-		$variantProduct = ( $orderItem->get_variation_id() ) ? (wc_get_product( $orderItem->get_variation_id() ))->get_name() : '';
+		$variantProduct = ( $orderItem->get_variation_id() ) ? ( wc_get_product( $orderItem->get_variation_id() ) )->get_name() : '';
 
 		$item = new Item($orderItem->get_name());
 		$item->setItemId($product->get_id());

@@ -66,14 +66,14 @@ class ThemeValidatorService {
 		add_filter( 'render_block', [$this, 'renderBlock'], 10, 2 );
 	}
 
-	public function verifyRequest($data) {
+	public function verifyRequest( $data) {
 		if (!is_string($data->get_header('X-TC-Signature'))
 			|| !is_string($data->get_header('X-TC-Timestamp'))) {
-			return new \WP_Error("missing-signature", "Missing Signature");
+			return new \WP_Error('missing-signature', 'Missing Signature');
 		}
 
 		if ($data->get_header('X-TC-Timestamp') >= time()) {
-			return new \WP_Error("wrong-signature", "Wrong Signature");
+			return new \WP_Error('wrong-signature', 'Wrong Signature');
 		}
 
 		$response  = wp_remote_get( $this->tagConciergeApiUrl . '/v2/public-key');
@@ -84,14 +84,14 @@ class ThemeValidatorService {
 				$data->get_header('X-TC-Timestamp'),
 				base64_decode($data->get_header('X-TC-Signature')),
 				$publicKey,
-				"sha512"
+				'sha512'
 			);
 		} catch (\Exception $err) {
-			return new \WP_Error("wrong-signature", "Wrong Signature");
+			return new \WP_Error('wrong-signature', 'Wrong Signature');
 		}
 
 		if ($verified !== 1) {
-			return new \WP_Error("wrong-signature", "Wrong Signature");
+			return new \WP_Error('wrong-signature', 'Wrong Signature');
 		}
 
 		return true;
@@ -109,7 +109,7 @@ class ThemeValidatorService {
 		if (count($orders) === 0) {
 			$thankYou = null;
 		} else {
-			$thankYou = array_map(function($order) {
+			$thankYou = array_map(function( $order) {
 				return $order->get_checkout_order_received_url();
 			}, $orders);
 		}
@@ -124,7 +124,7 @@ class ThemeValidatorService {
 		if (count($products) === 0) {
 			$productUrl = [];
 		} else {
-			$productUrl = array_map(function($product) {
+			$productUrl = array_map(function( $product) {
 				return $product->get_permalink();
 			}, $products);
 		}
@@ -133,7 +133,7 @@ class ThemeValidatorService {
 		if (count($categories) === 0) {
 			$productCatUrl = [];
 		} else {
-			$productCatUrl = array_map(function($category) {
+			$productCatUrl = array_map(function( $category) {
 				return get_term_link($category);
 			}, array_values($categories));
 		}

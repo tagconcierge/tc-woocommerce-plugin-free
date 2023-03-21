@@ -8,7 +8,7 @@ class WcOutputUtil {
 	protected $scripts = [];
 	protected $scriptFiles = [];
 
-	public function __construct($pluginVersion) {
+	public function __construct( $pluginVersion) {
 		$this->pluginVersion = $pluginVersion;
 		add_action( 'wp_footer', [$this, 'wpFooter'], 20 );
 		add_action( 'wp_enqueue_scripts', [$this, 'wpEnqueueScripts'] );

@@ -43,7 +43,7 @@ class PluginService {
 		}
 
 		if (!$this->wpSettingsUtil->getOption( 'earliest_active_at' )) {
-			$this->wpSettingsUtil->updateOption( 'earliest_active_at', (new \DateTime())->format('Y-m-d H:i:s') );
+			$this->wpSettingsUtil->updateOption( 'earliest_active_at', ( new \DateTime() )->format('Y-m-d H:i:s') );
 		}
 	}
 
@@ -81,8 +81,8 @@ class PluginService {
 	}
 
 	public function dismissFeedback() {
-		$this->wpSettingsUtil->updateOption('feedback_prompt_at', (new \DateTime())->format('Y-m-d H:i:s'));
-		wp_send_json(["status" => true]);
+		$this->wpSettingsUtil->updateOption('feedback_prompt_at', ( new \DateTime() )->format('Y-m-d H:i:s'));
+		wp_send_json(['status' => true]);
 		wp_die();
 	}
 
