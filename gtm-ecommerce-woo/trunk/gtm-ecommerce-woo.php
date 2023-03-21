@@ -32,14 +32,9 @@ $container = new Container($pluginVersion);
 $container->getSettingsService()->initialize();
 $container->getGtmSnippetService()->initialize();
 $container->getEventStrategiesService()->initialize();
-$container->getThemeValidatorService()->initialize();
 $container->getEventInspectorService()->initialize();
-
-$monitorService = $container->getMonitorService();
-$monitorService->initialize();
 
 $pluginService = $container->getPluginService();
 $pluginService->initialize();
 
 register_activation_hook( __FILE__, [$pluginService, 'activationHook'] );
-register_deactivation_hook( __FILE__, [$monitorService, 'deactivationHook'] );
