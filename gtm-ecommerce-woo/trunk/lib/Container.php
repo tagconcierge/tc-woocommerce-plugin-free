@@ -58,8 +58,8 @@ class Container {
 			'purchase',
 			// 'refund',
 		];
-		$tagConciergeApiUrl = getenv('TAG_CONCIERGE_API_URL') ?: 'https://api.tagconcierge.com';
-		$tagConciergeEdgeUrl = getenv('TAG_CONCIERGE_EDGE_URL') ?: 'https://edge.tagconcierge.com';
+		$tagConciergeApiUrl = getenv('TAG_CONCIERGE_API_URL') ? getenv('TAG_CONCIERGE_API_URL') : 'https://api.tagconcierge.com';
+		$tagConciergeEdgeUrl = getenv('TAG_CONCIERGE_EDGE_URL') ? getenv('TAG_CONCIERGE_EDGE_URL') : 'https://edge.tagconcierge.com';
 
 		$wpSettingsUtil = new WpSettingsUtil($snakeCaseNamespace, $spineCaseNamespace);
 		$wcTransformerUtil = new WcTransformerUtil();
