@@ -89,10 +89,17 @@ class Event implements \JsonSerializable {
 	}
 
 	public function jsonSerialize() {
+		/**
+		 * Applies middleware extending events with additional data.
+		 *
+		 * @since 1.10.7
+		 */
 		apply_filters('gtm_ecommerce_woo_event_middleware', $this);
 
 		/**
-		 * Allow to customize the ecommerce event properties
+		 * Allow to customize the ecommerce event properties.
+		 *
+		 * @since 1.10.0
 		 */
 		apply_filters('gtm_ecommerce_woo_event', $this);
 
