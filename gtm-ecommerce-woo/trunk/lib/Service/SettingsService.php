@@ -9,42 +9,39 @@ use GtmEcommerceWoo\Lib\Util\WpSettingsUtil;
  */
 class SettingsService {
 	/** @var WpSettingsUtil */
-	private $wpSettingsUtil;
+	protected $wpSettingsUtil;
 
 	/** @var array */
-	private $events;
+	protected $events;
 
 	/** @var array */
-	private $proEvents;
+	protected $proEvents;
 
 	/** @var array */
-	private $serverEvents;
+	protected $serverEvents;
 
 	/** @var string */
-	private $uuidPrefix;
+	protected $uuidPrefix = 'gtm-ecommerce-woo-basic';
 
 	/** @var string */
-	private $tagConciergeApiUrl;
+	protected $tagConciergeApiUrl;
 
 	/** @var string */
-	private $pluginVersion;
+	protected $pluginVersion;
 
 	/** @var false */
-	private $allowServerTracking;
+	protected $allowServerTracking = false;
 
 	/** @var string */
-	private $filter;
+	protected $filter = 'basic';
 
 	public function __construct( WpSettingsUtil $wpSettingsUtil, array $events, array $proEvents, array $serverEvents, string $tagConciergeApiUrl, string $pluginVersion) {
 		$this->wpSettingsUtil = $wpSettingsUtil;
 		$this->events = $events;
 		$this->proEvents = $proEvents;
 		$this->serverEvents = $serverEvents;
-		$this->uuidPrefix = 'gtm-ecommerce-woo-basic';
 		$this->tagConciergeApiUrl = $tagConciergeApiUrl;
 		$this->pluginVersion = $pluginVersion;
-		$this->allowServerTracking = false;
-		$this->filter = 'basic';
 	}
 
 	public function initialize() {
