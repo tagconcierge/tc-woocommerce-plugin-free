@@ -43,11 +43,6 @@ class SettingsService {
 		);
 
 		$this->wpSettingsUtil->addTab(
-			'tag_concierge',
-			'Tag Concierge <pre style="display: inline; text-transform: uppercase;">beta</pre>'
-		);
-
-		$this->wpSettingsUtil->addTab(
 			'support',
 			'Support',
 			false
@@ -122,10 +117,6 @@ class SettingsService {
 			$this->wpSettingsUtil->updateOption('uuid', $this->uuidPrefix . '_' . bin2hex(random_bytes(20)));
 		}
 
-		if ($this->wpSettingsUtil->getOption('theme_validator_enabled') === false) {
-			$this->wpSettingsUtil->updateOption('theme_validator_enabled', 1);
-		}
-
 		$this->wpSettingsUtil->addSettingsSection(
 			'basic',
 			'Basic Settings',
@@ -162,13 +153,6 @@ class SettingsService {
 		);
 
 		$this->wpSettingsUtil->addSettingsSection(
-			'tag_concierge',
-			'Tag Concierge',
-			'Want to learn more? <a href="https://tagconcierge.com/platform/" target="_blank">See overview here</a>',
-			'tag_concierge'
-		);
-
-		$this->wpSettingsUtil->addSettingsSection(
 			'gtm_container_jsons',
 			'Google Tag Manager presets',
 			'It\'s time to define what to do with tracked eCommerce events. We know that settings up GTM workspace may be cumbersome. That\'s why the plugin comes with a set of presets you can import to your GTM workspace to create all required Tags, Triggers and Variables. Select a preset in dropdown below, download the JSON file and import it in Admin panel in your GTM workspace, see plugin <a href="https://docs.tagconcierge.com/" target="_blank">Documentation</a> for details):<br /><br />
@@ -191,15 +175,6 @@ class SettingsService {
 			'tools'
 		);
 
-		$this->wpSettingsUtil->addSettingsSection(
-			'theme_validator',
-			'Theme Validator',
-			'Theme Validator allows to assess if all events supported by this plugin can be tracked on your current theme: <strong>' . ( wp_get_theme() )->get('Name') . '</strong>. Your WordPress site must be publicly available to perform this test. Clicking the button below will send URL of this WordPress site to our servers to perform a remote static analysis. It will ensure all WordPress/WooCommerce internal hooks/actions and correct HTML elements are present in order to track all supported events. It cannot detect issues with dynamic scripts and elements, for full testing the Event Inspector available above can be used. It is mostly automated service, but processing times can get up to few hours. <br />
-			<div style="text-align: center" id="gtm-ecommerce-woo-validator-section"><button id="gtm-ecommerce-woo-theme-validator" class="button">Request Theme Validation</button></div>
-			<div style="text-align: center; display: none" id="gtm-ecommerce-woo-validator-sent">Your Theme Validation request was sent, please check link below if results are ready.</div><br /><div style="text-align: center;"><a href="https://app.tagconcierge.com/theme-validator?uuid=' . $uuid . '" target="_blank">See results in Tag Concierge</a></div>',
-			'tools'
-		);
-
 		$this->wpSettingsUtil->addSettingsField(
 			'disabled',
 			'Disable?',
@@ -209,12 +184,12 @@ class SettingsService {
 		);
 
 		$this->wpSettingsUtil->addSettingsField(
-			'theme_validator_enabled',
-			'Enable Theme Validator?',
+			'track_user_id',
+			'Track user id?',
 			[$this, 'checkboxField'],
-			'theme_validator',
-			'Allow the plugin and the support team to validate theme by issuing a special HTTP request. Provide them with following information: `uuid_hash:'
-			. md5($this->wpSettingsUtil->getOption('uuid')) . '`.'
+			'basic',
+			$this->allowServerTracking ? 'When checked the plugin will send logged client id to dataLayer.' : '<a style="font-size: 0.7em" href="https://go.tagconcierge.com/MSm8e" target="_blank">Upgrade to PRO to track user id.</a>',
+			['disabled' => !$this->allowServerTracking, 'title' => $this->allowServerTracking ? '' : 'Upgrade to PRO to use user tracking']
 		);
 
 		$this->wpSettingsUtil->addSettingsField(
@@ -267,16 +242,6 @@ class SettingsService {
 			'Paste the second snippet provided by GTM. It will be load after opening <body> tag.',
 			['rows'        => 6]
 		);
-
-
-		$this->wpSettingsUtil->addSettingsField(
-			'monitor_enabled',
-			'Enable Tag Concierge Monitor?',
-			[$this, 'checkboxField'],
-			'tag_concierge',
-			'Enable sending the eCommerce events to Tag Concierge Monitor for active tracking monitoring. <br />Make sure that you have downloaded and installed <a class="download" href="#" data-id="' . $this->tagConciergeMonitorPreset . '">Monitoring GTM preset</a> too.<br />Then <a href="https://app.tagconcierge.com/?uuid=' . $this->wpSettingsUtil->getOption('uuid') . '" target="_blank">Open Tag Concierge App</a>'
-		);
-
 
 		$this->wpSettingsUtil->addSettingsField(
 			'gtm_server_container_url',
