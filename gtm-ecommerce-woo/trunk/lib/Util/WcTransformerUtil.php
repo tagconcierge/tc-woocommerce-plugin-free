@@ -4,20 +4,19 @@ namespace GtmEcommerceWoo\Lib\Util;
 
 use GtmEcommerceWoo\Lib\GaEcommerceEntity\Event;
 use GtmEcommerceWoo\Lib\GaEcommerceEntity\Item;
+use WC_Product_Variation;
 
 /**
  * Logic to transform WooCommerce datatypes into GA Ecommerce Events types
  */
 class WcTransformerUtil {
-
-
 	/**
 	 * See:
 	 * https://woocommerce.github.io/code-reference/classes/WC-Order-Item.html
 	 * https://woocommerce.github.io/code-reference/classes/WC-Order-Item-Product.html
 	 */
 	public function getItemFromOrderItem( $orderItem ): Item {
-		$product      = $orderItem->get_product();
+		$product = $orderItem->get_product();
 		$variantProduct = ( $orderItem->get_variation_id() ) ? ( wc_get_product( $orderItem->get_variation_id() ) )->get_name() : '';
 
 		$item = new Item($orderItem->get_name());
@@ -25,19 +24,24 @@ class WcTransformerUtil {
 		$item->setPrice($product->get_price());
 		$item->setItemVariant($variantProduct);
 		$item->setQuantity($orderItem->get_quantity());
-		// $item->setItemBrand('');
 
 		$itemCats = ( $orderItem->get_variation_id() ) ? get_the_terms( $product->get_parent_id(), 'product_cat' ) : get_the_terms( $product->get_id(), 'product_cat' );
 		if (is_array($itemCats)) {
 			$categories = array_map(
-				function( $category) {
- return $category->name; },
+				static function( $category) {
+					return $category->name;
+				},
 				$itemCats
 			);
 			$item->setItemCategories($categories);
 		}
-		$item = apply_filters('gtm_ecommerce_woo_item', $item, $product);
-		return $item;
+
+		/**
+		 * Allows customizing item object.
+		 *
+		 * @since 1.8.0
+		 */
+		return apply_filters('gtm_ecommerce_woo_item', $item, $product);
 	}
 
 	/**
@@ -49,21 +53,27 @@ class WcTransformerUtil {
 		$item = new Item($product->get_name());
 		$item->setItemId($product->get_id());
 		$item->setPrice($product->get_price());
-		// $item->setItemBrand('');
-		$productCats = ( get_class( $product ) === 'WC_Product_Variation' )
+
+
+		$productCats = ( $product instanceof WC_Product_Variation )
 			? get_the_terms( $product->get_parent_id(), 'product_cat' )
 			: get_the_terms( $product->get_id(), 'product_cat' );
 
 		if (is_array($productCats)) {
 			$categories = array_map(
-				function( $category) {
- return $category->name; },
+				static function( $category) {
+					return $category->name; },
 				$productCats
 			);
 			$item->setItemCategories($categories);
 		}
-		$item = apply_filters('gtm_ecommerce_woo_item', $item, $product);
-		return $item;
+
+		/**
+		 * Allows customizing item object.
+		 *
+		 * @since 1.8.0
+		 */
+		return apply_filters('gtm_ecommerce_woo_item', $item, $product);
 	}
 
 	public function getPurchaseFromOrderId( $orderId ): Event {
@@ -85,7 +95,13 @@ class WcTransformerUtil {
 			$item = $this->getItemFromOrderItem($orderItem);
 			$event->addItem($item);
 		}
-		$event = apply_filters('gtm_ecommerce_woo_purchase_event', $event, $order);
-		return $event;
+
+
+		/**
+		 * Allows customizing purchase event object.
+		 *
+		 * @since 1.8.0
+		 */
+		return apply_filters('gtm_ecommerce_woo_purchase_event', $event, $order);
 	}
 }

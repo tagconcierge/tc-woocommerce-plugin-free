@@ -137,8 +137,7 @@ EOD
 );
 	}
 
-	protected function getStringifiedEvent()
-	{
+	protected function getStringifiedEvent() {
 		return json_encode(['event' => 'add_to_cart', 'ecommerce' => []]);
 	}
 }
