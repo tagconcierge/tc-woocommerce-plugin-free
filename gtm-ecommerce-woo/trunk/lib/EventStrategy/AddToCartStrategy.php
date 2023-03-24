@@ -2,6 +2,8 @@
 
 namespace GtmEcommerceWoo\Lib\EventStrategy;
 
+use GtmEcommerceWoo\Lib\GaEcommerceEntity\Event;
+
 /**
  * AddToCart event
  */
@@ -62,22 +64,23 @@ class AddToCartStrategy extends AbstractEventStrategy {
 	 * Supports the button that is supposed to live in a form object
 	 */
 	public function onCartSubmitScript( $item) {
-		$bypassUnquote = <<<'EOD'
-var $form = jQuery(ev.currentTarget).parents('form.cart');
-var quantity = jQuery('[name="quantity"]', $form).val();
-var product_id = jQuery('[name="add-to-cart"]', $form).val();
-EOD;
-
 		$jsonItem = json_encode($item);
+
 		$this->wcOutput->script(<<<EOD
 jQuery(document).on('click', '.cart .single_add_to_cart_button', function(ev) {
-	${bypassUnquote}
+	var form = jQuery(ev.currentTarget).parents('form.cart');
+	var quantity = jQuery('[name="quantity"]', form).val();
+	var product_id = jQuery('[name="add-to-cart"]', form).val();
 
 	var item = ${jsonItem};
 	item.quantity = parseInt(quantity);
+
+	let event = {$this->getStringifiedEvent()};
+
 	dataLayer.push({
-	  'event': 'add_to_cart',
+		...event,
 	  'ecommerce': {
+		...event.ecommerce,
 		'value': (item.price * quantity),
 		'items': [item]
 	  }
@@ -98,7 +101,7 @@ EOD
 			$this->wcOutput->globalVariable('gtm_ecommerce_woo_items_by_product_id', $items);
 		}
 
-		$this->wcOutput->script(<<<'EOD'
+		$this->wcOutput->script(<<<EOD
 jQuery(document).on('click', '.ajax_add_to_cart', function(ev) {
     var targetElement = jQuery(ev.currentTarget);
     if (0 === targetElement.length) {
@@ -118,9 +121,13 @@ jQuery(document).on('click', '.ajax_add_to_cart', function(ev) {
 	}
 
 	item.quantity = parseInt(quantity);
+
+	let event = {$this->getStringifiedEvent()};
+
 	dataLayer.push({
-	  'event': 'add_to_cart',
+		...event,
 	  'ecommerce': {
+		...event.ecommerce,
 		'value': (item.price * quantity),
 		'items': [item]
 	  }
@@ -128,5 +135,10 @@ jQuery(document).on('click', '.ajax_add_to_cart', function(ev) {
 });
 EOD
 );
+	}
+
+	protected function getStringifiedEvent()
+	{
+		return json_encode(['event' => 'add_to_cart', 'ecommerce' => []]);
 	}
 }
