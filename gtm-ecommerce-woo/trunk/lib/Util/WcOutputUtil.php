@@ -23,7 +23,7 @@ class WcOutputUtil {
 		echo 'window.dataLayer = window.dataLayer || [];';
 		echo "(function(dataLayer, jQuery) {\n";
 		foreach ($this->scripts as $script) {
-			echo $script . "\n";
+			echo filter_var($script, FILTER_DEFAULT) . "\n";
 		}
 		echo '})(dataLayer, jQuery);';
 		echo "</script>\n";
