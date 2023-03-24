@@ -7,10 +7,7 @@ use GtmEcommerceWoo\Lib\Service\EventStrategiesService;
 use GtmEcommerceWoo\Lib\Service\GtmSnippetService;
 use GtmEcommerceWoo\Lib\Service\SettingsService;
 use GtmEcommerceWoo\Lib\Service\PluginService;
-use GtmEcommerceWoo\Lib\Service\MonitorService;
-use GtmEcommerceWoo\Lib\Service\ThemeValidatorService;
 use GtmEcommerceWoo\Lib\Service\EventInspectorService;
-
 use GtmEcommerceWoo\Lib\Util\WpSettingsUtil;
 use GtmEcommerceWoo\Lib\Util\WcOutputUtil;
 use GtmEcommerceWoo\Lib\Util\WcTransformerUtil;
@@ -28,12 +25,6 @@ class Container {
 
 	/** @var PluginService */
 	public $pluginService;
-
-	/** @var MonitorService */
-	public $monitorService;
-
-	/** @var ThemeValidatorService */
-	public $themeValidatorService;
 
 	/** @var EventInspectorService */
 	public $eventInspectorService;
@@ -59,7 +50,6 @@ class Container {
 			// 'refund',
 		];
 		$tagConciergeApiUrl = getenv('TAG_CONCIERGE_API_URL') ?: 'https://api.tagconcierge.com';
-		$tagConciergeEdgeUrl = getenv('TAG_CONCIERGE_EDGE_URL') ?: 'https://edge.tagconcierge.com';
 
 		$wpSettingsUtil = new WpSettingsUtil($snakeCaseNamespace, $spineCaseNamespace);
 		$wcTransformerUtil = new WcTransformerUtil();
@@ -78,10 +68,7 @@ class Container {
 		$this->gtmSnippetService = new GtmSnippetService($wpSettingsUtil);
 		$this->settingsService = new SettingsService($wpSettingsUtil, $events, $proEvents, $serverEvents, $tagConciergeApiUrl, $pluginVersion);
 		$this->pluginService = new PluginService($spineCaseNamespace, $wpSettingsUtil, $wcOutputUtil, $pluginVersion);
-		$this->monitorService = new MonitorService($snakeCaseNamespace, $spineCaseNamespace, $wcTransformerUtil, $wpSettingsUtil, $wcOutputUtil, $tagConciergeApiUrl, $tagConciergeEdgeUrl);
-		$this->themeValidatorService = new ThemeValidatorService($snakeCaseNamespace, $spineCaseNamespace, $wcTransformerUtil, $wpSettingsUtil, $wcOutputUtil, $events, $tagConciergeApiUrl, $pluginVersion);
 		$this->eventInspectorService = new EventInspectorService($wpSettingsUtil);
-
 	}
 
 	public function getSettingsService(): SettingsService {
@@ -98,14 +85,6 @@ class Container {
 
 	public function getPluginService(): PluginService {
 		return $this->pluginService;
-	}
-
-	public function getMonitorService(): MonitorService {
-		return $this->monitorService;
-	}
-
-	public function getThemeValidatorService(): ThemeValidatorService {
-		return $this->themeValidatorService;
 	}
 
 	public function getEventInspectorService(): EventInspectorService {
