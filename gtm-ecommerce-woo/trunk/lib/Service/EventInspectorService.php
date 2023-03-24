@@ -23,15 +23,15 @@ class EventInspectorService {
 	}
 
 	public function initialize() {
-		if ($this->wpSettingsUtil->getOption('event_inspector_enabled') === false
-			|| $this->wpSettingsUtil->getOption('event_inspector_enabled') === 'no') {
-			return;
-		}
 
-		if ($this->wpSettingsUtil->getOption('event_inspector_enabled') === 'yes-querystring') {
-			if (!isset($_GET['gtm-inspector']) || '1' !== $_GET['gtm-inspector']) {
+		switch ($this->wpSettingsUtil->getOption('event_inspector_enabled')) {
+			case false:
+			case 'no':
 				return;
-			}
+			case 'yes-querystring':
+				if (!isset($_GET['gtm-inspector']) || '1' !== $_GET['gtm-inspector']) {
+					return;
+				}
 		}
 
 		add_action( 'wp_enqueue_scripts', [$this, 'enqueueScript'], 0 );
