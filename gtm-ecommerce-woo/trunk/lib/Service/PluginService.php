@@ -14,12 +14,20 @@ class PluginService {
 
 	/** @var WcOutputUtil */
 	protected $wcOutputUtil;
+
+	/** @var string */
 	protected $spineCaseNamespace;
+
+	/** @var string */
 	protected $pluginVersion;
+
+	/** @var string */
 	protected $feedbackUrl = 'https://wordpress.org/plugins/gtm-ecommerce-woo/#reviews';
+
+	/** @var int */
 	protected $feedbackDays = 7;
 
-	public function __construct( $spineCaseNamespace, $wpSettingsUtil, $wcOutputUtil, $pluginVersion ) {
+	public function __construct( string $spineCaseNamespace, WpSettingsUtil $wpSettingsUtil, WcOutputUtil $wcOutputUtil, string $pluginVersion ) {
 		$this->spineCaseNamespace = $spineCaseNamespace;
 		$this->wpSettingsUtil = $wpSettingsUtil;
 		$this->wcOutputUtil = $wcOutputUtil;
@@ -64,7 +72,6 @@ class PluginService {
 		}
 	}
 
-
 	public function activationNoticeSuccess() {
 
 		if ( !get_transient( $this->spineCaseNamespace . '\activation-transient' ) ) {
@@ -100,5 +107,4 @@ class PluginService {
 		</div>
 		<?php
 	}
-
 }
