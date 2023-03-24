@@ -2,6 +2,9 @@
 
 namespace GtmEcommerceWoo\Lib\Service;
 
+use GtmEcommerceWoo\Lib\Util\WcOutputUtil;
+use GtmEcommerceWoo\Lib\Util\WpSettingsUtil;
+
 /**
  * Service to inject dataLayer eCommerce events inspector which is a box
  * fixed to the bottom part of the browser.
@@ -10,10 +13,12 @@ namespace GtmEcommerceWoo\Lib\Service;
  */
 class EventInspectorService {
 	protected $wpSettingsUtil;
+	protected $wcOutputUtil;
 	protected $uuidPrefix;
 
-	public function __construct( $wpSettingsUtil) {
+	public function __construct( WpSettingsUtil $wpSettingsUtil, WcOutputUtil $wcOutputUtil) {
 		$this->wpSettingsUtil = $wpSettingsUtil;
+		$this->wcOutputUtil = $wcOutputUtil;
 		$this->uuidPrefix = substr($this->wpSettingsUtil->getOption('uuid'), 0, -41);
 	}
 
@@ -33,7 +38,7 @@ class EventInspectorService {
 		add_action( 'wp_footer', [$this, 'footerHtml'], 0 );
 	}
 
-	public function isDisabled() {
+	public function isDisabled(): bool {
 		if ($this->wpSettingsUtil->getOption('event_inspector_enabled') === 'yes-admin') {
 			$user = \wp_get_current_user();
 			if (!$user) {
@@ -50,7 +55,7 @@ class EventInspectorService {
 		if ($this->isDisabled()) {
 			return;
 		}
-		wp_enqueue_script( 'gtm-ecommerce-woo-event-inspector', plugin_dir_url( __DIR__ . '/../../../' ) . 'js/gtm-ecommerce-woo-event-inspector.js', array ( 'jquery' ), '1.0.3', false);
+		$this->wcOutputUtil->scriptFile('gtm-ecommerce-woo-event-inspector', ['jquery']);
 	}
 
 

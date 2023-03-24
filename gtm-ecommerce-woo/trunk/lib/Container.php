@@ -68,7 +68,7 @@ class Container {
 		$this->gtmSnippetService = new GtmSnippetService($wpSettingsUtil);
 		$this->settingsService = new SettingsService($wpSettingsUtil, $events, $proEvents, $serverEvents, $tagConciergeApiUrl, $pluginVersion);
 		$this->pluginService = new PluginService($spineCaseNamespace, $wpSettingsUtil, $wcOutputUtil, $pluginVersion);
-		$this->eventInspectorService = new EventInspectorService($wpSettingsUtil);
+		$this->eventInspectorService = new EventInspectorService($wpSettingsUtil, $wcOutputUtil);
 	}
 
 	public function getSettingsService(): SettingsService {
