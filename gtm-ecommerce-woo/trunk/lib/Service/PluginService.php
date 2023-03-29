@@ -87,12 +87,13 @@ class PluginService {
 			// Create the link.
 			?>
 		  <div class="notice notice-success is-dismissible">
-			  <p><?php
+			  <p>
+			  <?php
 				  echo sprintf(
 					  '<strong>Google Tag Manager for WooCommerce</strong> activated succesfully 🎉  If you already have GTM implemented in your shop, the plugin will start to send eCommerce data right away, if not navigate to <a href="%s">settings</a>.',
-					  	esc_url($url)
+						esc_url($url)
 					  )
-				  ?>
+				?>
 			  </p>
 		  </div>
 			<?php
