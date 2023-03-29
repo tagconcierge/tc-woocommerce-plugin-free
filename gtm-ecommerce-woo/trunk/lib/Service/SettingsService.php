@@ -370,7 +370,7 @@ class SettingsService {
 		<?php endforeach ?>
 		</select>
 	  <p class="description">
-		<?php echo filter_var($args['description']); ?>
+		<?php echo wp_kses($args['description'], SanitizationUtil::WP_KSES_ALLOWED_HTML, SanitizationUtil::WP_KSES_ALLOWED_PROTOCOLS); ?>
 	  </p>
 		<?php
 	}
