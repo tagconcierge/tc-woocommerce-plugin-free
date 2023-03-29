@@ -40,7 +40,15 @@ class SanitizationUtil {
 			'style' => []
 		],
 		'strong' => [],
-		'img' => []
+		'img' => [],
+		'script' => [],
+		'noscript' => [],
+		'iframe' => [
+			'src' => [],
+			'height' => [],
+			'width' => [],
+			'style' => [],
+		],
 	];
 
 	const WP_KSES_ALLOWED_PROTOCOLS = [

@@ -384,7 +384,7 @@ class SettingsService {
 		id="<?php echo esc_attr( $args['label_for'] ); ?>"
 		class="large-text code"
 		rows="<?php echo esc_html( $args['rows'] ); ?>"
-		name="<?php echo esc_attr( $args['label_for'] ); ?>"><?php echo filter_var($value); ?></textarea>
+		name="<?php echo esc_attr( $args['label_for'] ); ?>"><?php echo wp_kses($value, SanitizationUtil::WP_KSES_ALLOWED_HTML, SanitizationUtil::WP_KSES_ALLOWED_PROTOCOLS); ?></textarea>
 	  <p class="description">
 		<?php echo esc_html( $args['description'] ); ?>
 	  </p>
