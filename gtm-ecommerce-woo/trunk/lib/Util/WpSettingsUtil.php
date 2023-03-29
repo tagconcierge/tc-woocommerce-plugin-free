@@ -105,7 +105,7 @@ class WpSettingsUtil {
 				<h2 class="nav-tab-wrapper">
 					<?php foreach ($this->tabs as $tab) : ?>
 					<a
-						href="<?php echo filter_var(sprintf('?page=%s&tab=%s', $this->spineCaseNamespace, $tab['name'])); ?>"
+						href="<?php echo esc_url(sprintf('?page=%s&tab=%s', $this->spineCaseNamespace, $tab['name'])); ?>"
 						class="nav-tab
 						<?php if ($activeTab === $tab['name']) : ?>
 							nav-tab-active
