@@ -2,6 +2,7 @@
 
 namespace GtmEcommerceWoo\Lib\Service;
 
+use GtmEcommerceWoo\Lib\Util\SanitizationUtil;
 use GtmEcommerceWoo\Lib\Util\WpSettingsUtil;
 
 /**
@@ -338,12 +339,12 @@ class SettingsService {
 		disabled="disabled"
 		<?php endif; ?>
 		<?php if (@$args['title']) : ?>
-		title="<?php echo filter_var($args['title']); ?>"
+		title="<?php echo esc_attr($args['title']); ?>"
 		<?php endif; ?>
 		value="1"
 		<?php checked( $value, 1 ); ?> />
 	  <p class="description">
-		<?php echo filter_var($args['description']); ?>
+		<?php echo wp_kses($args['description'], SanitizationUtil::WP_KSES_ALLOWED_HTML, SanitizationUtil::WP_KSES_ALLOWED_PROTOCOLS); ?>
 	  </p>
 		<?php
 	}
