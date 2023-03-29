@@ -2,6 +2,7 @@
 
 namespace GtmEcommerceWoo\Lib\Service;
 
+use GtmEcommerceWoo\Lib\Util\SanitizationUtil;
 use GtmEcommerceWoo\Lib\Util\WcOutputUtil;
 use GtmEcommerceWoo\Lib\Util\WpSettingsUtil;
 
@@ -86,7 +87,7 @@ class PluginService {
 			// Create the link.
 			?>
 		  <div class="notice notice-success is-dismissible">
-			  <p><?php echo filter_var( '<strong>Google Tag Manager for WooCommerce</strong> activated succesfully 🎉  If you already have GTM implemented in your shop, the plugin will start to send eCommerce data right away, if not navigate to <a href="' . $url . '">settings</a>.'); ?></p>
+			  <p><?php echo wp_kses( '<strong>Google Tag Manager for WooCommerce</strong> activated succesfully 🎉  If you already have GTM implemented in your shop, the plugin will start to send eCommerce data right away, if not navigate to <a href="' . $url . '">settings</a>.', SanitizationUtil::WP_KSES_ALLOWED_HTML, SanitizationUtil::WP_KSES_ALLOWED_PROTOCOLS); ?></p>
 		  </div>
 			<?php
 			/* Delete transient, only display this notice once. */

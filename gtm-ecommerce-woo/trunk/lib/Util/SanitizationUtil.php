@@ -36,7 +36,9 @@ class SanitizationUtil {
 		],
 		'pre' => [
 			'style' => []
-		]
+		],
+		'strong' => [],
+		'img' => []
 	];
 
 	const WP_KSES_ALLOWED_PROTOCOLS = [
