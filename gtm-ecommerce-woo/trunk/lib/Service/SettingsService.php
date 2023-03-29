@@ -79,7 +79,10 @@ class SettingsService {
 	}
 
 	public function ajaxPostPresets() {
-		$preset = filter_var($_GET['preset'] ?? '');
+		$sanitizedPreset = sanitize_url($_GET['preset'] ?? '');
+
+		// bypassing sanitization...
+		$preset = str_replace('http://', '', $sanitizedPreset);
 
 		$uuid = $this->wpSettingsUtil->getOption('uuid');
 		$disabled = $this->wpSettingsUtil->getOption('disabled');
