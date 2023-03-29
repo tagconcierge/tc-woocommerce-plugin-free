@@ -12,6 +12,11 @@ class WcOutputUtil {
 		$this->pluginVersion = $pluginVersion;
 		add_action( 'wp_footer', [$this, 'wpFooter'], 20 );
 		add_action( 'wp_enqueue_scripts', [$this, 'wpEnqueueScripts'] );
+		add_filter( 'safe_style_css', function( $styles ) {
+			$styles[] = 'display';
+
+			return $styles;
+		} );
 	}
 
 	public function wpFooter() {

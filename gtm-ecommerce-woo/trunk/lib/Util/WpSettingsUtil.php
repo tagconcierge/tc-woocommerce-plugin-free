@@ -44,8 +44,7 @@ class WpSettingsUtil {
 		];
 	}
 
-	public function addSettingsSection( $sectionName, $sectionTitle, $description, $tab) {
-		$spineCaseNamespace = $this->spineCaseNamespace;
+	public function addSettingsSection( $sectionName, $sectionTitle, $description, $tab): void {
 		$this->sections[$sectionName] = [
 			'name' => $sectionName,
 			'tab' => $tab
@@ -53,9 +52,10 @@ class WpSettingsUtil {
 		add_settings_section(
 			$this->snakeCaseNamespace . '_' . $sectionName,
 			__( $sectionTitle, $this->spineCaseNamespace ),
-			static function( $args) use ( $spineCaseNamespace, $description) {
+			static function( $args) use ( $description) {
 				?>
-			  <p id="<?php echo esc_attr( $args['id'] ); ?>"><?php echo filter_var($description); ?></p>
+
+			  <p id="<?php echo esc_attr( $args['id'] ); ?>"><?php echo wp_kses($description, SanitizationUtil::WP_KSES_ALLOWED_HTML, SanitizationUtil::WP_KSES_ALLOWED_PROTOCOLS); ?></p>
 				<?php
 			},
 			$this->snakeCaseNamespace . '_' . $tab
