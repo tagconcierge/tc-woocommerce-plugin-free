@@ -402,7 +402,7 @@ class SettingsService {
 		<?php if (true === @$args['disabled']) : ?>
 		disabled="disabled"
 		<?php endif; ?>
-		value="<?php echo sanitize_text_field($value); ?>"
+		value="<?php echo esc_html($value); ?>"
 		placeholder="<?php echo esc_html( $args['placeholder'] ); ?>"
 		name="<?php echo esc_attr( $args['label_for'] ); ?>" />
 	  <p class="description">
