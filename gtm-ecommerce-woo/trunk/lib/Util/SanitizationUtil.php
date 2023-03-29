@@ -11,6 +11,7 @@ class SanitizationUtil {
 			'target' => [],
 			'class' => [],
 			'style' => [],
+			'data-target' => [],
 		],
 		'br' => [],
 		'div' => [
@@ -27,6 +28,7 @@ class SanitizationUtil {
 			'id' => [],
 			'style' => [],
 			'class' => [],
+			'data-section' => []
 		],
 		'b' => [],
 		'h3' => [
