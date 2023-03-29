@@ -83,7 +83,7 @@ class WpSettingsUtil {
 	public function addSubmenuPage( $options, $title1, $title2, $capabilities) {
 		$snakeCaseNamespace = $this->snakeCaseNamespace;
 		$spineCaseNamespace = $this->spineCaseNamespace;
-		$activeTab = isset( $_GET[ 'tab' ] ) ? filter_var($_GET[ 'tab' ]) : array_keys($this->tabs)[0];
+		$activeTab = isset( $_GET[ 'tab' ] ) ? sanitize_key($_GET[ 'tab' ]) : array_keys($this->tabs)[0];
 		add_submenu_page(
 			$options,
 			$title1,
