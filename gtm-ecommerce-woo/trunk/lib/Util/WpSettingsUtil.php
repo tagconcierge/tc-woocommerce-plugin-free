@@ -110,7 +110,7 @@ class WpSettingsUtil {
 						<?php if ($activeTab === $tab['name']) : ?>
 							nav-tab-active
 						<?php endif; ?>
-					"><?php echo filter_var($tab['title']); ?></a>
+					"><?php echo wp_kses($tab['title'], SanitizationUtil::WP_KSES_ALLOWED_HTML, SanitizationUtil::WP_KSES_ALLOWED_PROTOCOLS); ?></a>
 					<?php endforeach; ?>
 				</h2>
 

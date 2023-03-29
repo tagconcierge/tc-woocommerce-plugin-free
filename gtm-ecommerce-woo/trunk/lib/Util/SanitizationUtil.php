@@ -31,11 +31,12 @@ class SanitizationUtil {
 		'b' => [],
 		'h3' => [
 			'id' => [],
-			'style' => [
-				'display' => ['none']
-			],
+			'style' => [],
 			'class' => [],
 		],
+		'pre' => [
+			'style' => []
+		]
 	];
 
 	const WP_KSES_ALLOWED_PROTOCOLS = [
