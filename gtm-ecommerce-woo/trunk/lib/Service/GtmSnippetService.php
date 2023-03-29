@@ -33,10 +33,10 @@ class GtmSnippetService {
 	}
 
 	public function headSnippet() {
-		echo filter_var($this->wpSettingsUtil->getOption('gtm_snippet_head')) . "\n";
+		echo filter_var($this->wpSettingsUtil->getOption('gtm_snippet_head'), FILTER_FLAG_STRIP_BACKTICK) . "\n";
 	}
 
 	public function bodySnippet() {
-		echo filter_var($this->wpSettingsUtil->getOption('gtm_snippet_body')) . "\n";
+		echo filter_var($this->wpSettingsUtil->getOption('gtm_snippet_body'), FILTER_FLAG_STRIP_BACKTICK) . "\n";
 	}
 }
