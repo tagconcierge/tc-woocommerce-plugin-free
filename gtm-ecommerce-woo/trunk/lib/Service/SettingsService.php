@@ -80,7 +80,7 @@ class SettingsService {
 	}
 
 	public function ajaxPostPresets() {
-		$sanitizedPreset = sanitize_url($_GET['preset'] ?? '');
+		$sanitizedPreset = esc_url_raw($_GET['preset'] ?? '');
 
 		// bypassing sanitization...
 		$preset = str_replace('http://', '', $sanitizedPreset);
