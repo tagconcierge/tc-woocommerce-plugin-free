@@ -110,7 +110,7 @@ class SettingsService {
 		header('Content-Description: File Transfer');
 		header('Content-Disposition: attachment; filename=' . $presetName);
 		header('Content-Transfer-Encoding: binary');
-		wp_send_json(json_decode($body, true));
+		wp_send_json(json_decode($body));
 		wp_die();
 	}
 
