@@ -86,18 +86,12 @@ class SettingsService {
 		$preset = str_replace('http://', '', $sanitizedPreset);
 
 		$uuid = $this->wpSettingsUtil->getOption('uuid');
-		$disabled = $this->wpSettingsUtil->getOption('disabled');
-		$gtmSnippetHead = $this->wpSettingsUtil->getOption('gtm_snippet_head');
-		$gtmSnippetBody = $this->wpSettingsUtil->getOption('gtm_snippet_body');
 		$presetName = str_replace('presets/', '', $preset) . '.json';
 		$args = [
 			'body' => json_encode([
 				'preset' => $preset,
 				'uuid' => $uuid,
 				'version' => $this->pluginVersion,
-				'disabled' => $disabled,
-				'gtm_snippet_head' => sha1($gtmSnippetHead),
-				'gtm_snippet_body' => sha1($gtmSnippetBody)
 			]),
 			'headers' => [
 				'content-type' => 'application/json'
@@ -414,7 +408,7 @@ class SettingsService {
 	public function optionsPage() {
 		$this->wpSettingsUtil->addSubmenuPage(
 			'options-general.php',
-			'Google Tag Manager for WooCommerce FREE',
+			$this->allowServerTracking ? 'Google Tag Manager for WooCommerce PRO' : 'Google Tag Manager for WooCommerce FREE',
 			'Google Tag Manager',
 			'manage_options'
 		);
