@@ -2,22 +2,47 @@
 
 namespace GtmEcommerceWoo\Lib\Service;
 
+use GtmEcommerceWoo\Lib\Util\SanitizationUtil;
+use GtmEcommerceWoo\Lib\Util\WpSettingsUtil;
+
 /**
  * Logic related to working with settings and options
  */
 class SettingsService {
+	/** @var WpSettingsUtil */
+	protected $wpSettingsUtil;
 
-	public function __construct( $wpSettingsUtil, $events, $proEvents, $serverEvents, $tagConciergeApiUrl, $pluginVersion) {
+	/** @var array */
+	protected $events;
+
+	/** @var array */
+	protected $proEvents;
+
+	/** @var array */
+	protected $serverEvents;
+
+	/** @var string */
+	protected $uuidPrefix = 'gtm-ecommerce-woo-basic';
+
+	/** @var string */
+	protected $tagConciergeApiUrl;
+
+	/** @var string */
+	protected $pluginVersion;
+
+	/** @var false */
+	protected $allowServerTracking = false;
+
+	/** @var string */
+	protected $filter = 'basic';
+
+	public function __construct( WpSettingsUtil $wpSettingsUtil, array $events, array $proEvents, array $serverEvents, string $tagConciergeApiUrl, string $pluginVersion) {
 		$this->wpSettingsUtil = $wpSettingsUtil;
 		$this->events = $events;
 		$this->proEvents = $proEvents;
 		$this->serverEvents = $serverEvents;
-		$this->uuidPrefix = 'gtm-ecommerce-woo-basic';
 		$this->tagConciergeApiUrl = $tagConciergeApiUrl;
-		$this->tagConciergeMonitorPreset = 'presets/tag-concierge-monitor-basic';
 		$this->pluginVersion = $pluginVersion;
-		$this->allowServerTracking = false;
-		$this->filter = 'basic';
 	}
 
 	public function initialize() {
@@ -55,14 +80,19 @@ class SettingsService {
 	}
 
 	public function ajaxPostPresets() {
+		$sanitizedPreset = esc_url_raw($_GET['preset'] ?? '');
+
+		// bypassing sanitization...
+		$preset = str_replace('http://', '', $sanitizedPreset);
+
 		$uuid = $this->wpSettingsUtil->getOption('uuid');
 		$disabled = $this->wpSettingsUtil->getOption('disabled');
 		$gtmSnippetHead = $this->wpSettingsUtil->getOption('gtm_snippet_head');
 		$gtmSnippetBody = $this->wpSettingsUtil->getOption('gtm_snippet_body');
-		$presetName = str_replace('presets/', '', $_GET['preset']) . '.json';
+		$presetName = str_replace('presets/', '', $preset) . '.json';
 		$args = [
 			'body' => json_encode([
-				'preset' => $_GET['preset'],
+				'preset' => $preset,
 				'uuid' => $uuid,
 				'version' => $this->pluginVersion,
 				'disabled' => $disabled,
@@ -91,7 +121,7 @@ class SettingsService {
 		wp_enqueue_script( 'wp-pointer' );
 		wp_enqueue_style( 'wp-pointer' );
 		wp_enqueue_script( 'gtm-ecommerce-woo-admin', plugin_dir_url( __DIR__ . '/../../../' ) . 'js/admin.js', [], $this->pluginVersion );
-		wp_add_inline_script( 'gtm-ecommerce-woo-admin', "var params = "
+		wp_add_inline_script( 'gtm-ecommerce-woo-admin', 'var params = '
 		. json_encode([
 			'filter' => $this->filter,
 			'uuid' => $this->wpSettingsUtil->getOption( 'uuid' )
@@ -309,12 +339,12 @@ class SettingsService {
 		disabled="disabled"
 		<?php endif; ?>
 		<?php if (@$args['title']) : ?>
-		title="<?php echo $args['title']; ?>"
+		title="<?php echo esc_attr($args['title']); ?>"
 		<?php endif; ?>
 		value="1"
 		<?php checked( $value, 1 ); ?> />
 	  <p class="description">
-		<?php echo $args['description']; ?>
+		<?php echo wp_kses($args['description'], SanitizationUtil::WP_KSES_ALLOWED_HTML, SanitizationUtil::WP_KSES_ALLOWED_PROTOCOLS); ?>
 	  </p>
 		<?php
 	}
@@ -340,7 +370,7 @@ class SettingsService {
 		<?php endforeach ?>
 		</select>
 	  <p class="description">
-		<?php echo $args['description']; ?>
+		<?php echo wp_kses($args['description'], SanitizationUtil::WP_KSES_ALLOWED_HTML, SanitizationUtil::WP_KSES_ALLOWED_PROTOCOLS); ?>
 	  </p>
 		<?php
 	}
@@ -354,7 +384,7 @@ class SettingsService {
 		id="<?php echo esc_attr( $args['label_for'] ); ?>"
 		class="large-text code"
 		rows="<?php echo esc_html( $args['rows'] ); ?>"
-		name="<?php echo esc_attr( $args['label_for'] ); ?>"><?php echo $value; ?></textarea>
+		name="<?php echo esc_attr( $args['label_for'] ); ?>"><?php echo wp_kses($value, SanitizationUtil::WP_KSES_ALLOWED_HTML, SanitizationUtil::WP_KSES_ALLOWED_PROTOCOLS); ?></textarea>
 	  <p class="description">
 		<?php echo esc_html( $args['description'] ); ?>
 	  </p>
@@ -372,7 +402,7 @@ class SettingsService {
 		<?php if (true === @$args['disabled']) : ?>
 		disabled="disabled"
 		<?php endif; ?>
-		value="<?php echo $value; ?>"
+		value="<?php echo esc_html($value); ?>"
 		placeholder="<?php echo esc_html( $args['placeholder'] ); ?>"
 		name="<?php echo esc_attr( $args['label_for'] ); ?>" />
 	  <p class="description">

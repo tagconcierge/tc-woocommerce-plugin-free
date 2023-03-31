@@ -2,13 +2,15 @@
 
 namespace GtmEcommerceWoo\Lib\Service;
 
+use GtmEcommerceWoo\Lib\Util\WpSettingsUtil;
+
 /**
  * Logic to handle embedding GTM Snippet
  */
 class GtmSnippetService {
 	protected $wpSettingsUtil;
 
-	public function __construct( $wpSettingsUtil) {
+	public function __construct( WpSettingsUtil $wpSettingsUtil) {
 		$this->wpSettingsUtil = $wpSettingsUtil;
 	}
 
@@ -17,7 +19,7 @@ class GtmSnippetService {
 			return;
 		}
 
-		if (substr($this->wpSettingsUtil->getOption('gtm_snippet_prevent_load'), 0, 3) === 'yes') {
+		if (strpos($this->wpSettingsUtil->getOption('gtm_snippet_prevent_load'), 'yes') === 0) {
 			return;
 		}
 
@@ -31,13 +33,10 @@ class GtmSnippetService {
 	}
 
 	public function headSnippet() {
-		echo $this->wpSettingsUtil->getOption('gtm_snippet_head') . "\n";
+		echo filter_var($this->wpSettingsUtil->getOption('gtm_snippet_head'), FILTER_FLAG_STRIP_BACKTICK) . "\n";
 	}
-
 
 	public function bodySnippet() {
-		echo $this->wpSettingsUtil->getOption('gtm_snippet_body') . "\n";
+		echo filter_var($this->wpSettingsUtil->getOption('gtm_snippet_body'), FILTER_FLAG_STRIP_BACKTICK) . "\n";
 	}
-
-
 }

@@ -49,7 +49,7 @@ class Container {
 			'purchase',
 			// 'refund',
 		];
-		$tagConciergeApiUrl = getenv('TAG_CONCIERGE_API_URL') ?: 'https://api.tagconcierge.com';
+		$tagConciergeApiUrl = getenv('TAG_CONCIERGE_API_URL') ? getenv('TAG_CONCIERGE_API_URL') : 'https://api.tagconcierge.com';
 
 		$wpSettingsUtil = new WpSettingsUtil($snakeCaseNamespace, $spineCaseNamespace);
 		$wcTransformerUtil = new WcTransformerUtil();
@@ -68,7 +68,7 @@ class Container {
 		$this->gtmSnippetService = new GtmSnippetService($wpSettingsUtil);
 		$this->settingsService = new SettingsService($wpSettingsUtil, $events, $proEvents, $serverEvents, $tagConciergeApiUrl, $pluginVersion);
 		$this->pluginService = new PluginService($spineCaseNamespace, $wpSettingsUtil, $wcOutputUtil, $pluginVersion);
-		$this->eventInspectorService = new EventInspectorService($wpSettingsUtil);
+		$this->eventInspectorService = new EventInspectorService($wpSettingsUtil, $wcOutputUtil);
 	}
 
 	public function getSettingsService(): SettingsService {

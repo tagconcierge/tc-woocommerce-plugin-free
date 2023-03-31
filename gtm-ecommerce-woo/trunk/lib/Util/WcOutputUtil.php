@@ -8,10 +8,15 @@ class WcOutputUtil {
 	protected $scripts = [];
 	protected $scriptFiles = [];
 
-	public function __construct($pluginVersion) {
+	public function __construct( $pluginVersion) {
 		$this->pluginVersion = $pluginVersion;
 		add_action( 'wp_footer', [$this, 'wpFooter'], 20 );
 		add_action( 'wp_enqueue_scripts', [$this, 'wpEnqueueScripts'] );
+		add_filter( 'safe_style_css', function( $styles ) {
+			$styles[] = 'display';
+
+			return $styles;
+		} );
 	}
 
 	public function wpFooter() {
@@ -23,7 +28,7 @@ class WcOutputUtil {
 		echo 'window.dataLayer = window.dataLayer || [];';
 		echo "(function(dataLayer, jQuery) {\n";
 		foreach ($this->scripts as $script) {
-			echo $script . "\n";
+			echo filter_var($script, FILTER_FLAG_STRIP_BACKTICK) . "\n";
 		}
 		echo '})(dataLayer, jQuery);';
 		echo "</script>\n";

@@ -95,7 +95,7 @@ EOD
 	 * Supports a single link that's present on product lists
 	 */
 	public function onCartLinkClick( $items) {
-		if (true === method_exists($this->wcOutput,'addItems')) {
+		if (true === method_exists($this->wcOutput, 'addItems')) {
 			$this->wcOutput->addItems($items, 'product_id');
 		} else {
 			$this->wcOutput->globalVariable('gtm_ecommerce_woo_items_by_product_id', $items);
@@ -137,8 +137,7 @@ EOD
 );
 	}
 
-	protected function getStringifiedEvent()
-	{
+	protected function getStringifiedEvent() {
 		return json_encode(['event' => 'add_to_cart', 'ecommerce' => []]);
 	}
 }

@@ -3,19 +3,21 @@
 namespace GtmEcommerceWoo\Lib\Util;
 
 /**
- * Utility to work with settings and options Wordpress API.
+ * Utility to work with settings and options WordPress API.
  */
 class WpSettingsUtil {
+	/** @var string */
 	protected $snakeCaseNamespace;
+	/** @var string */
 	protected $spineCaseNamespace;
-	protected $tabs;
-	protected $sections;
+	/** @var array */
+	protected $tabs = [];
+	/** @var array */
+	protected $sections = [];
 
-	public function __construct( $snakeCaseNamespace, $spineCaseNamespace) {
+	public function __construct( string $snakeCaseNamespace, string $spineCaseNamespace) {
 		$this->snakeCaseNamespace = $snakeCaseNamespace;
 		$this->spineCaseNamespace = $spineCaseNamespace;
-		$this->tabs = [];
-		$this->sections = [];
 	}
 
 	public function getOption( $optionName) {
@@ -42,8 +44,7 @@ class WpSettingsUtil {
 		];
 	}
 
-	public function addSettingsSection( $sectionName, $sectionTitle, $description, $tab) {
-		$spineCaseNamespace = $this->spineCaseNamespace;
+	public function addSettingsSection( $sectionName, $sectionTitle, $description, $tab): void {
 		$this->sections[$sectionName] = [
 			'name' => $sectionName,
 			'tab' => $tab
@@ -51,9 +52,10 @@ class WpSettingsUtil {
 		add_settings_section(
 			$this->snakeCaseNamespace . '_' . $sectionName,
 			__( $sectionTitle, $this->spineCaseNamespace ),
-			function( $args) use ( $spineCaseNamespace, $description) {
+			static function( $args) use ( $description) {
 				?>
-			  <p id="<?php echo esc_attr( $args['id'] ); ?>"><?php echo $description; ?></p>
+
+			  <p id="<?php echo esc_attr( $args['id'] ); ?>"><?php echo wp_kses($description, SanitizationUtil::WP_KSES_ALLOWED_HTML, SanitizationUtil::WP_KSES_ALLOWED_PROTOCOLS); ?></p>
 				<?php
 			},
 			$this->snakeCaseNamespace . '_' . $tab
@@ -81,7 +83,7 @@ class WpSettingsUtil {
 	public function addSubmenuPage( $options, $title1, $title2, $capabilities) {
 		$snakeCaseNamespace = $this->snakeCaseNamespace;
 		$spineCaseNamespace = $this->spineCaseNamespace;
-		$activeTab = isset( $_GET[ 'tab' ] ) ? $_GET[ 'tab' ] : array_keys($this->tabs)[0];
+		$activeTab = isset( $_GET[ 'tab' ] ) ? sanitize_key($_GET[ 'tab' ]) : array_keys($this->tabs)[0];
 		add_submenu_page(
 			$options,
 			$title1,
@@ -102,7 +104,13 @@ class WpSettingsUtil {
 
 				<h2 class="nav-tab-wrapper">
 					<?php foreach ($this->tabs as $tab) : ?>
-					<a href="?page=<?php echo $this->spineCaseNamespace; ?>&tab=<?php echo $tab['name']; ?>" class="nav-tab <?php echo $activeTab == $tab['name'] ? 'nav-tab-active' : ''; ?>"><?php echo $tab['title']; ?></a>
+					<a
+						href="<?php echo esc_url(sprintf('?page=%s&tab=%s', $this->spineCaseNamespace, $tab['name'])); ?>"
+						class="nav-tab
+						<?php if ($activeTab === $tab['name']) : ?>
+							nav-tab-active
+						<?php endif; ?>
+					"><?php echo wp_kses($tab['title'], SanitizationUtil::WP_KSES_ALLOWED_HTML, SanitizationUtil::WP_KSES_ALLOWED_PROTOCOLS); ?></a>
 					<?php endforeach; ?>
 				</h2>
 
