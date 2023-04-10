@@ -83,7 +83,7 @@ class WcTransformerUtil {
 		return $this->getPurchaseFromOrder($order);
 	}
 
-	public function getPurchaseFromOrder(WC_Order $order): Event {
+	public function getPurchaseFromOrder( WC_Order $order): Event {
 		$event = new Event('purchase');
 		$event->setCurrency($order->get_currency());
 		$event->setTransactionId($order->get_order_number());
