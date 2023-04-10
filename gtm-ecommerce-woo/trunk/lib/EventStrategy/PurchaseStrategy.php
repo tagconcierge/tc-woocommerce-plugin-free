@@ -16,7 +16,7 @@ class PurchaseStrategy extends AbstractEventStrategy {
 		];
 	}
 
-	public function thankyou( int $orderId ) {
+	public function thankyou( $orderId ) {
 		$order = wc_get_order( $orderId );
 
 		if (false === $order instanceof WC_Order) {
