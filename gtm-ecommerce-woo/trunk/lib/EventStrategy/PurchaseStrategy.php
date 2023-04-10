@@ -13,7 +13,7 @@ class PurchaseStrategy extends AbstractEventStrategy {
 	}
 
 
-	public function thankyou( $orderId ) {
+	public function thankyou( int $orderId ) {
 		$event = $this->wcTransformer->getPurchaseFromOrderId($orderId);
 
 		$this->wcOutput->dataLayerPush($event);
