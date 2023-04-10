@@ -2,12 +2,24 @@
 
 namespace GtmEcommerceWoo\Lib\EventStrategy;
 
+use GtmEcommerceWoo\Lib\Util\WcOutputUtil;
+use GtmEcommerceWoo\Lib\Util\WcTransformerUtil;
+
 abstract class AbstractEventStrategy {
 
+	/** @var string */
 	protected $eventName;
+
+	/** @var string */
 	protected $eventType;
+
+	/** @var WcTransformerUtil */
 	protected $wcTransformer;
+
+	/** @var WcOutputUtil */
 	protected $wcOutput;
+
+	/** @var array */
 	protected $actions;
 
 	public function __construct( $wcTransformer, $wcOutput ) {

@@ -19,10 +19,17 @@ namespace GtmEcommerceWoo;
 
 require __DIR__ . '/vendor/autoload.php';
 
+use Automattic\WooCommerce\Utilities\FeaturesUtil;
 use GtmEcommerceWoo\Lib\Container;
 
 $pluginData = get_file_data(__FILE__, array('Version' => 'Version'), false);
 $pluginVersion = $pluginData['Version'];
+
+add_action( 'before_woocommerce_init', function() {
+	if ( class_exists( FeaturesUtil::class ) ) {
+		FeaturesUtil::declare_compatibility( 'custom_order_tables', __FILE__, true );
+	}
+});
 
 $container = new Container($pluginVersion);
 

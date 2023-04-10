@@ -4,6 +4,7 @@ namespace GtmEcommerceWoo\Lib\Util;
 
 use GtmEcommerceWoo\Lib\GaEcommerceEntity\Event;
 use GtmEcommerceWoo\Lib\GaEcommerceEntity\Item;
+use WC_Order;
 use WC_Product_Variation;
 
 /**
@@ -76,8 +77,13 @@ class WcTransformerUtil {
 		return apply_filters('gtm_ecommerce_woo_item', $item, $product);
 	}
 
-	public function getPurchaseFromOrderId( $orderId ): Event {
+	public function getPurchaseFromOrderId( int $orderId ): Event {
 		$order = wc_get_order( $orderId );
+
+		return $this->getPurchaseFromOrder($order);
+	}
+
+	public function getPurchaseFromOrder( WC_Order $order): Event {
 		$event = new Event('purchase');
 		$event->setCurrency($order->get_currency());
 		$event->setTransactionId($order->get_order_number());
@@ -95,7 +101,6 @@ class WcTransformerUtil {
 			$item = $this->getItemFromOrderItem($orderItem);
 			$event->addItem($item);
 		}
-
 
 		/**
 		 * Allows customizing purchase event object.

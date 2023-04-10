@@ -2,7 +2,11 @@
 
 namespace GtmEcommerceWoo\Lib\EventStrategy;
 
+use WC_Order;
+
 class PurchaseStrategy extends AbstractEventStrategy {
+
+	const ORDER_META_KEY_PURCHASE_EVENT_TRACKED = 'gtm_ecommerce_woo_purchase_event_tracked';
 
 	protected $eventName = 'purchase';
 
@@ -12,12 +16,18 @@ class PurchaseStrategy extends AbstractEventStrategy {
 		];
 	}
 
+	public function thankyou( int $orderId ) {
+		$order = wc_get_order( $orderId );
 
-	public function thankyou( $orderId ) {
-		$event = $this->wcTransformer->getPurchaseFromOrderId($orderId);
+		if (false === $order instanceof WC_Order) {
+			return;
+		}
+
+		$event = $this->wcTransformer->getPurchaseFromOrder($order);
 
 		$this->wcOutput->dataLayerPush($event);
 
-		update_post_meta( $orderId, 'gtm_ecommerce_woo_purchase_event_tracked', '1' );
+		$order->update_meta_data(self::ORDER_META_KEY_PURCHASE_EVENT_TRACKED, '1');
+		$order->save();
 	}
 }
