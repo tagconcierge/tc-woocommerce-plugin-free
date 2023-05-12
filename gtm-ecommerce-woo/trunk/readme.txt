@@ -117,9 +117,13 @@ The plugin always emits events in GA4 compatible format, but the UA preset conta
 
 == Changelog ==
 
+= 1.10.11 =
+
+* tested against the latest version of WooCommerce
+
 = 1.10.10 =
 
-* tested against latest version of WooCommerce
+* tested against the latest version of WooCommerce
 
 = 1.10.9 =
 
