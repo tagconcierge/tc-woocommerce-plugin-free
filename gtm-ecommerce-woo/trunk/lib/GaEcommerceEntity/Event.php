@@ -144,6 +144,10 @@ class Event implements \JsonSerializable {
 			unset($jsonEvent['ecommerce']['coupon'], $jsonEvent['ecommerce']['purchase']['coupon']);
 		}
 
+		if (null === $this->currency || true === empty($this->currency)) {
+			unset($jsonEvent['ecommerce']['currency']);
+		}
+
 		foreach ($this->extraProps as $propName => $propValue) {
 			$jsonEvent[$propName] = $propValue;
 		}
