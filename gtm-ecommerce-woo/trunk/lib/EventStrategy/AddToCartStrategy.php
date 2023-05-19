@@ -138,6 +138,6 @@ EOD
 	}
 
 	protected function getStringifiedEvent() {
-		return json_encode(['event' => 'add_to_cart', 'ecommerce' => []]);
+		return json_encode(['event' => 'add_to_cart', 'ecommerce' => ['currency' => get_woocommerce_currency()]]);
 	}
 }
