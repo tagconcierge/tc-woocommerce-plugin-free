@@ -17,6 +17,7 @@ class Event implements \JsonSerializable {
 
 	public function __construct( $name ) {
 		$this->name = $name;
+		$this->currency = get_woocommerce_currency();
 		$this->extraProps = [];
 	}
 
@@ -132,8 +133,9 @@ class Event implements \JsonSerializable {
 			$jsonEvent = [
 				'event' => $this->name,
 				'ecommerce' => [
-					'coupon' => $this->coupon,
+					'currency' => $this->currency,
 					'value' => $this->getValue(),
+					'coupon' => $this->coupon,
 					'items' => $this->items,
 				]
 			];
