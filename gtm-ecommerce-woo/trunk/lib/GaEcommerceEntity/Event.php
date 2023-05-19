@@ -97,7 +97,7 @@ class Event implements \JsonSerializable {
 		apply_filters('gtm_ecommerce_woo_event_middleware', $this);
 
 		/**
-		 * Allow to customize the ecommerce event properties.
+		 * Allows to customize the ecommerce event properties.
 		 *
 		 * @since 1.10.0
 		 */
@@ -132,8 +132,9 @@ class Event implements \JsonSerializable {
 			$jsonEvent = [
 				'event' => $this->name,
 				'ecommerce' => [
-					'coupon' => $this->coupon,
+					'currency' => $this->currency,
 					'value' => $this->getValue(),
+					'coupon' => $this->coupon,
 					'items' => $this->items,
 				]
 			];
@@ -143,12 +144,25 @@ class Event implements \JsonSerializable {
 			unset($jsonEvent['ecommerce']['coupon'], $jsonEvent['ecommerce']['purchase']['coupon']);
 		}
 
+		if (null === $this->currency || true === empty($this->currency)) {
+			unset($jsonEvent['ecommerce']['currency']);
+		}
+
 		foreach ($this->extraProps as $propName => $propValue) {
 			$jsonEvent[$propName] = $propValue;
 		}
 
-		return array_filter($jsonEvent, static function( $value ) {
+		$result = array_filter($jsonEvent, static function( $value ) {
 			return !is_null($value) && '' !== $value;
 		});
+
+		/**
+		 * Allows to customize the ecommerce event properties after data processing.
+		 *
+		 * @since 1.10.12
+		 */
+		apply_filters('gtm_ecommerce_woo_event_after_processing', $this, $result);
+
+		return $result;
 	}
 }
