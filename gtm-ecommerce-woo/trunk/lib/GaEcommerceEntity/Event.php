@@ -156,7 +156,7 @@ class Event implements \JsonSerializable {
 		/**
 		 * Allows to customize the ecommerce event properties after data processing.
 		 *
-		 * @since 1.10.11
+		 * @since 1.10.12
 		 */
 		apply_filters('gtm_ecommerce_woo_event_after_processing', $this, $result);
 
