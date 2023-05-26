@@ -37,10 +37,13 @@ class Container {
 			'view_item',
 			'select_item',
 			'remove_from_cart',
+			'view_cart',
 			'begin_checkout',
 			'add_billing_info',
 			'add_payment_info',
-			'add_shipping_info'
+			'add_shipping_info',
+			'abandon_cart',
+			'abandon_checkout',
 		];
 		$serverEvents = [
 			// 'add_to_cart',
