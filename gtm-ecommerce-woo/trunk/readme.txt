@@ -119,7 +119,7 @@ The plugin always emits events in GA4 compatible format, but the UA preset conta
 
 = 1.10.13 =
 
-* fixes 'gtm_ecommerce_woo_event_after_processing' filter
+* fixed 'gtm_ecommerce_woo_event_after_processing' filter
 * tested against the latest version of WordPress
 
 = 1.10.12 =
