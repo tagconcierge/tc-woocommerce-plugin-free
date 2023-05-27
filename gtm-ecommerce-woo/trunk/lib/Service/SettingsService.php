@@ -295,10 +295,10 @@ class SettingsService {
 				$eventName,
 				[$this, 'checkboxField'],
 				'events',
-				true === isset($this->eventsConfig[$eventName]['description']) ? $this->eventsConfig[$eventName]['description'] : ''
+				isset($this->eventsConfig[$eventName]['description']) ? $this->eventsConfig[$eventName]['description'] : ''
 			);
 			if ($this->wpSettingsUtil->getOption('event_' . $eventName) === false) {
-				$this->wpSettingsUtil->updateOption('event_' . $eventName, true === isset($this->eventsConfig[$eventName]['default_disabled']) ? 0 : 1);
+				$this->wpSettingsUtil->updateOption('event_' . $eventName, isset($this->eventsConfig[$eventName]['default_disabled']) ? 0 : 1);
 			}
 		}
 
