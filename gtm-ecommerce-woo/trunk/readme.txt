@@ -2,9 +2,9 @@
 Contributors: Tag Concierge
 Tags: google tag manager, GA4, ecommerce events, Google Analytics, Facebook Pixel, shopping behavior
 Requires at least: 5.1.0
-Tested up to: 6.2.1
+Tested up to: 6.2.2
 Requires PHP: 7.0
-Stable tag: 1.10.12
+Stable tag: 1.10.13
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -116,6 +116,11 @@ The plugin always emits events in GA4 compatible format, but the UA preset conta
 
 
 == Changelog ==
+
+= 1.10.13 =
+
+* fixes 'gtm_ecommerce_woo_event_after_processing' filter
+* tested against the latest version of WordPress
 
 = 1.10.12 =
 
