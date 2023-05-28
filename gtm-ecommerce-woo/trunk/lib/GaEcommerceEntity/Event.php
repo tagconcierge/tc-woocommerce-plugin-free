@@ -161,7 +161,7 @@ class Event implements \JsonSerializable {
 		 *
 		 * @since 1.10.12
 		 */
-		apply_filters('gtm_ecommerce_woo_event_after_processing', $this, $result);
+		apply_filters('gtm_ecommerce_woo_event_after_processing', $result, $this);
 
 		return $result;
 	}

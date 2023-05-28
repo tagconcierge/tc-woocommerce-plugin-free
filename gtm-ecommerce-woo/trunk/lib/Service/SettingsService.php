@@ -36,6 +36,9 @@ class SettingsService {
 	/** @var string */
 	protected $filter = 'basic';
 
+	/** @var array */
+	protected $eventsConfig = [];
+
 	public function __construct( WpSettingsUtil $wpSettingsUtil, array $events, array $proEvents, array $serverEvents, string $tagConciergeApiUrl, string $pluginVersion) {
 		$this->wpSettingsUtil = $wpSettingsUtil;
 		$this->events = $events;
@@ -291,10 +294,11 @@ class SettingsService {
 				'event_' . $eventName,
 				$eventName,
 				[$this, 'checkboxField'],
-				'events'
+				'events',
+				isset($this->eventsConfig[$eventName]['description']) ? $this->eventsConfig[$eventName]['description'] : ''
 			);
 			if ($this->wpSettingsUtil->getOption('event_' . $eventName) === false) {
-				$this->wpSettingsUtil->updateOption('event_' . $eventName, 1);
+				$this->wpSettingsUtil->updateOption('event_' . $eventName, isset($this->eventsConfig[$eventName]['default_disabled']) ? 0 : 1);
 			}
 		}
 
