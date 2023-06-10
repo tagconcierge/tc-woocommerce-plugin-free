@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "64eaa6c225523b88b00758651b1296d0",
+    "content-hash": "c2e71dbbf696c6cd3c81cb3f6f3e27d7",
     "packages": [],
     "packages-dev": [
         {
@@ -1240,8 +1240,8 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "woocommerce/woocommerce-sniffs": 20,
-        "roave/security-advisories": 20
+        "roave/security-advisories": 20,
+        "woocommerce/woocommerce-sniffs": 20
     },
     "prefer-stable": true,
     "prefer-lowest": false,
