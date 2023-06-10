@@ -1,0 +1,44 @@
+{
+    "name": "handcraftbyte/gtm-ecommerce-woo",
+    "description": "Google Tag Manager for WooCommerce",
+    "type": "project",
+    "config": {
+        "vendor-dir": "gtm-ecommerce-woo/vendor",
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true,
+            "composer/installers": true
+        }
+    },
+    "require-dev": {
+        "dealerdirect/phpcodesniffer-composer-installer": "^0.7.0",
+        "wp-coding-standards/wpcs": "^2.3",
+        "woocommerce/woocommerce-sniffs": "9999999-dev",
+        "phpunit/phpunit": "^9",
+        "symfony/browser-kit": "^5.2",
+        "symfony/http-client": "^5.2",
+        "johnpbloch/wordpress-core": "*",
+        "roave/security-advisories": "dev-latest",
+        "wpackagist-plugin/woocommerce": "*"
+    },
+    "repositories": [
+        {
+            "type":"composer",
+            "url":"https://wpackagist.org"
+        }
+    ],
+    "scripts": {
+        "fix": "phpcbf --warning-severity=0 -s --ignore-annotations --extensions=php,html --ignore=*/vendor/* trunk/",
+        "check": "phpcs --warning-severity=0 -s --ignore-annotations --extensions=php,html --ignore=*/vendor/* trunk/"
+    },
+    "autoload": {
+        "psr-4": {
+            "GtmEcommerceWoo\\": "gtm-ecommerce-woo/",
+            "GtmEcommerceWoo\\Lib\\": "gtm-ecommerce-woo/lib"
+        }
+    },
+    "extra": {
+      "installer-paths": {
+        "gtm-ecommerce-woo/vendor/woocommerce/woocommerce": ["wpackagist-plugin/woocommerce"]
+      }
+    }
+}
