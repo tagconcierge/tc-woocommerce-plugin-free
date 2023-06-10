@@ -1,9 +1,8 @@
 {
-    "name": "handcraftbyte/gtm-ecommerce-woo",
+    "name": "tagconcierge/tc-woocommerce-plugin-free",
     "description": "Google Tag Manager for WooCommerce",
-    "type": "project",
+    "type": "wordpress-plugin",
     "config": {
-        "vendor-dir": "gtm-ecommerce-woo/vendor",
         "allow-plugins": {
             "dealerdirect/phpcodesniffer-composer-installer": true,
             "composer/installers": true
@@ -32,13 +31,12 @@
     },
     "autoload": {
         "psr-4": {
-            "GtmEcommerceWoo\\": "gtm-ecommerce-woo/",
-            "GtmEcommerceWoo\\Lib\\": "gtm-ecommerce-woo/lib"
+            "GtmEcommerceWoo\\Lib\\": "src"
         }
     },
     "extra": {
       "installer-paths": {
-        "gtm-ecommerce-woo/vendor/woocommerce/woocommerce": ["wpackagist-plugin/woocommerce"]
+        "vendor/woocommerce/woocommerce": ["wpackagist-plugin/woocommerce"]
       }
     }
 }
