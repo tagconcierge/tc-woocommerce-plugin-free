@@ -23,8 +23,8 @@
         }
     ],
     "scripts": {
-        "fix": "phpcbf --warning-severity=0 -s --ignore-annotations --extensions=php,html --ignore=*/vendor/* trunk/",
-        "check": "phpcs --warning-severity=0 -s --ignore-annotations --extensions=php,html --ignore=*/vendor/* trunk/"
+        "fix": "phpcbf --warning-severity=0 -s --ignore-annotations --extensions=php,html --ignore=*/vendor/* src/",
+        "check": "phpcs --warning-severity=0 -s --ignore-annotations --extensions=php,html --ignore=*/vendor/* src/"
     },
     "autoload": {
         "psr-4": {
