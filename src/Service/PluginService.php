@@ -57,7 +57,7 @@ class PluginService {
 	}
 
 	public function enqueueScripts( $hook) {
-		wp_enqueue_script( 'gtm-ecommerce-woo-admin-feedback', plugin_dir_url( __DIR__ . '/../../../' ) . 'js/admin-feedback.js', [], $this->pluginVersion );
+		wp_enqueue_script( 'gtm-ecommerce-woo-admin-feedback', plugin_dir_url( __DIR__ . '/../../../' ) . 'assets/admin-feedback.js', [], $this->pluginVersion );
 	}
 
 	public function activationHook() {

@@ -63,7 +63,7 @@ class WcOutputUtil {
 		foreach ($this->scriptFiles as $scriptFile) {
 			wp_enqueue_script(
 				$scriptFile['name'],
-				plugin_dir_url( dirname( $this->pluginDir ) ) . 'js/' . $scriptFile['name'] . '.js',
+				plugin_dir_url( dirname( $this->pluginDir ) ) . 'assets/' . $scriptFile['name'] . '.js',
 				$scriptFile['deps'],
 				$this->pluginVersion,
 				$scriptFile['in_footer']
