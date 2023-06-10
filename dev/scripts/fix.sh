@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
 docker-compose run -T --rm php-cli <<INPUT
 
