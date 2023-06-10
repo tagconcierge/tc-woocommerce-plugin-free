@@ -1,0 +1,42 @@
+{
+    "name": "tagconcierge/tc-woocommerce-plugin-free",
+    "description": "Google Tag Manager for WooCommerce",
+    "type": "wordpress-plugin",
+    "require-dev": {
+        "dealerdirect/phpcodesniffer-composer-installer": "^0.7.0",
+        "johnpbloch/wordpress-core": "*",
+        "roave/security-advisories": "dev-latest",
+        "woocommerce/woocommerce-sniffs": "9999999-dev",
+        "wp-coding-standards/wpcs": "^2.3",
+        "wpackagist-plugin/woocommerce": "*"
+    },
+    "config": {
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true,
+            "composer/installers": true
+        },
+        "sort-packages": true
+    },
+    "autoload": {
+        "psr-4": {
+            "GtmEcommerceWoo\\Lib\\": "src"
+        }
+    },
+    "repositories": [
+        {
+            "type":"composer",
+            "url":"https://wpackagist.org"
+        }
+    ],
+    "scripts": {
+        "fix": "phpcbf --warning-severity=0 -s --ignore-annotations --extensions=php,html --ignore=*/vendor/* src/",
+        "check": "phpcs --warning-severity=0 -s --ignore-annotations --extensions=php,html --ignore=*/vendor/* src/"
+    },
+    "extra": {
+        "installer-paths": {
+            "vendor/{$vendor}/{$name}": ["type:wordpress-plugin"]
+        }
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}

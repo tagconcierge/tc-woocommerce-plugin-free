@@ -1,0 +1,28 @@
+#!/usr/bin/env sh
+# dockerpresso 2.1.0
+
+# This is file which will be run every time Dockerpresso managed Wordpress
+# is started or restarted.
+# You can use any wp-cli command here such as plugin installation or activation.
+# Use it to prepare environment your plugin or theme may need
+
+
+wp core install --url=docker.local --title=Localhost --admin_user=admin --admin_password=pass --admin_email=admin@localhost.local
+
+wp plugin install woocommerce
+wp plugin activate woocommerce
+
+wp theme install storefront
+wp theme activate storefront
+
+wp plugin install wordpress-importer --activate
+
+wp import wp-content/plugins/woocommerce/sample-data/sample_products.xml --authors=skip
+
+wp widget reset sidebar-1
+
+wp wc payment_gateway update bacs --enabled=true --user=admin
+
+wp option update page_on_front 6
+
+wp option update show_on_front page

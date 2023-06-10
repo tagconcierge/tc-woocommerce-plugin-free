@@ -1,0 +1,40 @@
+# dockerpresso 2.1.0
+version: '2'
+services:
+    web:
+        image: wordpress:$WORDPRESS_VERSION
+        env_file: .env
+        restart: always
+        volumes:
+            - ./wordpress_data:/var/www/html/
+            # uncomment line below to start theme development
+            # directory below should contain theme style.css file
+            # - ./example-theme-src:/var/www/html/wp-content/themes/example-theme
+            # uncomment line below to start plugin development
+            # directory below should contain main plugin PHP file
+            - ./trunk:/var/www/html/wp-content/plugins/gtm-ecommerce-woo
+        ports:
+            - "80:80"
+        links:
+            - mysql
+    mysql:
+        image: mariadb
+        restart: always
+        env_file: .env
+        ports:
+            - "3306:3306"
+        volumes:
+            - mysql_data:/var/lib/mysql
+    php-cli:
+        image: mfrankiewicz/php:7.1-cli
+        working_dir: /var/www
+        entrypoint: bash
+        environment:
+            SSH_AUTH_SOCK: ${SSH_AUTH_SOCK}
+        volumes:
+            - ${SSH_AUTH_SOCK}:${SSH_AUTH_SOCK}
+            - ~/.ssh/known_hosts:/root/.ssh/known_hosts
+            - ./:/var/www
+volumes:
+    mysql_data: {}
+
