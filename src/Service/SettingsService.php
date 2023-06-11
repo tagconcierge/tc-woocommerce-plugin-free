@@ -175,7 +175,7 @@ class SettingsService {
 		$this->wpSettingsUtil->addSettingsSection(
 			'events_server',
 			'Events (Server)',
-			'Select which server-side events should be tracked (disable the same web based event in the main settings to avoid duplicates):',
+			'Select which server-side events should be tracked (if you want to track same event both browser and server-side ensure both GTM containers are configured accordingly to avoid duplicates):',
 			'gtm_server'
 		);
 
@@ -294,7 +294,7 @@ class SettingsService {
 			'X-Gtm-Server-Preview HTTP header',
 			[$this, 'inputField'],
 			'gtm_server_container',
-			'In order to use GTM Preview feature, paste the HTTP header from GTM Preview tool',
+			'In order to use GTM Preview feature, paste the HTTP header from GTM Preview tool. The value will change over time.',
 			['type'        => 'text', 'disabled' => !$this->allowServerTracking]
 		);
 
