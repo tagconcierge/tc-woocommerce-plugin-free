@@ -289,6 +289,15 @@ class SettingsService {
 			['type'        => 'text', 'placeholder' => '/mp', 'disabled' => !$this->allowServerTracking]
 		);
 
+		$this->wpSettingsUtil->addSettingsField(
+			'gtm_server_preview_header',
+			'X-Gtm-Server-Preview HTTP header',
+			[$this, 'inputField'],
+			'gtm_server_container',
+			'In order to use GTM Preview feature, paste the HTTP header from GTM Preview tool',
+			['type'        => 'text', 'disabled' => !$this->allowServerTracking]
+		);
+
 		foreach ($this->events as $eventName) {
 			$this->wpSettingsUtil->addSettingsField(
 				'event_' . $eventName,

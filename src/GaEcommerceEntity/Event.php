@@ -65,7 +65,7 @@ class Event implements \JsonSerializable {
 		return $this;
 	}
 
-	public function setExtraProperty( string $propName, string $propValue ): Event {
+	public function setExtraProperty( string $propName, $propValue ): Event {
 		$this->extraProps[$propName] = $propValue;
 		return $this;
 	}
