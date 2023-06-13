@@ -295,7 +295,7 @@ class SettingsService {
 			[$this, 'inputField'],
 			'gtm_server_container',
 			'In order to use GTM Preview feature, paste the HTTP header from GTM Preview tool. The value will change over time.',
-			['type'        => 'text', 'disabled' => !$this->allowServerTracking]
+			['type'        => 'text', 'placeholder' => 'header value', 'disabled' => !$this->allowServerTracking]
 		);
 
 		foreach ($this->events as $eventName) {
