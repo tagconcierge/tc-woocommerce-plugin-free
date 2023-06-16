@@ -29,6 +29,8 @@ class Container {
 	/** @var EventInspectorService */
 	public $eventInspectorService;
 
+	protected $wcTransformerUtil;
+
 	public function __construct( string $pluginVersion ) {
 		$snakeCaseNamespace = 'gtm_ecommerce_woo';
 		$spineCaseNamespace = 'gtm-ecommerce-woo';
@@ -55,7 +57,7 @@ class Container {
 		$tagConciergeApiUrl = getenv('TAG_CONCIERGE_API_URL') ? getenv('TAG_CONCIERGE_API_URL') : 'https://api.tagconcierge.com';
 
 		$wpSettingsUtil = new WpSettingsUtil($snakeCaseNamespace, $spineCaseNamespace);
-		$wcTransformerUtil = new WcTransformerUtil();
+		$this->wcTransformerUtil = $wcTransformerUtil = new WcTransformerUtil();
 		$wcOutputUtil = new WcOutputUtil($pluginVersion);
 
 		$eventStrategies = [
@@ -92,5 +94,9 @@ class Container {
 
 	public function getEventInspectorService(): EventInspectorService {
 		return $this->eventInspectorService;
+	}
+
+	public function getWcTransformerUtil() {
+		return $this->wcTransformerUtil;
 	}
 }

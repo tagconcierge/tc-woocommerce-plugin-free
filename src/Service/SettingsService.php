@@ -175,7 +175,7 @@ class SettingsService {
 		$this->wpSettingsUtil->addSettingsSection(
 			'events_server',
 			'Events (Server)',
-			'Select which server-side events should be tracked (disable the same web based event in the main settings to avoid duplicates):',
+			'Select which server-side events should be tracked (if you want to track same event both browser and server-side ensure both GTM containers are configured accordingly to avoid duplicates):',
 			'gtm_server'
 		);
 
@@ -287,6 +287,15 @@ class SettingsService {
 			'gtm_server_container',
 			'GA4 Client Activation path as defined in GTM Client',
 			['type'        => 'text', 'placeholder' => '/mp', 'disabled' => !$this->allowServerTracking]
+		);
+
+		$this->wpSettingsUtil->addSettingsField(
+			'gtm_server_preview_header',
+			'X-Gtm-Server-Preview HTTP header',
+			[$this, 'inputField'],
+			'gtm_server_container',
+			'In order to use GTM Preview feature, paste the HTTP header from GTM Preview tool. The value will change over time.',
+			['type'        => 'text', 'placeholder' => 'header value', 'disabled' => !$this->allowServerTracking]
 		);
 
 		foreach ($this->events as $eventName) {
