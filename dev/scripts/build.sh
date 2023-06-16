@@ -2,12 +2,12 @@
 
 docker-compose run -T --rm php-cli <<INPUT
 
-composer install --dev
+composer install
 composer run check
 
 rm vendor -Rf
 
-composer install --no-dev
+composer install --no-dev --optimize-autoloader
 
 rm -rf dist/gtm-ecommerce-woo
 mkdir -p dist/gtm-ecommerce-woo

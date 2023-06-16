@@ -29,6 +29,7 @@ class Container {
 	/** @var EventInspectorService */
 	public $eventInspectorService;
 
+	/** @var WcTransformerUtil */
 	protected $wcTransformerUtil;
 
 	public function __construct( string $pluginVersion ) {
@@ -57,12 +58,12 @@ class Container {
 		$tagConciergeApiUrl = getenv('TAG_CONCIERGE_API_URL') ? getenv('TAG_CONCIERGE_API_URL') : 'https://api.tagconcierge.com';
 
 		$wpSettingsUtil = new WpSettingsUtil($snakeCaseNamespace, $spineCaseNamespace);
-		$this->wcTransformerUtil = $wcTransformerUtil = new WcTransformerUtil();
+		$this->wcTransformerUtil = new WcTransformerUtil();
 		$wcOutputUtil = new WcOutputUtil($pluginVersion);
 
 		$eventStrategies = [
-			new EventStrategy\AddToCartStrategy($wcTransformerUtil, $wcOutputUtil),
-			new EventStrategy\PurchaseStrategy($wcTransformerUtil, $wcOutputUtil)
+			new EventStrategy\AddToCartStrategy($this->wcTransformerUtil, $wcOutputUtil),
+			new EventStrategy\PurchaseStrategy($this->wcTransformerUtil, $wcOutputUtil)
 		];
 
 		$events = array_map(static function( $eventStrategy) {
