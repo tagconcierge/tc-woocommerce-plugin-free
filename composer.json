@@ -29,8 +29,8 @@
         }
     ],
     "scripts": {
-        "fix": "phpcbf --warning-severity=0 -s --ignore-annotations --extensions=php,html --ignore=*/vendor/* src/",
-        "check": "phpcs --warning-severity=0 -s --ignore-annotations --extensions=php,html --ignore=*/vendor/* src/"
+        "fix": "phpcbf --warning-severity=0 -s --ignore-annotations --extensions=php,html --ignore=*/vendor/* src/ gtm-ecommerce-woo.php",
+        "check": "phpcs --warning-severity=0 -s --ignore-annotations --extensions=php,html --ignore=*/vendor/* src/ gtm-ecommerce-woo.php"
     },
     "extra": {
         "installer-paths": {
