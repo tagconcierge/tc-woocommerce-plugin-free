@@ -4,7 +4,7 @@ Tags: google tag manager, GA4, ecommerce events, Google Analytics, Facebook Pixe
 Requires at least: 5.1.0
 Tested up to: 6.2.2
 Requires PHP: 7.0
-Stable tag: 1.10.14
+Stable tag: 1.10.16
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -116,6 +116,11 @@ The plugin always emits events in GA4 compatible format, but the UA preset conta
 
 
 == Changelog ==
+
+= 1.10.16 =
+
+* changes priority of Google Tag Manager snippet loading on 'wp_head' hook
+* removes 'ecommerce' key from event object, when there is no items and no value
 
 = 1.10.15 =
 
