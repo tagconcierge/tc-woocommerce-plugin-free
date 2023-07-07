@@ -117,6 +117,10 @@ The plugin always emits events in GA4 compatible format, but the UA preset conta
 
 == Changelog ==
 
+= 1.10.17 =
+
+* tested against the latest version of WooCommerce
+
 = 1.10.16 =
 
 * changes priority of Google Tag Manager snippet loading on 'wp_head' hook
