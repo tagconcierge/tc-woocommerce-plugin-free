@@ -5,6 +5,7 @@ namespace GtmEcommerceWoo\Lib\Util;
 use GtmEcommerceWoo\Lib\GaEcommerceEntity\Event;
 use GtmEcommerceWoo\Lib\GaEcommerceEntity\Item;
 use WC_Order;
+use WC_Order_Item_Product;
 use WC_Product_Variation;
 
 /**
@@ -16,13 +17,14 @@ class WcTransformerUtil {
 	 * https://woocommerce.github.io/code-reference/classes/WC-Order-Item.html
 	 * https://woocommerce.github.io/code-reference/classes/WC-Order-Item-Product.html
 	 */
-	public function getItemFromOrderItem( $orderItem ): Item {
+	public function getItemFromOrderItem( WC_Order_Item_Product $orderItem ): Item {
+		$order = $orderItem->get_order();
 		$product = $orderItem->get_product();
 		$variantProduct = ( $orderItem->get_variation_id() ) ? ( wc_get_product( $orderItem->get_variation_id() ) )->get_name() : '';
 
 		$item = new Item($orderItem->get_name());
 		$item->setItemId($product->get_id());
-		$item->setPrice((float) $orderItem->get_total(null));
+		$item->setPrice((float) $order->get_item_total($orderItem, $withTax = true, $round = false));
 		$item->setItemVariant($variantProduct);
 		$item->setQuantity($orderItem->get_quantity());
 
