@@ -22,7 +22,7 @@ class WcTransformerUtil {
 
 		$item = new Item($orderItem->get_name());
 		$item->setItemId($product->get_id());
-		$item->setPrice($product->get_price());
+		$item->setPrice((float) $orderItem->get_total(null));
 		$item->setItemVariant($variantProduct);
 		$item->setQuantity($orderItem->get_quantity());
 
