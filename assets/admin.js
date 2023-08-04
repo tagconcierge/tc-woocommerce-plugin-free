@@ -37,6 +37,10 @@
 
 					$(".version", $preset).text(preset.version || "N/A");
 					// $(".changelog", $preset).pointer({ content: "<p>- " + (preset.changelog || []).join("<br />- ") + "</p>" });
+					if (true === preset.latest) {
+						$preset.css({'border-color': '#06932d', 'border-width': '3px'});
+						$('.name', $preset).append('<span style="float: right;color: #06932d;">recently added <span class="dashicons dashicons-admin-post"></span></span>');
+					}
 					$presetsGrid.append($preset);
 				});
 				// if something is locked then we show the button
