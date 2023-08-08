@@ -64,7 +64,7 @@ class EventInspectorService {
 			return;
 		}
 		?>
-<div id="gtm-ecommerce-woo-event-inspector" style="position: fixed; bottom: 0; right: 0; left: 0; z-index:9999; background-color: white;padding: 10px;text-align: center;border-top: 1px solid gray; max-height: 30%; overflow-y: scroll;">
+<div id="gtm-ecommerce-woo-event-inspector" style="position: fixed; bottom: 0; right: 0; left: 0; z-index:99999; background-color: white;padding: 10px;text-align: center;border-top: 1px solid gray; max-height: 30%; overflow-y: scroll;">
 	<div>Start shopping (add to cart, purchase) to see eCommerce events below, click event to see details.<br />Those events can be forwarded to number of tools in GTM. See <a href="https://tagconcierge.com/google-tag-manager-for-woocommerce/#documentation" target="_blank">documentation</a> for details.</div>
 <?php if ($this->wpSettingsUtil->getOption('event_inspector_demo_mode') === '1') : ?>
 	<div>To learn more about tracking performance <a href="<?php echo esc_url(sprintf('https://app.tagconcierge.com/?demo=%s', $this->uuidPrefix)); ?>" target="_blank">see DEMO of Tag Concierge App</a> that is a separate product that can integrate with this plugin.</div>
