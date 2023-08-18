@@ -117,9 +117,14 @@ The plugin always emits events in GA4 compatible format, but the UA preset conta
 
 == Changelog ==
 
+= 1.10.22 =
+
+* fixed dynamic property in GtmEcommerceWoo\Lib\GaEcommerceEntity\Item object
+* tested against the latest version of WooCommerce
+
 = 1.10.21 =
 
-* tested against latest versions of WordPress and WooCommerce
+* tested against the latest versions of WordPress and WooCommerce
 
 = 1.10.20 =
 
