@@ -4,7 +4,7 @@ Tags: google tag manager, GA4, ecommerce events, Google Analytics, Facebook Pixe
 Requires at least: 5.1.0
 Tested up to: 6.3.1
 Requires PHP: 7.0
-Stable tag: 1.10.23
+Stable tag: 1.10.24
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -116,6 +116,10 @@ The plugin always emits events in GA4 compatible format, but the UA preset conta
 
 
 == Changelog ==
+
+= 1.10.24 =
+
+* improved Google Analytics 4 events attributes
 
 = 1.10.23 =
 

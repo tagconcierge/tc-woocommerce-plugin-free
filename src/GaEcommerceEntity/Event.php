@@ -133,11 +133,14 @@ class Event implements \JsonSerializable {
 				'event' => $this->name,
 				'ecommerce' => [
 					'currency' => $this->currency,
-					'value' => $this->getValue(),
 					'coupon' => $this->coupon,
 					'items' => $this->items,
 				]
 			];
+
+			if ('view_item_list' !== $this->name) {
+				$jsonEvent['ecommerce']['value'] = $this->getValue();
+			}
 		}
 
 		if (null === $this->coupon || true === empty($this->coupon)) {

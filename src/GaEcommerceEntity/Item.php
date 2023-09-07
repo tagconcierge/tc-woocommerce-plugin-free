@@ -100,7 +100,7 @@ class Item implements \JsonSerializable {
 		foreach ($this->itemCategories as $index => $category) {
 			$categoryParam = 'item_category';
 			if ($index > 0) {
-				$categoryParam .= '_' . ( $index + 1 );
+				$categoryParam = sprintf('%s%d', $categoryParam, $index + 1);
 			}
 			$jsonItem[$categoryParam] = $category;
 		}
