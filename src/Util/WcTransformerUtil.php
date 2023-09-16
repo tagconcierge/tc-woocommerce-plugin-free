@@ -55,7 +55,7 @@ class WcTransformerUtil {
 	public function getItemFromProduct( $product ): Item {
 		$item = new Item($product->get_name());
 		$item->setItemId($product->get_id());
-		$item->setPrice($product->get_price());
+		$item->setPrice(wc_get_price_including_tax($product));
 
 
 		$productCats = ( $product instanceof WC_Product_Variation )
