@@ -14,6 +14,7 @@ class Item implements \JsonSerializable {
 	public $index;
 	public $quantity;
 	public $price;
+	public $discount;
 	public $extraProps = [];
 	public $itemCategories = [];
 
@@ -31,6 +32,10 @@ class Item implements \JsonSerializable {
 
 	public function setPrice( $price ) {
 		$this->price = (float) $price;
+	}
+
+	public function setDiscount( $discount ) {
+		$this->discount = (float) $discount;
 	}
 
 	public function setItemBrand( $itemBrand ) {
@@ -96,6 +101,10 @@ class Item implements \JsonSerializable {
 			'index' => @$this->index,
 			'quantity' => @$this->quantity,
 		];
+
+		if (null !== $this->discount && 0 < $this->discount) {
+			$jsonItem['discount'] = $this->discount;
+		}
 
 		foreach ($this->itemCategories as $index => $category) {
 			$categoryParam = 'item_category';

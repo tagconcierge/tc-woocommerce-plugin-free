@@ -53,10 +53,17 @@ class WcTransformerUtil {
 	 * https://woocommerce.github.io/code-reference/classes/WC-Product-Simple.html
 	 */
 	public function getItemFromProduct( $product ): Item {
+		$regularPrice = wc_get_price_including_tax($product, ['price' => $product->get_regular_price(null)]);
+		$salePrice = wc_get_price_including_tax($product);
+		$discount = $regularPrice - $salePrice;
+
 		$item = new Item($product->get_name());
 		$item->setItemId($product->get_id());
 		$item->setPrice(wc_get_price_including_tax($product));
 
+		if (0 < $discount) {
+			$item->setDiscount($discount);
+		}
 
 		$productCats = ( $product instanceof WC_Product_Variation )
 			? get_the_terms( $product->get_parent_id(), 'product_cat' )
