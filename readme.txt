@@ -1,6 +1,6 @@
 === GTM for WooCommerce FREE ===
 Contributors: Tag Concierge
-Tags: google tag manager, GA4, ecommerce events, Google Analytics, Facebook Pixel, shopping behavior
+Tags: google tag manager, GA4, ecommerce events, Google Analytics, Facebook Pixel, Microsoft UET
 Requires at least: 5.1.0
 Tested up to: 6.3.1
 Requires PHP: 7.0
@@ -24,9 +24,10 @@ More information and documentation can be found [here](https://docs.tagconcierge
 
 ## Example scenarios
 
-1. Measure eCommerce behaviors in Google Analytics (**GA4 supported**)
-2. Track conversions from Facebook and/or Instagram campaigns
-3. Track conversions from Google Ads campaigns (requires PRO version)
+1. Analyse eCommerce behaviors and study your sales funnel in Google Analytics (**GA4 supported**)
+2. Get most out of Facebook and Instagram paid campaigns with conversion tracking
+3. Optimise your Google Ads campaigns with enhanced conversion (requires PRO version)
+4. Expand to new platforms with TikTok, Pinterest and Microsoft UET presets (requires PRO version)
 
 
 ## Supported events
