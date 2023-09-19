@@ -8,14 +8,15 @@ Stable tag: 1.10.25
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Push WooCommerce eCommerce information (**GA4 Ecommerce and UA Enhanced Ecommerce compatible**) to GTM DataLayer. Use any Google Tag Manager integration to measure your customers' activities.
+Supercharge WooCommerce with GA4-ready GTM integration. Harness eCommerce-focused GTM presets for rapid sales growth.
 
 == Description ==
 
-Do you own **WooCommerce shop** and you want to track and analyze your customers' activities?
+Looking to accelerate the growth of your WooCommerce shop? Uncertain about complex tagging to start tracking customer activities and optimizing paid sales campaigns?
 
-This plugin push standard eCommerce information to GTM Data Layer.
-Once this information is available in your GTM workspace you can plugin and use any tool available. Even if you are unsure yet which tool you would need or like to use.
+Discover our plugin, that seamlessly integrates WooCommerce with Google Tag Manager (GTM), pushing standard eCommerce data to the GTM Data Layer. Once integrated, you gain the flexibility to utilize any analytics or marketing tool, even if you're undecided on your choice.
+
+To simplify your journey, our plugin offers pre-packaged integrations for GA4 and Facebook Pixel. You can be up and running in minutes, bypassing the need for extensive GTM configuration.
 
 Check [live demo here](https://demo-woocommerce.tagconcierge.com/) (perform typical shop activities - add to cart, purchase - to see how events are triggered). This demo showcase all PRO plugin features - FREE version is limited to 2 events listed below.
 
@@ -23,7 +24,7 @@ More information and documentation can be found [here](https://docs.tagconcierge
 
 ## Example scenarios
 
-1. Measure eCommerce behaviors in Google Analytics (**GA4 and legacy UA properties are supported**)
+1. Measure eCommerce behaviors in Google Analytics (**GA4 supported**)
 2. Track conversions from Facebook and/or Instagram campaigns
 3. Track conversions from Google Ads campaigns (requires PRO version)
 
@@ -71,7 +72,6 @@ Hit `Confirm` to create tags, variables, and triggers for pushing Ecommerce even
 
 The last step is to define `GA4 Measurement ID`. Go to `Variables` find a variable with the `GA4 Measurement ID` name, click to edit it. Then paste your GA4 Measurement ID in the Value field.
 
-If you are importing `UA Compatible` preset you can find the tracking ID in the `UA Settings` variable.
 
 If you are importing `Facebook Pixel` preset you can find the tracking ID in `FBP Pixel ID` variable.
 
@@ -97,11 +97,10 @@ See the Installation tab above or [our guides](https://tagconcierge.com/google-t
 This version of the plugin supports just `purchase` and `add_to_cart` events.
 Our PRO version available [here](https://tagconcierge.com/google-tag-manager-for-woocommerce/) supports more.
 
-= Is GA4 and Universal Analytics supported? =
+= Is GA4 supported? =
 
-Yes! You can use GA4 and UA in any combination. Just use the appropriate preset available in the settings screen of the plugin. You can use both at the same time as well.
+Yes! Just use the appropriate preset available in the settings screen of the plugin
 
-The plugin always emits events in GA4 compatible format, but the UA preset contains a compatibility tag that additionally emits UA compatible events.
 
 == Screenshots ==
 
