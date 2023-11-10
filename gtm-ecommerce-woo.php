@@ -3,7 +3,7 @@
  * Plugin Name: GTM for WooCommerce FREE
  * Plugin URI:  https://wordpress.org/plugins/gtm-ecommerce-woo
  * Description: Supercharge WooCommerce with GA4-ready GTM integration. Harness eCommerce-focused GTM presets for rapid sales growth.
- * Version:     1.10.27
+ * Version:     1.10.28
  * Author:      Tag Concierge
  * Author URI:  https://tagconcierge.com/
  * License:     GPLv2 or later
@@ -12,7 +12,7 @@
  * Domain Path: /languages
  *
  * WC requires at least: 4.0
- * WC tested up to: 8.2.1
+ * WC tested up to: 8.2.2
  */
 
 namespace GtmEcommerceWoo;
