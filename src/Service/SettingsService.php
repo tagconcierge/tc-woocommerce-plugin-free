@@ -67,7 +67,7 @@ class SettingsService {
 
 		$this->wpSettingsUtil->addTab(
 			'gtm_server',
-			'GTM Server-side <pre style="display: inline; text-transform: uppercase;">beta</pre>'
+			'GTM Server-Side'
 		);
 
 		$this->wpSettingsUtil->addTab(
@@ -168,7 +168,7 @@ class SettingsService {
 		$this->wpSettingsUtil->addSettingsSection(
 			'gtm_server_container',
 			'GTM Server Container',
-			'Specify details of your GTM Server-side container to enable Server Side Tracking. This is a `BETA` feature and currently only purchase event is available. When enabling a server-side tracking for an event disable a web based event to avoid duplicates. This features requires storing `client_id` parameter in details of WooCommerce order to link web and server events. Ensure that your privacy policy and GTM server container supports this.',
+			'Specify details of your GTM Server-Side container to enable Server Side Tracking. This features requires storing `client_id` parameter in details of WooCommerce order to link web and server events. Ensure that your privacy policy supports this.',
 			'gtm_server'
 		);
 
