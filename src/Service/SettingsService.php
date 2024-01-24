@@ -174,8 +174,8 @@ class SettingsService {
 
 		$this->wpSettingsUtil->addSettingsSection(
 			'events_server',
-			'Events (Server)',
-			'Select which server-side events should be tracked (if you want to track same event both browser and server-side ensure both GTM containers are configured accordingly to avoid duplicates):',
+			'Events/Webhooks',
+			'Select which server-side events should be tracked server-to-server. Ensure your GTM web and server containers are configured correctly if you are tracking the same event (purchase) both from the browser and server. If you are using our presets this is already covered:',
 			'gtm_server'
 		);
 
@@ -285,7 +285,7 @@ class SettingsService {
 			'GA4 Client Activation Path',
 			[$this, 'inputField'],
 			'gtm_server_container',
-			'GA4 Client Activation path as defined in GTM Client',
+			'GA4 Client Activation path as defined in GTM Client. If you are using our Presets use default value of `/mp`.',
 			['type'        => 'text', 'placeholder' => '/mp', 'disabled' => !$this->allowServerTracking]
 		);
 
