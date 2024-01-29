@@ -36,6 +36,12 @@
 					$(".events-list", $preset).pointer({ content: "<p>- " + (preset.events || []).join("<br />- ") + "</p>" });
 
 					$(".version", $preset).text(preset.version || "N/A");
+
+					if (preset.documentation) {
+						$(".documentation", $preset).attr("href", preset.documentation);
+						$(".documentation", $preset).show();
+					}
+
 					// $(".changelog", $preset).pointer({ content: "<p>- " + (preset.changelog || []).join("<br />- ") + "</p>" });
 					if (true === preset.latest) {
 						$preset.css({'border-color': '#06932d', 'border-width': '3px'});
