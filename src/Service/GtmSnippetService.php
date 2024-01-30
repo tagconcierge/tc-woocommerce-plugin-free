@@ -10,7 +10,7 @@ use GtmEcommerceWoo\Lib\Util\WpSettingsUtil;
 class GtmSnippetService {
 	const PRIORITY_BEFORE_GTM = 0;
 	const PRIORITY_GTM = 1;
-	const PRIORYTY_AFTER_GTM = 2;
+	const PRIORITY_AFTER_GTM = 2;
 
 	protected $wpSettingsUtil;
 
