@@ -4,7 +4,7 @@ Tags: google tag manager, GA4, ecommerce events, Google Analytics, Facebook Pixe
 Requires at least: 5.1.0
 Tested up to: 6.4.2
 Requires PHP: 7.0
-Stable tag: 1.10.29
+Stable tag: 1.10.30
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -121,7 +121,7 @@ Yes! Just use the appropriate preset available in the settings screen of the plu
 
 * add documentation links on presets gallery
 * remove BETA badge from GTM server-side
-* tested against the latest versions of WooCommerce
+* tested against the latest version of WooCommerce
 
 = 1.10.29 =
 
