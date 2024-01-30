@@ -117,6 +117,12 @@ Yes! Just use the appropriate preset available in the settings screen of the plu
 
 == Changelog ==
 
+= 1.10.30 =
+
+* add documentation links on presets gallery
+* remove BETA badge from GTM server-side
+* tested against the latest versions of WooCommerce
+
 = 1.10.29 =
 
 * tested against the latest versions of WordPress and WooCommerce
