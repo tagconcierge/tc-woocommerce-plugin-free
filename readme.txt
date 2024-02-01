@@ -1,6 +1,6 @@
 === GTM for WooCommerce FREE ===
 Contributors: Tag Concierge
-Tags: google tag manager, GA4, ecommerce events, Google Analytics, Facebook Pixel, Microsoft UET
+Tags: google tag manager, GA4, ecommerce events, Google Analytics, Facebook Pixel, Microsoft UET, consent mode
 Requires at least: 5.1.0
 Tested up to: 6.4.2
 Requires PHP: 7.0
@@ -8,15 +8,18 @@ Stable tag: 1.10.30
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Supercharge WooCommerce with GA4-ready GTM integration. Harness eCommerce-focused GTM presets for rapid sales growth.
+Enable new growth channels for your WooCommerce with GA4 and Consent Mode ready GTM integration. Use packages GTM presets for quick installation.
 
 == Description ==
 
-Looking to accelerate the growth of your WooCommerce shop? Uncertain about complex tagging to start tracking customer activities and optimizing paid sales campaigns?
+Looking to accelerate the growth of your WooCommerce shop? Uncertain about complex tagging requirements to start tracking customer activities and optimizing paid sales campaigns?
 
 Discover our plugin, that seamlessly integrates WooCommerce with Google Tag Manager (GTM), pushing standard eCommerce data to the GTM Data Layer. Once integrated, you gain the flexibility to utilize any analytics or marketing tool, even if you're undecided on your choice.
 
-To simplify your journey, our plugin offers pre-packaged integrations for GA4 and Facebook Pixel. You can be up and running in minutes, bypassing the need for extensive GTM configuration.
+To speed up the process, our plugin offers pre-packaged integrations for GA4 and Facebook Pixel. You can be up and running in minutes, bypassing the need for extensive GTM configuration. See how it works here:
+
+https://youtu.be/5s5_tCGuKu4
+
 
 Check [live demo here](https://demo-woocommerce.tagconcierge.com/) (perform typical shop activities - add to cart, purchase - to see how events are triggered). This demo showcase all PRO plugin features - FREE version is limited to 2 events listed below.
 
@@ -105,13 +108,14 @@ Yes! Just use the appropriate preset available in the settings screen of the plu
 
 == Screenshots ==
 
-1. **GTM for WooCommerce** settings and GTM snippets
-2. eCommerce results in GA4 property
-3. eCommerce results in Universal Analytics property
-4. `add_to_cart` event captured in GTM debugger
-5. `purchase` event captured in GTM debugger
-6. How to import the provided GTM container?
-7. GTM workspace tags after importer provided JSON file
+1. **GTM for WooCommerce** integrations
+2. **GTM for WooCommerce** settings and GTM snippets
+3. eCommerce results in GA4 property
+4. eCommerce results in Universal Analytics property
+5. `add_to_cart` event captured in GTM debugger
+6. `purchase` event captured in GTM debugger
+7. How to import the provided GTM container?
+8. GTM workspace tags after importer provided JSON file
 
 
 
