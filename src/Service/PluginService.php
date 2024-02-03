@@ -59,7 +59,6 @@ class PluginService {
 
 		if (!$this->wpSettingsUtil->getOption( 'earliest_active_at' )) {
 			$this->wpSettingsUtil->updateOption( 'earliest_active_at', ( new \DateTime() )->format('Y-m-d H:i:s') );
-			add_action( 'wp_ajax_gtm_ecommerce_woo_dismiss_feedback', [$this, 'dismissFeedback'] );
 		}
 	}
 
