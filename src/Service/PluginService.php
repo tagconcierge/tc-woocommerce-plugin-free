@@ -38,6 +38,12 @@ class PluginService {
 	public function initialize() {
 		add_action( 'admin_notices', [$this, 'activationNoticeSuccess'] );
 
+		if (!$this->wpSettingsUtil->getOption('service_prompt_at')) {
+			add_action( 'admin_notices', [$this, 'serviceNotice'] );
+			add_action( 'admin_enqueue_scripts', [$this, 'enqueueScripts'] );
+			add_action( 'wp_ajax_gtm_ecommerce_woo_dismiss_feedback', [$this, 'dismissServiceFeedback'] );
+		}
+
 		if ($this->wpSettingsUtil->getOption('earliest_active_at') && !$this->wpSettingsUtil->getOption('feedback_prompt_at')) {
 
 			$earliest = new \DateTime($this->wpSettingsUtil->getOption('earliest_active_at'));
@@ -108,6 +114,12 @@ class PluginService {
 		wp_die();
 	}
 
+	public function dismissServiceFeedback() {
+		$this->wpSettingsUtil->updateOption('service_prompt_at', ( new \DateTime() )->format('Y-m-d H:i:s'));
+		wp_send_json(['status' => true]);
+		wp_die();
+	}
+
 	public function satisfactionNotice() {
 		?>
 		<div class="notice notice-success is-dismissible" data-gtm-ecommerce-woo-feedback>
@@ -118,6 +130,16 @@ class PluginService {
 						esc_url($this->feedbackUrl)
 					);
 				?>
+			</p>
+		</div>
+		<?php
+	}
+
+	public function serviceNotice() {
+		?>
+		<div class="notice notice-success is-dismissible" data-gtm-ecommerce-woo-feedback>
+			<p>
+				Boost your WordPress & WooCommerce projects with services from a top EU developer, all starting at €250. <a href="https://tagconcierge.com/services" target="_blank">Get your site to the next level now!</a>
 			</p>
 		</div>
 		<?php
