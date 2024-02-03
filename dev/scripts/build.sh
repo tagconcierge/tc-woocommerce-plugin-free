@@ -1,6 +1,6 @@
 #!/bin/bash
 
-RELEASE_VERSION=$(grep -Po 'Version: *\K\S+' gtm-ecommerce-woo.php)
+RELEASE_VERSION=$(cat gtm-ecommerce-woo.php | grep 'Version:' | awk -F' ' '{print $3}')
 
 docker-compose run -T --rm php-cli <<INPUT
 
