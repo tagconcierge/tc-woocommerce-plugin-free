@@ -28,6 +28,9 @@ class PluginService {
 	/** @var int */
 	protected $feedbackDays = 7;
 
+	/** @var bool */
+	protected $serviceNotice = true;
+
 	public function __construct( string $spineCaseNamespace, WpSettingsUtil $wpSettingsUtil, WcOutputUtil $wcOutputUtil, string $pluginVersion ) {
 		$this->spineCaseNamespace = $spineCaseNamespace;
 		$this->wpSettingsUtil = $wpSettingsUtil;
@@ -38,7 +41,7 @@ class PluginService {
 	public function initialize() {
 		add_action( 'admin_notices', [$this, 'activationNoticeSuccess'] );
 
-		if (!$this->wpSettingsUtil->getOption('service_prompt_at')) {
+		if (false !== this->serviceNotice && !$this->wpSettingsUtil->getOption('service_prompt_at')) {
 			add_action( 'admin_notices', [$this, 'serviceNotice'] );
 			add_action( 'admin_enqueue_scripts', [$this, 'enqueueScripts'] );
 			add_action( 'wp_ajax_gtm_ecommerce_woo_dismiss_feedback', [$this, 'dismissServiceFeedback'] );

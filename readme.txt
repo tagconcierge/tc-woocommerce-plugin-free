@@ -121,6 +121,10 @@ Yes! Just use the appropriate preset available in the settings screen of the plu
 
 == Changelog ==
 
+= 1.10.32 =
+
+* added PHP types
+
 = 1.10.31 =
 
 * tested against the latest version of WordPress
