@@ -88,7 +88,7 @@ class Item implements \JsonSerializable {
 		return $this;
 	}
 
-	public function jsonSerialize() {
+	public function jsonSerialize(): mixed {
 		$jsonItem = [
 			'item_name' => $this->itemName,
 			'item_id' => $this->itemId,
