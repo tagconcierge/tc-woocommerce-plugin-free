@@ -121,13 +121,10 @@ Yes! Just use the appropriate preset available in the settings screen of the plu
 
 == Changelog ==
 
-= 1.10.33 =
-
-* fix PHP errors and improve code linting
-
 = 1.10.32 =
 
 * added PHP types
+* fix PHP errors and improve code linting
 
 = 1.10.31 =
 
