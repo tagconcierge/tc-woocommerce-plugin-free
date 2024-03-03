@@ -3,11 +3,11 @@
     "description": "Google Tag Manager for WooCommerce",
     "type": "wordpress-plugin",
     "require-dev": {
-        "dealerdirect/phpcodesniffer-composer-installer": "^0.7.0",
+        "dealerdirect/phpcodesniffer-composer-installer": "^1",
         "johnpbloch/wordpress-core": "*",
         "roave/security-advisories": "dev-latest",
-        "woocommerce/woocommerce-sniffs": "9999999-dev",
-        "wp-coding-standards/wpcs": "^2.3",
+        "woocommerce/woocommerce-sniffs": "1.0.0",
+        "wp-coding-standards/wpcs": "^3",
         "wpackagist-plugin/woocommerce": "*"
     },
     "config": {
