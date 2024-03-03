@@ -88,7 +88,7 @@ class Event implements \JsonSerializable {
 		return round($value, 2);
 	}
 
-	public function jsonSerialize(): mixed {
+	public function jsonSerialize(): array {
 		/**
 		 * Applies middleware extending events with additional data.
 		 *

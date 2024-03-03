@@ -41,7 +41,7 @@ class PluginService {
 	public function initialize() {
 		add_action( 'admin_notices', [$this, 'activationNoticeSuccess'] );
 
-		if (false !== this->serviceNotice && !$this->wpSettingsUtil->getOption('service_prompt_at')) {
+		if (false !== $this->serviceNotice && !$this->wpSettingsUtil->getOption('service_prompt_at')) {
 			add_action( 'admin_notices', [$this, 'serviceNotice'] );
 			add_action( 'admin_enqueue_scripts', [$this, 'enqueueScripts'] );
 			add_action( 'wp_ajax_gtm_ecommerce_woo_dismiss_feedback', [$this, 'dismissServiceFeedback'] );
