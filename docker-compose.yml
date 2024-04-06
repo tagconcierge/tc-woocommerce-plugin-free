@@ -1,40 +1,74 @@
 # dockerpresso 2.1.0
-version: '2'
 services:
     web:
         image: wordpress:$WORDPRESS_VERSION
         env_file: .env
         restart: always
         volumes:
-            - ./wordpress_data:/var/www/html/
+            - ./.wordpress_data:/var/www/html/
             # uncomment line below to start theme development
             # directory below should contain theme style.css file
             # - ./example-theme-src:/var/www/html/wp-content/themes/example-theme
             # uncomment line below to start plugin development
             # directory below should contain main plugin PHP file
-            - ./trunk:/var/www/html/wp-content/plugins/gtm-ecommerce-woo
+            - .:/var/www/html/wp-content/plugins/gtm-ecommerce-woo
         ports:
             - "80:80"
         links:
             - mysql
     mysql:
-        image: mariadb
+        image: mysql
         restart: always
         env_file: .env
+        environment:
+            - MYSQL_DATABASE=${WORDPRESS_DB_NAME}
+            - MYSQL_USER=${WORDPRESS_DB_USER}
+            - MYSQL_PASSWORD=${WORDPRESS_DB_PASSWORD}
         ports:
             - "3306:3306"
         volumes:
             - mysql_data:/var/lib/mysql
+    web-cli:
+        profiles: ['cli']
+        image: wordpress:cli
+        command: bash
+        user: "33:33"
+        env_file: .env
+        volumes_from:
+            - web
+        links:
+            - web
+            - mysql
+    mysql-cli:
+        profiles: ['cli']
+        image: mysql
+        env_file: .env
+        links:
+            - mysql:mysql
+        command: bash -c 'exec mysql -hmysql -uroot -p$$MYSQL_ROOT_PASSWORD $$MYSQL_DATABASE'
+        environment:
+            - MYSQL_DATABASE=${WORDPRESS_DB_NAME}
+            - MYSQL_USER=${WORDPRESS_DB_USER}
+            - MYSQL_PASSWORD=${WORDPRESS_DB_PASSWORD}
+        volumes_from:
+            - mysql
     php-cli:
+        profiles: ['cli']
+        image: composer
+        env_file: .env
+        command: bash
+        volumes:
+           - .:/app
+    mfrankiewicz-php-cli:
         image: mfrankiewicz/php:7.1-cli
         working_dir: /var/www
         entrypoint: bash
         environment:
-            SSH_AUTH_SOCK: ${SSH_AUTH_SOCK}
+          SSH_AUTH_SOCK: ${SSH_AUTH_SOCK}
         volumes:
-            - ${SSH_AUTH_SOCK}:${SSH_AUTH_SOCK}
-            - ~/.ssh/known_hosts:/root/.ssh/known_hosts
-            - ./:/var/www
+          - ${SSH_AUTH_SOCK}:${SSH_AUTH_SOCK}
+          - ~/.ssh/known_hosts:/root/.ssh/known_hosts
+          - ./:/var/www
 volumes:
     mysql_data: {}
 

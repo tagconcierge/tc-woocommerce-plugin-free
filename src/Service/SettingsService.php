@@ -67,7 +67,7 @@ class SettingsService {
 
 		$this->wpSettingsUtil->addTab(
 			'gtm_server',
-			'GTM Server-side <pre style="display: inline; text-transform: uppercase;">beta</pre>'
+			'GTM Server-Side'
 		);
 
 		$this->wpSettingsUtil->addTab(
@@ -168,14 +168,14 @@ class SettingsService {
 		$this->wpSettingsUtil->addSettingsSection(
 			'gtm_server_container',
 			'GTM Server Container',
-			'Specify details of your GTM Server-side container to enable Server Side Tracking. This is a `BETA` feature and currently only purchase event is available. When enabling a server-side tracking for an event disable a web based event to avoid duplicates. This features requires storing `client_id` parameter in details of WooCommerce order to link web and server events. Ensure that your privacy policy and GTM server container supports this.',
+			'Specify details of your GTM Server-Side container to enable Server Side Tracking. This features requires storing `client_id` parameter in details of WooCommerce order to link web and server events. Ensure that your privacy policy supports this.',
 			'gtm_server'
 		);
 
 		$this->wpSettingsUtil->addSettingsSection(
 			'events_server',
-			'Events (Server)',
-			'Select which server-side events should be tracked (if you want to track same event both browser and server-side ensure both GTM containers are configured accordingly to avoid duplicates):',
+			'Events/Webhooks',
+			'Select which server-side events should be tracked server-to-server. Ensure your GTM web and server containers are configured correctly if you are tracking the same event (purchase) both from the browser and server. If you are using our presets this is already covered:',
 			'gtm_server'
 		);
 
@@ -184,14 +184,14 @@ class SettingsService {
 			'Google Tag Manager presets',
 			'It\'s time to define what to do with tracked eCommerce events. We know that settings up GTM workspace may be cumbersome. That\'s why the plugin comes with a set of presets you can import to your GTM workspace to create all required Tags, Triggers and Variables. Select a preset in dropdown below, download the JSON file and import it in Admin panel in your GTM workspace, see plugin <a href="https://docs.tagconcierge.com/" target="_blank">Documentation</a> for details):<br /><br />
 				<div id="gtm-ecommerce-woo-presets-loader" style="text-align: center;"><span class="spinner is-active" style="float: none;"></span></div><div class="metabox-holder"><div id="gtm-ecommerce-woo-presets-grid" class="postbox-container" style="float: none;"><div id="gtm-ecommerce-woo-preset-tmpl" style="display: none;"><div style="display: inline-block;
-    margin-left: 4%; width: 45%" class="postbox"><h3 class="name">Google Analytics 4</h3><div class="inside"><p class="description">Description</p><p><b>Supported events:</b> <span class="events-count">2</span> <span class="events-list dashicons dashicons-info-outline" style="cursor: pointer;"></span></p><p><a class="download button button-primary" href="#">Download</a></p><p>Version: <span class="version">N/A</span></p></div></div></div></div></div><br /><div id="gtm-ecommerce-woo-presets-upgrade" style="text-align: center; display: none;"><a class="button button-primary" href="https://go.tagconcierge.com/MSm8e" target="_blank">Upgrade to PRO</a></div>',
+    margin-left: 4%; width: 45%" class="postbox"><h3 class="name">Google Analytics 4</h3><div class="inside"><p class="description">Description</p><p><b>Supported events:</b> <span class="events-count">2</span> <span class="events-list dashicons dashicons-info-outline" style="cursor: pointer;"></span></p><p><a class="download button button-primary" href="#">Download</a><a class="documentation button" style="margin-left: 5px; display: none;" target="_blank" href="#">Documentation</a></p><p>Version: <span class="version">N/A</span></p></div></div></div></div></div><br /><div id="gtm-ecommerce-woo-presets-upgrade" style="text-align: center; display: none;"><a class="button button-primary" href="https://go.tagconcierge.com/MSm8e" target="_blank">Upgrade to PRO</a></div>',
 			'gtm_presets'
 		);
 
 		$this->wpSettingsUtil->addSettingsSection(
 			'support',
 			'Support',
-			'<a class="button button-primary" href="https://docs.tagconcierge.com/" target="_blank">Documentation</a><br /><br /><a class="button button-primary" target="_blank" href="https://tagconcierge.com/contact">Contact Support</a>',
+			'<a class="button button-primary" href="https://docs.tagconcierge.com/" target="_blank">Documentation</a><br /><br /><a class="button button-primary" target="_blank" href="https://tagconcierge.com/contact">Contact Support</a><br /><br /><a class="button button-primary" target="_blank" href="https://tagconcierge.com/services">WooCommerce Services</a>',
 			'support'
 		);
 
@@ -285,7 +285,7 @@ class SettingsService {
 			'GA4 Client Activation Path',
 			[$this, 'inputField'],
 			'gtm_server_container',
-			'GA4 Client Activation path as defined in GTM Client',
+			'GA4 Client Activation path as defined in GTM Client. If you are using our Presets use default value of `/mp`.',
 			['type'        => 'text', 'placeholder' => '/mp', 'disabled' => !$this->allowServerTracking]
 		);
 

@@ -1,21 +1,25 @@
 === GTM for WooCommerce FREE ===
 Contributors: Tag Concierge
-Tags: google tag manager, GA4, ecommerce events, Google Analytics, Facebook Pixel, shopping behavior
+Tags: google tag manager, GA4, ecommerce events, Google Analytics, Facebook Pixel, Microsoft UET, consent mode
 Requires at least: 5.1.0
-Tested up to: 6.2.2
+Tested up to: 6.5
 Requires PHP: 7.0
-Stable tag: 1.10.18
+Stable tag: 1.10.32
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Push WooCommerce eCommerce information (**GA4 Ecommerce and UA Enhanced Ecommerce compatible**) to GTM DataLayer. Use any Google Tag Manager integration to measure your customers' activities.
+Enable new growth channels for your WooCommerce with GA4 and Consent Mode ready GTM integration. Use packages GTM presets for quick installation.
 
 == Description ==
 
-Do you own **WooCommerce shop** and you want to track and analyze your customers' activities?
+Looking to accelerate the growth of your WooCommerce shop? Uncertain about complex tagging requirements to start tracking customer activities and optimizing paid sales campaigns?
 
-This plugin push standard eCommerce information to GTM Data Layer.
-Once this information is available in your GTM workspace you can plugin and use any tool available. Even if you are unsure yet which tool you would need or like to use.
+Discover our plugin, that seamlessly integrates WooCommerce with Google Tag Manager (GTM), pushing standard eCommerce data to the GTM Data Layer. Once integrated, you gain the flexibility to utilize any analytics or marketing tool, even if you're undecided on your choice.
+
+To speed up the process, our plugin offers pre-packaged integrations for GA4 and Facebook Pixel. You can be up and running in minutes, bypassing the need for extensive GTM configuration. See how it works here:
+
+https://youtu.be/5s5_tCGuKu4
+
 
 Check [live demo here](https://demo-woocommerce.tagconcierge.com/) (perform typical shop activities - add to cart, purchase - to see how events are triggered). This demo showcase all PRO plugin features - FREE version is limited to 2 events listed below.
 
@@ -23,9 +27,10 @@ More information and documentation can be found [here](https://docs.tagconcierge
 
 ## Example scenarios
 
-1. Measure eCommerce behaviors in Google Analytics (**GA4 and legacy UA properties are supported**)
-2. Track conversions from Facebook and/or Instagram campaigns
-3. Track conversions from Google Ads campaigns (requires PRO version)
+1. Analyse eCommerce behaviors and study your sales funnel in Google Analytics (**GA4 supported**)
+2. Get most out of Facebook and Instagram paid campaigns with conversion tracking
+3. Optimise your Google Ads campaigns with enhanced conversion (requires PRO version)
+4. Expand to new platforms with TikTok, Pinterest and Microsoft UET presets (requires PRO version)
 
 
 ## Supported events
@@ -71,7 +76,6 @@ Hit `Confirm` to create tags, variables, and triggers for pushing Ecommerce even
 
 The last step is to define `GA4 Measurement ID`. Go to `Variables` find a variable with the `GA4 Measurement ID` name, click to edit it. Then paste your GA4 Measurement ID in the Value field.
 
-If you are importing `UA Compatible` preset you can find the tracking ID in the `UA Settings` variable.
 
 If you are importing `Facebook Pixel` preset you can find the tracking ID in `FBP Pixel ID` variable.
 
@@ -97,25 +101,88 @@ See the Installation tab above or [our guides](https://tagconcierge.com/google-t
 This version of the plugin supports just `purchase` and `add_to_cart` events.
 Our PRO version available [here](https://tagconcierge.com/google-tag-manager-for-woocommerce/) supports more.
 
-= Is GA4 and Universal Analytics supported? =
+= Is GA4 supported? =
 
-Yes! You can use GA4 and UA in any combination. Just use the appropriate preset available in the settings screen of the plugin. You can use both at the same time as well.
+Yes! Just use the appropriate preset available in the settings screen of the plugin
 
-The plugin always emits events in GA4 compatible format, but the UA preset contains a compatibility tag that additionally emits UA compatible events.
 
 == Screenshots ==
 
-1. **GTM for WooCommerce** settings and GTM snippets
-2. eCommerce results in GA4 property
-3. eCommerce results in Universal Analytics property
-4. `add_to_cart` event captured in GTM debugger
-5. `purchase` event captured in GTM debugger
-6. How to import the provided GTM container?
-7. GTM workspace tags after importer provided JSON file
+1. **GTM for WooCommerce** integrations
+2. **GTM for WooCommerce** settings and GTM snippets
+3. eCommerce results in GA4 property
+4. eCommerce results in Universal Analytics property
+5. `add_to_cart` event captured in GTM debugger
+6. `purchase` event captured in GTM debugger
+7. How to import the provided GTM container?
+8. GTM workspace tags after importer provided JSON file
 
 
 
 == Changelog ==
+
+= 1.10.32 =
+
+* added PHP types
+* fix PHP errors and improve code linting
+* tested against the latest versions of WordPress and WooCommerce
+
+= 1.10.31 =
+
+* tested against the latest version of WordPress
+* add links to professional services
+
+= 1.10.30 =
+
+* add documentation links on presets gallery
+* remove BETA badge from GTM server-side
+* tested against the latest version of WooCommerce
+
+= 1.10.29 =
+
+* tested against the latest versions of WordPress and WooCommerce
+
+= 1.10.28 =
+
+* tested against the latest versions of WordPress and WooCommerce
+
+= 1.10.27 =
+
+* tested against the latest versions of WordPress and WooCommerce
+
+= 1.10.26 =
+
+* added 'discount' property to ecommerce item
+* tested against the latest version of WooCommerce
+
+= 1.10.25 =
+
+* tested against the latest version of WooCommerce
+
+= 1.10.24 =
+
+* improved Google Analytics 4 events attributes
+
+= 1.10.23 =
+
+* tested against the latest versions of WordPress and WooCommerce
+
+= 1.10.22 =
+
+* fixed dynamic property in GtmEcommerceWoo\Lib\GaEcommerceEntity\Item object
+* tested against the latest version of WooCommerce
+
+= 1.10.21 =
+
+* tested against the latest versions of WordPress and WooCommerce
+
+= 1.10.20 =
+
+* fixed events inspector's console z-index property
+
+= 1.10.19 =
+
+* added distinction for recently added presets in presets gallery
 
 = 1.10.18 =
 

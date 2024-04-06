@@ -21,12 +21,19 @@ class WcTransformerUtil {
 		$order = $orderItem->get_order();
 		$product = $orderItem->get_product();
 		$variantProduct = ( $orderItem->get_variation_id() ) ? ( wc_get_product( $orderItem->get_variation_id() ) )->get_name() : '';
+		$regularPrice = wc_get_price_including_tax($product, ['price' => $product->get_regular_price(null)]);
+		$salePrice = (float) $order->get_item_total($orderItem, $withTax = true, $round = false);
+		$discount = $regularPrice - $salePrice;
 
 		$item = new Item($orderItem->get_name());
 		$item->setItemId($product->get_id());
-		$item->setPrice((float) $order->get_item_total($orderItem, $withTax = true, $round = false));
+		$item->setPrice($salePrice);
 		$item->setItemVariant($variantProduct);
 		$item->setQuantity($orderItem->get_quantity());
+
+		if (0 < $discount) {
+			$item->setDiscount($discount);
+		}
 
 		$itemCats = ( $orderItem->get_variation_id() ) ? get_the_terms( $product->get_parent_id(), 'product_cat' ) : get_the_terms( $product->get_id(), 'product_cat' );
 		if (is_array($itemCats)) {
@@ -53,10 +60,17 @@ class WcTransformerUtil {
 	 * https://woocommerce.github.io/code-reference/classes/WC-Product-Simple.html
 	 */
 	public function getItemFromProduct( $product ): Item {
+		$regularPrice = wc_get_price_including_tax($product, ['price' => $product->get_regular_price(null)]);
+		$salePrice = wc_get_price_including_tax($product);
+		$discount = $regularPrice - $salePrice;
+
 		$item = new Item($product->get_name());
 		$item->setItemId($product->get_id());
-		$item->setPrice($product->get_price());
+		$item->setPrice(wc_get_price_including_tax($product));
 
+		if (0 < $discount) {
+			$item->setDiscount($discount);
+		}
 
 		$productCats = ( $product instanceof WC_Product_Variation )
 			? get_the_terms( $product->get_parent_id(), 'product_cat' )

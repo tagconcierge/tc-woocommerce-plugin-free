@@ -4,6 +4,7 @@ namespace GtmEcommerceWoo\Lib\GaEcommerceEntity;
 
 class Item implements \JsonSerializable {
 
+	public $itemId;
 	public $itemName;
 	public $itemBrand;
 	public $itemCoupon;
@@ -12,11 +13,13 @@ class Item implements \JsonSerializable {
 	public $itemListId;
 	public $index;
 	public $quantity;
+	public $price;
+	public $discount;
+	public $extraProps = [];
+	public $itemCategories = [];
 
 	public function __construct( $itemName ) {
 		$this->itemName = $itemName;
-		$this->itemCategories = [];
-		$this->extraProps = [];
 	}
 
 	public function setItemName( $itemName ) {
@@ -29,6 +32,10 @@ class Item implements \JsonSerializable {
 
 	public function setPrice( $price ) {
 		$this->price = (float) $price;
+	}
+
+	public function setDiscount( $discount ) {
+		$this->discount = (float) $discount;
 	}
 
 	public function setItemBrand( $itemBrand ) {
@@ -53,39 +60,40 @@ class Item implements \JsonSerializable {
 
 	public function setIndex( $index ) {
 		$this->index = $index;
+
 		return $this;
 	}
 
 	public function setItemListName( $itemListName ) {
 		$this->itemListName = $itemListName;
+
 		return $this;
 	}
 
 	public function setItemListId( $itemListId ) {
 		$this->itemListId = $itemListId;
+
 		return $this;
 	}
 
 	public function setQuantity( $quantity ) {
 		$this->quantity = (int) $quantity;
+
 		return $this;
 	}
 
 	public function setExtraProperty( $propName, $propValue ) {
 		$this->extraProps[$propName] = $propValue;
+
 		return $this;
 	}
 
-	public function jsonSerialize() {
+	public function jsonSerialize(): array {
 		$jsonItem = [
 			'item_name' => $this->itemName,
 			'item_id' => $this->itemId,
 			'price' => $this->price,
 			'item_brand' => @$this->itemBrand,
-			// 'item_category': 'Apparel',
-			// 'item_category_2': 'Mens',
-			// 'item_category_3': 'Shirts',
-			// 'item_category_4': 'Tshirts',
 			'item_coupon' => @$this->itemCoupon,
 			'item_variant' => @$this->itemVariant,
 			'item_list_name' => @$this->itemListName,
@@ -94,10 +102,14 @@ class Item implements \JsonSerializable {
 			'quantity' => @$this->quantity,
 		];
 
+		if (null !== $this->discount && 0 < $this->discount) {
+			$jsonItem['discount'] = $this->discount;
+		}
+
 		foreach ($this->itemCategories as $index => $category) {
 			$categoryParam = 'item_category';
 			if ($index > 0) {
-				$categoryParam .= '_' . ( $index + 1 );
+				$categoryParam = sprintf('%s%d', $categoryParam, $index + 1);
 			}
 			$jsonItem[$categoryParam] = $category;
 		}
@@ -106,7 +118,7 @@ class Item implements \JsonSerializable {
 			$jsonItem[$propName] = $propValue;
 		}
 
-		return array_filter($jsonItem, function( $value) {
+		return array_filter($jsonItem, static function ( $value ) {
 			return !is_null($value) && '' !== $value;
 		});
 	}
