@@ -2,9 +2,9 @@
 Contributors: Tag Concierge
 Tags: google tag manager, GA4, ecommerce events, Google Analytics, Facebook Pixel, Microsoft UET, consent mode
 Requires at least: 5.1.0
-Tested up to: 6.4.3
+Tested up to: 6.5
 Requires PHP: 7.0
-Stable tag: 1.10.30
+Stable tag: 1.10.32
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -125,6 +125,7 @@ Yes! Just use the appropriate preset available in the settings screen of the plu
 
 * added PHP types
 * fix PHP errors and improve code linting
+* tested against the latest versions of WordPress and WooCommerce
 
 = 1.10.31 =
 
