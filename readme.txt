@@ -124,6 +124,7 @@ Yes! Just use the appropriate preset available in the settings screen of the plu
 = 1.10.32 =
 
 * added PHP types
+* fix PHP errors and improve code linting
 
 = 1.10.31 =
 
