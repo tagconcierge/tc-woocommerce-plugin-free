@@ -72,7 +72,7 @@ jQuery(document).on('click', '.cart .single_add_to_cart_button', function(ev) {
 	var quantity = jQuery('[name="quantity"]', form).val();
 	var product_id = jQuery('[name="add-to-cart"]', form).val();
 
-	var item = ${jsonItem};
+	var item = {$jsonItem};
 	item.quantity = parseInt(quantity);
 
 	let event = {$this->getStringifiedEvent()};
