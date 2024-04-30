@@ -77,6 +77,7 @@ jQuery(document).on('click', '.cart .single_add_to_cart_button', function(ev) {
 
 	let event = {$this->getStringifiedEvent()};
 
+	dataLayer.push({ ecommerce: null });
 	dataLayer.push({
 		...event,
 	  'ecommerce': {
@@ -124,6 +125,7 @@ jQuery(document).on('click', '.ajax_add_to_cart', function(ev) {
 
 	let event = {$this->getStringifiedEvent()};
 
+	dataLayer.push({ ecommerce: null });
 	dataLayer.push({
 		...event,
 	  'ecommerce': {

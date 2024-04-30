@@ -25,7 +25,7 @@ class WcTransformerUtil {
 		$salePrice = (float) $order->get_item_total($orderItem, $withTax = true, $round = false);
 		$discount = $regularPrice - $salePrice;
 
-		$item = new Item($orderItem->get_name());
+		$item = new Item($product->get_name());
 		$item->setItemId($product->get_id());
 		$item->setPrice($salePrice);
 		$item->setItemVariant($variantProduct);

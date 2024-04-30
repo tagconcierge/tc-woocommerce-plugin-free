@@ -37,6 +37,7 @@ class WcOutputUtil {
 
 	public function dataLayerPush( $event) {
 		$stringifiedEvent = json_encode($event);
+		$this->scripts[] = 'dataLayer.push({ ecommerce: null });';
 		$scriptString = 'dataLayer.push(' . $stringifiedEvent . ');';
 		$this->scripts[] = $scriptString;
 	}
