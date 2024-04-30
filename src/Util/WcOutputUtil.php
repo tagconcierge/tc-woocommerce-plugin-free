@@ -26,7 +26,6 @@ class WcOutputUtil {
 		}
 		echo "<script type=\"text/javascript\" data-gtm-ecommerce-woo-scripts>\n";
 		echo "window.dataLayer = window.dataLayer || [];\n";
-		echo "window.dataLayer.push({ ecommerce: null });\n";
 		echo "(function(dataLayer, jQuery) {\n";
 		foreach ($this->scripts as $script) {
 			echo filter_var($script, FILTER_FLAG_STRIP_BACKTICK) . "\n";
