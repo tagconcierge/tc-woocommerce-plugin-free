@@ -1,4 +1,4 @@
-=== GTM for WooCommerce FREE ===
+=== GTM for WooCommerce FREE - Google Tag Manager Integration ===
 Contributors: Tag Concierge
 Tags: google tag manager, GA4, ecommerce events, Google Analytics, Facebook Pixel, Microsoft UET, consent mode
 Requires at least: 5.1.0
@@ -8,7 +8,7 @@ Stable tag: 1.10.32
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Enable new growth channels for your WooCommerce with GA4 and Consent Mode ready GTM integration. Use packages GTM presets for quick installation.
+Enable new growth channels for WooCommerce with GA4, Facebook Pixel and Consent Mode ready GTM integration. Use packaged GTM presets for quick installation.
 
 == Description ==
 
@@ -120,6 +120,11 @@ Yes! Just use the appropriate preset available in the settings screen of the plu
 
 
 == Changelog ==
+
+= 1.10.33 =
+
+* push `ecommerce: null` to dataLayer before every event
+* send product name without variant attribute as the main product name
 
 = 1.10.32 =
 
