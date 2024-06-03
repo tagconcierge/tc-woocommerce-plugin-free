@@ -4,7 +4,7 @@ Tags: google tag manager, GA4, ecommerce events, Google Analytics, Facebook Pixe
 Requires at least: 5.1.0
 Tested up to: 6.5
 Requires PHP: 7.0
-Stable tag: 1.10.33
+Stable tag: 1.10.34
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -12,16 +12,18 @@ Enable new growth channels for WooCommerce with GA4, Facebook Pixel and Consent 
 
 == Description ==
 
-Looking to accelerate the growth of your WooCommerce shop? Uncertain about complex tagging requirements to start tracking customer activities and optimizing paid sales campaigns?
+Tracking eCommerce events via Google Tag Manager and DataLayer makes adding new growth channels a straighforward task. Regardless of a number of connected platforms the data quality and events coverage stays the same.
 
-Discover our plugin, that seamlessly integrates WooCommerce with Google Tag Manager (GTM), pushing standard eCommerce data to the GTM Data Layer. Once integrated, you gain the flexibility to utilize any analytics or marketing tool, even if you're undecided on your choice.
+https://youtu.be/rxY13l4N4JI
+
+This plugin, once activated, starts pushing standard GA4 eCommerce events into GTM DataLayer. Once the data is there you can leverage powerful GTM integrations to connect virtually any analytics or marketing platform or tool, even if you're undecided on your choice.
 
 To speed up the process, our plugin offers pre-packaged integrations for GA4 and Facebook Pixel. You can be up and running in minutes, bypassing the need for extensive GTM configuration. See how it works here:
 
 https://youtu.be/5s5_tCGuKu4
 
 
-Check [live demo here](https://demo-woocommerce.tagconcierge.com/) (perform typical shop activities - add to cart, purchase - to see how events are triggered). This demo showcase all PRO plugin features - FREE version is limited to 2 events listed below.
+Check [live demo here](https://demo2-woocommerce.tagconcierge.com/) (perform typical shop activities - add to cart, purchase - to see how events are triggered). This demo showcase all PRO plugin features - FREE version is limited to 2 events listed below.
 
 More information and documentation can be found [here](https://docs.tagconcierge.com/).
 
@@ -40,24 +42,24 @@ After the plugin is installed it automatically tracks the following events:
 - Add To Cart
 - Purchase
 
-Which are a great base for **conversion measurements** and building **sales funnels** related to cart behavior.
+Which are a great base for **conversion measurements** and analysing **sales funnels** related to cart behavior.
 
 **For full eCommerce events coverage, improved handling and professional support [buy PRO version](https://tagconcierge.com/google-tag-manager-for-woocommerce/).**
 
 ## Advantage over alternative solutions
 
-### Only single plugin needed
+### Only one plugin needed
 
 Without GTM for WooCommerce plugin, you would need a separate plugin for each of those integrations. And each additional plugin may make your Wordpress setup more complex.
 With GTM for WooCommerce, all data is sent in standardized Google format to GTM and everything else is configured there.
 
 ### Reporting consistency
 
-A common problem when trying to use other GTM and Google Analytics plugins is that data can be sent twice corrupting analytics reporting. Using DataLayer is a standard way to ensure your tracking information stays consistent.
+A common problem when trying to use other GTM and Google Analytics plugins is that data can be sent twice corrupting analytics reporting. Using DataLayer is a standard way to ensure your tracking information stays consistent across all connected tools.
 
-### Cookies opt-in
+### Google Consent Mode v2
 
-Using GTM and dataLayer allows to build more complex scenarios, such as only processing the data after obtaining user consent. Other plugin directly pipe events into target system no matter if required permission was given or not. This is a more advanced scenario that requires manual changes in Google Tag Manager, but out-of-box support may be added in this plugin in future.
+Using GTM and dataLayer allows to build more complex scenarios, such as only processing the data after obtaining user consent. Other plugin directly pipe events into target system no matter if required permission was given or not.
 
 
 == Installation ==
@@ -69,7 +71,7 @@ Using GTM and dataLayer allows to build more complex scenarios, such as only pro
 
 ### How to use JSON file with GTM container?
 
-In order to perform such import go to `Settings > Google Tag Manager` and scroll down. There is a link to the JSON file with the GTM container. Save it as a JSON file on your computer.
+In order to perform such import go to `Settings > Google Tag Manager` and click `GTM Presets` tab. Look for GTM Preset that you would like to install. Save it as a JSON file on your computer.
 
 Then in GTM go to the `Admin` panel of your workspace. Click `Import Container`. Choose the container file you have just downloaded. Decide which workspace it should go to. Then select `Merge` and `Overwrite conflicting tags, triggers and variables.` as import options.
 Hit `Confirm` to create tags, variables, and triggers for pushing Ecommerce events to the GA4 property.
@@ -120,6 +122,11 @@ Yes! Just use the appropriate preset available in the settings screen of the plu
 
 
 == Changelog ==
+
+= 1.10.334 =
+
+* tested against the latest versions of WordPress and WooCommerce
+* documentation and wording adjustments
 
 = 1.10.33 =
 
