@@ -2,13 +2,13 @@
 Contributors: Tag Concierge
 Tags: google tag manager, GA4, ecommerce events, Google Analytics, Facebook Pixel, Microsoft UET, consent mode
 Requires at least: 5.1.0
-Tested up to: 6.5
+Tested up to: 6.6.2
 Requires PHP: 7.0
-Stable tag: 1.10.34
+Stable tag: 1.10.35
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Enable new growth channels for WooCommerce with GA4, Facebook Pixel and Consent Mode ready GTM integration. Use packaged GTM presets for quick installation.
+Complete Google Tag Manager plugin, Consent Mode v2 and server-side GTM ready. Quick install for GA4 and Facebook Pixel.
 
 == Description ==
 
@@ -16,11 +16,9 @@ Tracking eCommerce events via Google Tag Manager and DataLayer makes adding new 
 
 https://youtu.be/rxY13l4N4JI
 
-This plugin, once activated, starts pushing standard GA4 eCommerce events into GTM DataLayer. Once the data is there you can leverage powerful GTM integrations to connect virtually any analytics or marketing platform or tool, even if you're undecided on your choice.
+This plugin, once activated, starts pushing standard GA4 eCommerce events into GTM DataLayer. Once the data is there you can leverage Google Tag Manager containers to connect virtually any analytics o marketing platform, even if you're still undecided on your choice.
 
-To speed up the process, our plugin offers pre-packaged integrations for GA4 and Facebook Pixel. You can be up and running in minutes, bypassing the need for extensive GTM configuration. See how it works here:
-
-https://youtu.be/5s5_tCGuKu4
+To speed up the process, our plugin offers pre-packaged integrations for GA4 and Facebook Pixel. You can be up and running in minutes, bypassing the need for time-consuming GTM configuration. See how it works here:
 
 
 Check [live demo here](https://demo2-woocommerce.tagconcierge.com/) (perform typical shop activities - add to cart, purchase - to see how events are triggered). This demo showcase all PRO plugin features - FREE version is limited to 2 events listed below.
@@ -29,9 +27,9 @@ More information and documentation can be found [here](https://docs.tagconcierge
 
 ## Example scenarios
 
-1. Analyse eCommerce behaviors and study your sales funnel in Google Analytics (**GA4 supported**)
+1. Analyse eCommerce behaviors and study your sales funnel in Google Analytics 4
 2. Get most out of Facebook and Instagram paid campaigns with conversion tracking
-3. Optimise your Google Ads campaigns with enhanced conversion (requires PRO version)
+3. Optimise your Google Ads campaigns with Enhanced Conversion (requires PRO version)
 4. Expand to new platforms with TikTok, Pinterest and Microsoft UET presets (requires PRO version)
 
 
@@ -46,12 +44,53 @@ Which are a great base for **conversion measurements** and analysing **sales fun
 
 **For full eCommerce events coverage, improved handling and professional support [buy PRO version](https://tagconcierge.com/google-tag-manager-for-woocommerce/).**
 
+## PRO Version
+
+The paid version covers following events:
+
+- view_item_list
+- select_item
+- view_item
+- add_to_cart
+- view_cart
+- remove_from_cart
+- begin_checkout
+- add_billing_info
+- add_payment_info
+- add_shipping_info
+- purchase
+- user_data
+
+Comes with presets for:
+
+- Google Ads (Enhanced Conversions)
+- Google Ads Dynamic Remarketing
+- Facebook Pixel (Advanced Matching)
+- Microsoft UET / Bing Ads
+- Pinterest
+- TikTok
+- Consent Mode
+- Server-side GTM
+
+Additonally, works with 3rd party plugins:
+
+- WooCommerce Brands
+- Yith Brands
+- WooCommerce Quick View
+- WooCommerce Wishlists
+- WPC Smart Wishlist
+- WooCommerce Multilingual
+- WPML
+- Polylang
+
+
 ## Advantage over alternative solutions
 
 ### Only one plugin needed
 
-Without GTM for WooCommerce plugin, you would need a separate plugin for each of those integrations. And each additional plugin may make your Wordpress setup more complex.
-With GTM for WooCommerce, all data is sent in standardized Google format to GTM and everything else is configured there.
+Without a GTM plugin, you would need a separate plugin for each of those integrations. Each plugin can track events differently. They can cause conflicts and slow-down on the front-end
+
+With a dedicated GTM plugin, all data is sent in standardized Google format to Google Tag Manager which forwards events to multiple destination services.
 
 ### Reporting consistency
 
@@ -123,7 +162,12 @@ Yes! Just use the appropriate preset available in the settings screen of the plu
 
 == Changelog ==
 
-= 1.10.334 =
+= 1.10.34 =
+
+* removed unnecessary code
+* tested against the latest versions of WordPress and WooCommerce
+
+= 1.10.34 =
 
 * tested against the latest versions of WordPress and WooCommerce
 * documentation and wording adjustments

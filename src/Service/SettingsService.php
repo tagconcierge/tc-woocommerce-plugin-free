@@ -191,7 +191,7 @@ class SettingsService {
 		$this->wpSettingsUtil->addSettingsSection(
 			'support',
 			'Support',
-			'<a class="button button-primary" href="https://docs.tagconcierge.com/" target="_blank">Documentation</a><br /><br /><a class="button button-primary" target="_blank" href="https://tagconcierge.com/contact">Contact Support</a><br /><br /><a class="button button-primary" target="_blank" href="https://tagconcierge.com/services">WooCommerce Services</a>',
+			'<a class="button button-primary" href="https://docs.tagconcierge.com/" target="_blank">Documentation</a><br /><br /><a class="button button-primary" target="_blank" href="https://tagconcierge.com/contact">Contact Support</a><br /><br /><a class="button button-primary" target="_blank" href="https://tagconcierge.com/services">Custom Services</a>',
 			'support'
 		);
 
