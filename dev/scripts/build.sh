@@ -2,7 +2,7 @@
 
 RELEASE_VERSION=$(cat gtm-ecommerce-woo.php | grep 'Version:' | awk -F' ' '{print $3}')
 
-docker-compose run -T --rm php-cli <<INPUT
+docker compose run -T --rm php-cli <<INPUT
 
 composer install
 composer run check
