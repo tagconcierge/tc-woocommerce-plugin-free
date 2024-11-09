@@ -44,21 +44,46 @@ class WpSettingsUtil {
 		];
 	}
 
-	public function addSettingsSection( $sectionName, $sectionTitle, $description, $tab): void {
+	public function addSettingsSection( $sectionName, $sectionTitle, $description, $tab, $extra = null): void {
 		$this->sections[$sectionName] = [
 			'name' => $sectionName,
 			'tab' => $tab
 		];
+		$args = [
+			'before_section' => '',
+			'after_section' => '',
+		];
+
+		$grid = isset($extra['grid']) ? $extra['grid'] : null;
+		$badge = isset($extra['badge']) ? $extra['badge'] : null;
+
+		if ($grid === 'start' || $grid === 'single') {
+			$args['before_section'] = '<div class="metabox-holder"><div class="postbox-container" style="float: none; display: flex; flex-wrap:wrap;">';
+		}
+		if ($grid !== null) {
+			$args['before_section'] .= '<div style="margin-left: 4%; width: 45%" class="postbox"><div class="inside">';
+			$args['after_section'] = '</div></div>';
+		}
+
+		if ($grid === 'end' || $grid === 'single') {
+			$args['after_section'] .= '</div></div><br />';
+		}
+
+		$title = __( $sectionTitle, $this->spineCaseNamespace );
+		if ($badge) {
+			$title .= ' <code>' . strtoupper($badge) . '</code>';
+		}
+
 		add_settings_section(
 			$this->snakeCaseNamespace . '_' . $sectionName,
-			__( $sectionTitle, $this->spineCaseNamespace ),
-			static function( $args) use ( $description) {
+			$title,
+			static function( $args) use ( $description, $grid ) {
 				?>
-
 			  <p id="<?php echo esc_attr( $args['id'] ); ?>"><?php echo wp_kses($description, SanitizationUtil::WP_KSES_ALLOWED_HTML, SanitizationUtil::WP_KSES_ALLOWED_PROTOCOLS); ?></p>
-				<?php
+			  <?php
 			},
-			$this->snakeCaseNamespace . '_' . $tab
+			$this->snakeCaseNamespace . '_' . $tab,
+			$args
 		);
 	}
 

@@ -199,7 +199,48 @@ class SettingsService {
 			'event_inspector',
 			'Event Inspector',
 			'Events Inspector provide basic way of confirming that events are being tracked. Depending on the setting below it will show a small window at the bottom of every page with all eCommerce events captured during a given session.',
-			'tools'
+			'tools',
+			[ 'grid' => 'start' ]
+		);
+
+		$this->wpSettingsUtil->addSettingsSection(
+			'event_deferral',
+			'Event Deferral',
+			'Defer events pushed to data layer until "DOM ready" event. Useful when using asynchronous Consent Management Platform to ensure consent state is provided before firing any events.',
+			'tools',
+			[ 'grid' => 'item', 'badge' => 'PRO' ]
+		);
+
+		$this->wpSettingsUtil->addSettingsSection(
+			'cart_data_gads',
+			'Google Ads Cart Data',
+			'Pass additional Cart Data parameters to your Google Ads Conversions. This allows to use Dynamic Remarketing campaigns or track conversion value based on COGS information provided in your Google Merchant Center Account.',
+			'tools',
+			[ 'grid' => 'item', 'badge' => 'PRO' ]
+		);
+
+		$this->wpSettingsUtil->addSettingsSection(
+			'server_side_endpoint_cogs',
+			'sGTM COGS Endpoint',
+			'When using server-side GTM you can make additional transformation before data is sent to the 3rd party platform. This endpoint allows replacing default revenue based conversion values with profit information stored in WooCommerce using COGS plugin.',
+			'tools',
+			[ 'grid' => 'item', 'badge' => 'PRO' ]
+		);
+
+		$this->wpSettingsUtil->addSettingsSection(
+			'product_feed_google',
+			'Google Product Feed',
+			'',
+			'tools',
+			[ 'grid' => 'item' ]
+		);
+
+		$this->wpSettingsUtil->addSettingsSection(
+			'product_feed_facebook',
+			'Facebook Product Feed',
+			'',
+			'tools',
+			[ 'grid' => 'end' ]
 		);
 
 		$this->wpSettingsUtil->addSettingsField(
@@ -233,6 +274,85 @@ class SettingsService {
 					'yes-demo' => 'Enabled, for everybody - DEMO MODE',
 				]
 			]
+		);
+
+		$this->wpSettingsUtil->addSettingsField(
+			'defer_events',
+			'Defer events?',
+			[$this, 'checkboxField'],
+			'event_deferral',
+			'When clicked Ecommerce events will be pushed to DataLayer after DOM Ready event.',
+			['disabled' => true, 'title' => 'Upgrade to PRO version above.']
+		);
+
+		$this->wpSettingsUtil->addSettingsField(
+			'google_business_vertical',
+			'Google Business Vertical',
+			[$this, 'selectField'],
+			'cart_data_gads',
+			'Select required parameter <a href="https://support.google.com/google-ads/answer/7305793?hl=en" target="_blank">learn more here</a>.',
+			[
+				'options' => [
+					'no' => 'Feature Disabled',
+					'retail' => 'Retail',
+					'education' => 'education'
+				],
+				'disabled' => true,
+				'title' => 'Upgrade to PRO version above.']
+		);
+
+		$this->wpSettingsUtil->addSettingsField(
+			'dynamic_remarketing_google_id_prefix',
+			'Item ID prefix',
+			[$this, 'inputField'],
+			'cart_data_gads',
+			'Optional prefix to match your product feed in Google Merchant Center, e.g. `woocommerce_gpf_`.',
+			[
+				'type' => 'text',
+				'disabled' => true,
+				'title' => 'Upgrade to PRO version above.'
+			]
+		);
+
+		$this->wpSettingsUtil->addSettingsField(
+			'cart_data_google_merchant_id',
+			'AW Merchant ID',
+			[$this, 'inputField'],
+			'cart_data_gads',
+			'The Merchant Center ID. Provide this parameter if you submit an item in several Merchant Center accounts and you want to control from which Merchant Center the item’s data, for example, its COGS, should be read.',
+			[
+				'type' => 'text',
+				'disabled' => true,
+				'title' => 'Upgrade to PRO version above.'
+			]
+		);
+
+		$this->wpSettingsUtil->addSettingsField(
+			'server_side_endpoint_cogs_enabled',
+			'Enable COGS Endpoint',
+			[$this, 'checkboxField'],
+			'server_side_endpoint_cogs',
+			'Enable serving COGS information for sGTM container.',
+			[
+				'disabled' => true,
+				'title' => 'Upgrade to PRO version above.'
+			]
+		);
+
+		$this->wpSettingsUtil->addSettingsField(
+			'product_feed_google_enabled',
+			'Enable Product Feed',
+			[$this, 'checkboxField'],
+			'product_feed_google',
+			'Generate Product Feed for Google Merchant Center.'
+		);
+
+		$this->wpSettingsUtil->addSettingsField(
+			'product_feed_facebook_enabled',
+			'Enable Product Feed',
+			[$this, 'checkboxField'],
+			'product_feed_facebook',
+			'Generate Product Feed for Facebook / Meta Product Catalog.'
 		);
 
 		$this->wpSettingsUtil->addSettingsField(
