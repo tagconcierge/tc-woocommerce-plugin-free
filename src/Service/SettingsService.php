@@ -222,7 +222,7 @@ class SettingsService {
 		$this->wpSettingsUtil->addSettingsSection(
 			'product_feed_google',
 			'Google Product Feed',
-			'Generates a public CSV file with all product data (published and visible products and their variants) that can be loaded to Google Merchant Center to populate product catalog. The file URL will be available shortly after enabling.<br /><br />URL:' . ( $this->wpSettingsUtil->getOption('product_feed_google_file_url') ? '<input style="margin-left: 10px;width: 85%;" type="text" value="' . $this->wpSettingsUtil->getOption('product_feed_google_file_url') . '" />' : 'Pending' ),
+			'Generates a public CSV file with all product data (published and visible products and their variants) that can be loaded to Google Merchant Center to populate product catalog. The file URL will be available shortly after enabling.<br /><br />URL:' . ( $this->wpSettingsUtil->getOption('product_feed_google_file_url') ? '<input style="margin-left: 10px;width: 85%;" type="text" value="' . $this->wpSettingsUtil->getOption('product_feed_google_file_url') . '" />' : ' Pending' ),
 			'tools',
 			[ 'grid' => 'end' ]
 		);

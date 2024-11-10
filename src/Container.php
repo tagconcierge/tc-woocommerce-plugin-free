@@ -30,6 +30,8 @@ class Container {
 	/** @var EventInspectorService */
 	public $eventInspectorService;
 
+	public $productFeedService;
+
 	/** @var WcTransformerUtil */
 	protected $wcTransformerUtil;
 
