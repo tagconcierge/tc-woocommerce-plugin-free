@@ -216,7 +216,7 @@ class SettingsService {
 			'Google Ads Cart Data',
 			'Pass additional Cart Data parameters to your Google Ads Conversions. This allows to use Dynamic Remarketing campaigns or track conversion value based on COGS information provided in your Google Merchant Center Account.',
 			'tools',
-			[ 'grid' => 'item', 'badge' => 'PRO' ]
+			[ 'grid' => 'item', 'badge' =>  $this->isPro ? null : 'PRO' ]
 		);
 
 		$this->wpSettingsUtil->addSettingsSection(
@@ -248,7 +248,7 @@ class SettingsService {
 			'Cookies Storage',
 			'When using server-side webhooks having access to ad cookies is required.',
 			'gtm_server',
-			[ 'grid' => 'start', 'badge' => 'PRO' ]
+			[ 'grid' => 'start', 'badge' =>  $this->isPro ? null : 'PRO' ]
 		);
 
 		$this->wpSettingsUtil->addSettingsSection(
@@ -256,7 +256,7 @@ class SettingsService {
 			'sGTM COGS Endpoint',
 			'When using server-side GTM you can make additional transformation before data is sent to the 3rd party platform. This endpoint allows replacing default revenue based conversion values with profit information stored in WooCommerce using COGS plugin.',
 			'gtm_server',
-			[ 'grid' => 'end', 'badge' => 'PRO' ]
+			[ 'grid' => 'end', 'badge' =>  $this->isPro ? null : 'PRO' ]
 		);
 
 		/*$this->wpSettingsUtil->addSettingsSection(
@@ -280,8 +280,8 @@ class SettingsService {
 			'Track user id?',
 			[$this, 'checkboxField'],
 			'basic',
-			$this->allowServerTracking ? 'When checked the plugin will send logged client id to dataLayer.' : '<a style="font-size: 0.7em" href="https://go.tagconcierge.com/MSm8e" target="_blank">Upgrade to PRO to track user id.</a>',
-			['disabled' => !$this->allowServerTracking, 'title' => $this->allowServerTracking ? '' : 'Upgrade to PRO to use user tracking']
+			$this->isPro ? 'When checked the plugin will send logged client id to dataLayer.' : '<a style="font-size: 0.7em" href="https://go.tagconcierge.com/MSm8e" target="_blank">Upgrade to PRO to track user id.</a>',
+			['disabled' => !$this->isPro, 'title' => $this->isPro ? '' : 'Upgrade to PRO to use user tracking']
 		);
 
 		$this->wpSettingsUtil->addSettingsField(
@@ -306,7 +306,7 @@ class SettingsService {
 			[$this, 'checkboxField'],
 			'event_deferral',
 			'When clicked Ecommerce events will be pushed to DataLayer after DOM Ready event.',
-			['disabled' => true, 'title' => 'Upgrade to PRO version above.']
+			['disabled' => !$this->isPro, 'title' => 'Upgrade to PRO version above.']
 		);
 
 		$this->wpSettingsUtil->addSettingsField(
@@ -329,9 +329,8 @@ class SettingsService {
 					'retail' => 'Retail',
 					'education' => 'Education'
 				],
-				'disabled' => true,
-				'title' => 'Upgrade to PRO version above.'
-]
+				'disabled' => !$this->isPro,
+			]
 		);
 
 		$this->wpSettingsUtil->addSettingsField(
@@ -342,8 +341,7 @@ class SettingsService {
 			'Optional prefix to match your product feed in Google Merchant Center, e.g. `woocommerce_gpf_`.',
 			[
 				'type' => 'text',
-				'disabled' => true,
-				'title' => 'Upgrade to PRO version above.'
+				'disabled' => !$this->isPro
 			]
 		);
 
@@ -355,8 +353,7 @@ class SettingsService {
 			'The Merchant Center ID. Provide this parameter if you submit an item in several Merchant Center accounts and you want to control from which Merchant Center the item’s data, for example, its COGS, should be read.',
 			[
 				'type' => 'text',
-				'disabled' => true,
-				'title' => 'Upgrade to PRO version above.'
+				'disabled' => !$this->isPro
 			]
 		);
 
@@ -367,8 +364,7 @@ class SettingsService {
 			'server_side_endpoint_cogs',
 			'Enable serving COGS information for sGTM container.',
 			[
-				'disabled' => true,
-				'title' => 'Upgrade to PRO version above.'
+				'disabled' => !$this->isPro
 			]
 		);
 
@@ -572,7 +568,7 @@ class SettingsService {
 		disabled="disabled"
 		<?php endif; ?>
 		value="<?php echo esc_html($value); ?>"
-		placeholder="<?php echo esc_html( $args['placeholder'] ); ?>"
+		placeholder="<?php echo esc_html( @$args['placeholder'] ); ?>"
 		name="<?php echo esc_attr( $args['label_for'] ); ?>" />
 	  <p class="description">
 		<?php echo esc_html( $args['description'] ); ?>
@@ -583,7 +579,7 @@ class SettingsService {
 	public function optionsPage() {
 		$this->wpSettingsUtil->addSubmenuPage(
 			'options-general.php',
-			$this->allowServerTracking ? 'Google Tag Manager for WooCommerce PRO' : 'Tag Pilot - Google Tag Manager for WooCommerce FREE',
+			$this->isPro ? 'Google Tag Manager for WooCommerce PRO' : 'Tag Pilot - Google Tag Manager for WooCommerce FREE',
 			'Google Tag Manager',
 			'manage_options'
 		);
