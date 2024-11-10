@@ -15,7 +15,8 @@ class SanitizationUtil {
 		],
 		'input' => [
 			'type' => [],
-			'value' => []
+			'value' => [],
+			'style' => [],
 		],
 		'br' => [],
 		'div' => [

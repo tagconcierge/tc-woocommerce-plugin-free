@@ -162,6 +162,12 @@ Yes! Just use the appropriate preset available in the settings screen of the plu
 
 == Changelog ==
 
+= 1.11.0 =
+
+* added product feed tool
+* introduced tools gallery
+* improved styling of events inspector
+
 = 1.10.34 =
 
 * removed unnecessary code

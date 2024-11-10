@@ -57,15 +57,15 @@ class WpSettingsUtil {
 		$grid = isset($extra['grid']) ? $extra['grid'] : null;
 		$badge = isset($extra['badge']) ? $extra['badge'] : null;
 
-		if ($grid === 'start' || $grid === 'single') {
+		if ( 'start' === $grid || 'single' === $grid ) {
 			$args['before_section'] = '<div class="metabox-holder"><div class="postbox-container" style="float: none; display: flex; flex-wrap:wrap;">';
 		}
-		if ($grid !== null) {
+		if ( null !== $grid ) {
 			$args['before_section'] .= '<div style="margin-left: 4%; width: 45%" class="postbox"><div class="inside">';
 			$args['after_section'] = '</div></div>';
 		}
 
-		if ($grid === 'end' || $grid === 'single') {
+		if ( 'end' === $grid || 'single' === $grid ) {
 			$args['after_section'] .= '</div></div><br />';
 		}
 

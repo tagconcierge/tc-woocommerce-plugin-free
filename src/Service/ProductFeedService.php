@@ -66,9 +66,9 @@ class ProductFeedService {
 		return bin2hex(random_bytes(16));
 	}
 
-	public function getProductFeedFile($type) {
+	public function getProductFeedFile( $type) {
 		$fileName = $this->wpSettingsUtil->getOption('product_feed_' . $type . '_file_name');
-		if ($fileName === false) {
+		if (false === $fileName) {
 			$fileName = $this->generateRandomString() . '_product_feed_' . $type . '.tsv';
 			$this->wpSettingsUtil->updateOption('product_feed_' . $type . '_file_name', $fileName);
 		}
@@ -77,15 +77,14 @@ class ProductFeedService {
 		return $upload_dir['basedir'] . '/' . $fileName;
 	}
 
-	public function getProductFeedTempFile($type) {
+	public function getProductFeedTempFile( $type) {
 		return $this->getProductFeedFile($type) . '.tmp';
 	}
 
-	protected function shouldGenerateNewFeed($type)
-	{
+	protected function shouldGenerateNewFeed( $type) {
 		$enabled = $this->wpSettingsUtil->getOption('product_feed_' . $type . '_enabled');
 
-		if ($enabled !== '1') {
+		if ('1' !== $enabled) {
 			return false;
 		}
 
@@ -93,12 +92,12 @@ class ProductFeedService {
 
 
 		// Check if we already generated today
-		if ($lastStarted !== false && date('Ymd') === date('Ymd', $lastStarted)) {
+		if (false !== $lastStarted && gmdate('Ymd') === gmdate('Ymd', $lastStarted)) {
 			// Check if it's scheduled time
 			$scheduleTime = $this->wpSettingsUtil->getOption('product_feed_' . $type . '_schedule')
 				?? $this->defaultSchedule[$type];
 
-			$scheduledDateTime = strtotime(date('Y-m-d') . ' ' . $scheduleTime);
+			$scheduledDateTime = strtotime(gmdate('Y-m-d') . ' ' . $scheduleTime);
 			if (time() >= $scheduledDateTime && $lastStarted < $scheduledDateTime) {
 				return true;
 			}
@@ -118,7 +117,7 @@ class ProductFeedService {
 				// Check if there's an ongoing generation
 				$currentPage = get_transient($this->snakeCaseNamespace . '_product_feed_' . $type . '_current_page');
 
-				if ($currentPage === false) {
+				if (false === $currentPage) {
 					// No ongoing generation, check if we should start new one
 					if (!$this->shouldGenerateNewFeed($type)) {
 						break;
@@ -138,7 +137,7 @@ class ProductFeedService {
 
 				$nextPage = $this->generateProductFeed($type, $currentPage);
 
-				if ($nextPage === false) {
+				if (false === $nextPage) {
 					// Generation completed
 					$tempFile = $this->getProductFeedTempFile($type);
 					$finalFile = $this->getProductFeedFile($type);
@@ -159,7 +158,7 @@ class ProductFeedService {
 	 * Returns another page number 2, 3, 4 if there is more products to process
 	 * or false if it finished
 	 */
-	function generateProductFeed($type, $page = 1) {
+	public function generateProductFeed( $type, $page = 1) {
 		$query = new \WC_Product_Query( array(
 			'status' => 'publish',
 			'page'  => 1,
@@ -200,7 +199,7 @@ class ProductFeedService {
 		return false;
 	}
 
-	protected function formatProductData($product, $type) {
+	protected function formatProductData( $product, $type) {
 		$data = [];
 		foreach ($this->headers[$type] as $header) {
 			switch ($header) {

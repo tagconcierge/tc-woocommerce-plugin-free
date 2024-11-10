@@ -69,6 +69,11 @@ class SettingsService {
 		);
 
 		$this->wpSettingsUtil->addTab(
+			'consent_mode',
+			'Consent Mode'
+		);
+
+		$this->wpSettingsUtil->addTab(
 			'gtm_server',
 			'GTM Server-Side'
 		);
@@ -207,14 +212,6 @@ class SettingsService {
 		);
 
 		$this->wpSettingsUtil->addSettingsSection(
-			'event_deferral',
-			'Event Deferral',
-			'Defer events pushed to data layer until "DOM ready" event. Useful when using asynchronous Consent Management Platform to ensure consent state is provided before firing any events.',
-			'tools',
-			[ 'grid' => 'item', 'badge' =>  $this->isPro ? 'PRO' : null ]
-		);
-
-		$this->wpSettingsUtil->addSettingsSection(
 			'cart_data_gads',
 			'Google Ads Cart Data',
 			'Pass additional Cart Data parameters to your Google Ads Conversions. This allows to use Dynamic Remarketing campaigns or track conversion value based on COGS information provided in your Google Merchant Center Account.',
@@ -223,19 +220,43 @@ class SettingsService {
 		);
 
 		$this->wpSettingsUtil->addSettingsSection(
-			'server_side_endpoint_cogs',
-			'sGTM COGS Endpoint',
-			'When using server-side GTM you can make additional transformation before data is sent to the 3rd party platform. This endpoint allows replacing default revenue based conversion values with profit information stored in WooCommerce using COGS plugin.',
+			'product_feed_google',
+			'Google Product Feed',
+			'Generates a public CSV file with all product data (published and visible products and their variants) that can be loaded to Google Merchant Center to populate product catalog. The file URL will be available shortly after enabling.<br /><br />URL:' . ( $this->wpSettingsUtil->getOption('product_feed_google_file_url') ? '<input style="margin-left: 10px;width: 85%;" type="text" value="' . $this->wpSettingsUtil->getOption('product_feed_google_file_url') . '" />' : 'Pending' ),
 			'tools',
-			[ 'grid' => 'item', 'badge' => 'PRO' ]
+			[ 'grid' => 'end' ]
 		);
 
 		$this->wpSettingsUtil->addSettingsSection(
-			'product_feed_google',
-			'Google Product Feed',
-			'Generates a public CSV file with all product data (published and visible products and their variants) that can be loaded to Google Merchant Center to populate product catalog. The file URL will be available shortly after enabling.<br /><br />URL:' . ($this->wpSettingsUtil->getOption('product_feed_google_file_url') ? '<input type="text" value="' . $this->wpSettingsUtil->getOption('product_feed_google_file_url') . '" />' : 'Pending' ),
-			'tools',
-			[ 'grid' => 'end' ]
+			'consent_mode_default',
+			'Default Consent Mode',
+			'Correct Google Consent Mode v2 requires setting default consent state before GTM installation snippet. No all Consent Management Platforms can achieve that, use the settings below to get it loaded before gtm.js.',
+			'consent_mode',
+			[ 'grid' => 'start' ]
+		);
+
+		$this->wpSettingsUtil->addSettingsSection(
+			'event_deferral',
+			'Event Deferral',
+			'Defer events pushed to data layer until "DOM ready" event. Useful when using asynchronous Consent Management Platform to ensure consent state is provided before firing any events.',
+			'consent_mode',
+			[ 'grid' => 'end', 'badge' =>  $this->isPro ? null : 'PRO' ]
+		);
+
+		$this->wpSettingsUtil->addSettingsSection(
+			'cookies_storage',
+			'Cookies Storage',
+			'When using server-side webhooks having access to ad cookies is required.',
+			'gtm_server',
+			[ 'grid' => 'start', 'badge' => 'PRO' ]
+		);
+
+		$this->wpSettingsUtil->addSettingsSection(
+			'server_side_endpoint_cogs',
+			'sGTM COGS Endpoint',
+			'When using server-side GTM you can make additional transformation before data is sent to the 3rd party platform. This endpoint allows replacing default revenue based conversion values with profit information stored in WooCommerce using COGS plugin.',
+			'gtm_server',
+			[ 'grid' => 'end', 'badge' => 'PRO' ]
 		);
 
 		/*$this->wpSettingsUtil->addSettingsSection(
@@ -289,6 +310,14 @@ class SettingsService {
 		);
 
 		$this->wpSettingsUtil->addSettingsField(
+			'consent_mode_default_enabled',
+			'Enable',
+			[$this, 'checkboxField'],
+			'consent_mode_default',
+			'When clicked default consent state will be loaded before gtm.js'
+		);
+
+		$this->wpSettingsUtil->addSettingsField(
 			'google_business_vertical',
 			'Google Business Vertical',
 			[$this, 'selectField'],
@@ -296,12 +325,13 @@ class SettingsService {
 			'Select required parameter <a href="https://support.google.com/google-ads/answer/7305793?hl=en" target="_blank">learn more here</a>.',
 			[
 				'options' => [
-					'no' => 'Feature Disabled',
+					'no' => 'None',
 					'retail' => 'Retail',
-					'education' => 'education'
+					'education' => 'Education'
 				],
 				'disabled' => true,
-				'title' => 'Upgrade to PRO version above.']
+				'title' => 'Upgrade to PRO version above.'
+]
 		);
 
 		$this->wpSettingsUtil->addSettingsField(
@@ -419,6 +449,15 @@ class SettingsService {
 			'gtm_server_container',
 			'In order to use GTM Preview feature, paste the HTTP header from GTM Preview tool. The value will change over time.',
 			['type'        => 'text', 'placeholder' => 'header value', 'disabled' => !$this->allowServerTracking]
+		);
+
+		$this->wpSettingsUtil->addSettingsField(
+			'cookies_storage',
+			'Cookies Storage',
+			[$this, 'checkboxField'],
+			'cookies_storage',
+			'In order to connect web events with server events identifiers from cookies can be stored on the server and added to server events.',
+			['disabled' => false, 'title' => 'Checking will start storing cookies']
 		);
 
 		foreach ($this->events as $eventName) {
