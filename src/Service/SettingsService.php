@@ -33,6 +33,9 @@ class SettingsService {
 	/** @var false */
 	protected $allowServerTracking = false;
 
+	/** @var false */
+	protected $isPro = false;
+
 	/** @var string */
 	protected $filter = 'basic';
 
@@ -184,7 +187,7 @@ class SettingsService {
 			'Google Tag Manager presets',
 			'It\'s time to define what to do with tracked eCommerce events. We know that settings up GTM workspace may be cumbersome. That\'s why the plugin comes with a set of presets you can import to your GTM workspace to create all required Tags, Triggers and Variables. Select a preset in dropdown below, download the JSON file and import it in Admin panel in your GTM workspace, see plugin <a href="https://docs.tagconcierge.com/" target="_blank">Documentation</a> for details):<br /><br />
 				<div id="gtm-ecommerce-woo-presets-loader" style="text-align: center;"><span class="spinner is-active" style="float: none;"></span></div><div class="metabox-holder"><div id="gtm-ecommerce-woo-presets-grid" class="postbox-container" style="float: none;"><div id="gtm-ecommerce-woo-preset-tmpl" style="display: none;"><div style="display: inline-block;
-    margin-left: 4%; width: 45%" class="postbox"><h3 class="name">Google Analytics 4</h3><div class="inside"><p class="description">Description</p><p><b>Supported events:</b> <span class="events-count">2</span> <span class="events-list dashicons dashicons-info-outline" style="cursor: pointer;"></span></p><p><a class="download button button-primary" href="#">Download</a><a class="documentation button" style="margin-left: 5px; display: none;" target="_blank" href="#">Documentation</a></p><p>Version: <span class="version">N/A</span></p></div></div></div></div></div><br /><div id="gtm-ecommerce-woo-presets-upgrade" style="text-align: center; display: none;"><a class="button button-primary" href="https://go.tagconcierge.com/MSm8e" target="_blank">Upgrade to PRO</a></div>',
+	margin-left: 4%; width: 45%" class="postbox"><h3 class="name">Google Analytics 4</h3><div class="inside"><p class="description">Description</p><p><b>Supported events:</b> <span class="events-count">2</span> <span class="events-list dashicons dashicons-info-outline" style="cursor: pointer;"></span></p><p><a class="download button button-primary" href="#">Download</a><a class="documentation button" style="margin-left: 5px; display: none;" target="_blank" href="#">Documentation</a></p><p>Version: <span class="version">N/A</span></p></div></div></div></div></div><br /><div id="gtm-ecommerce-woo-presets-upgrade" style="text-align: center; display: none;"><a class="button button-primary" href="https://go.tagconcierge.com/MSm8e" target="_blank">Upgrade to PRO</a></div>',
 			'gtm_presets'
 		);
 
@@ -208,7 +211,7 @@ class SettingsService {
 			'Event Deferral',
 			'Defer events pushed to data layer until "DOM ready" event. Useful when using asynchronous Consent Management Platform to ensure consent state is provided before firing any events.',
 			'tools',
-			[ 'grid' => 'item', 'badge' => 'PRO' ]
+			[ 'grid' => 'item', 'badge' =>  $this->isPro ? 'PRO' : null ]
 		);
 
 		$this->wpSettingsUtil->addSettingsSection(
@@ -230,18 +233,18 @@ class SettingsService {
 		$this->wpSettingsUtil->addSettingsSection(
 			'product_feed_google',
 			'Google Product Feed',
-			'',
+			'Generates a public CSV file with all product data (published and visible products and their variants) that can be loaded to Google Merchant Center to populate product catalog. The file URL will be available shortly after enabling.<br /><br />URL:' . ($this->wpSettingsUtil->getOption('product_feed_google_file_url') ? '<input type="text" value="' . $this->wpSettingsUtil->getOption('product_feed_google_file_url') . '" />' : 'Pending' ),
 			'tools',
-			[ 'grid' => 'item' ]
+			[ 'grid' => 'end' ]
 		);
 
-		$this->wpSettingsUtil->addSettingsSection(
+		/*$this->wpSettingsUtil->addSettingsSection(
 			'product_feed_facebook',
 			'Facebook Product Feed',
 			'',
 			'tools',
-			[ 'grid' => 'end' ]
-		);
+			[ 'grid' => 'end', 'badge' => 'PRO' ]
+		);*/
 
 		$this->wpSettingsUtil->addSettingsField(
 			'disabled',
@@ -344,16 +347,16 @@ class SettingsService {
 			'Enable Product Feed',
 			[$this, 'checkboxField'],
 			'product_feed_google',
-			'Generate Product Feed for Google Merchant Center.'
+			'When enabled the public file will be created and updated every day.'
 		);
 
-		$this->wpSettingsUtil->addSettingsField(
+		/*$this->wpSettingsUtil->addSettingsField(
 			'product_feed_facebook_enabled',
 			'Enable Product Feed',
 			[$this, 'checkboxField'],
 			'product_feed_facebook',
 			'Generate Product Feed for Facebook / Meta Product Catalog.'
-		);
+		);*/
 
 		$this->wpSettingsUtil->addSettingsField(
 			'gtm_snippet_prevent_load',
@@ -541,7 +544,7 @@ class SettingsService {
 	public function optionsPage() {
 		$this->wpSettingsUtil->addSubmenuPage(
 			'options-general.php',
-			$this->allowServerTracking ? 'Google Tag Manager for WooCommerce PRO' : 'Google Tag Manager for WooCommerce FREE',
+			$this->allowServerTracking ? 'Google Tag Manager for WooCommerce PRO' : 'Tag Pilot - Google Tag Manager for WooCommerce FREE',
 			'Google Tag Manager',
 			'manage_options'
 		);

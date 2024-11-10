@@ -13,6 +13,10 @@ class SanitizationUtil {
 			'style' => [],
 			'data-target' => [],
 		],
+		'input' => [
+			'type' => [],
+			'value' => []
+		],
 		'br' => [],
 		'div' => [
 			'id' => [],
