@@ -214,7 +214,7 @@ class SettingsService {
 		$this->wpSettingsUtil->addSettingsSection(
 			'cart_data_gads',
 			'Google Ads Cart Data',
-			'Pass additional Cart Data parameters to your Google Ads Conversions. This allows to use Dynamic Remarketing campaigns or track conversion value based on COGS information provided in your Google Merchant Center Account.',
+			'Pass additional Cart Data parameters to your Google Ads Conversions. This allows to use Dynamic Remarketing campaigns or track conversion value based on COGS information provided in your Google Merchant Center Account. <a href="https://support.google.com/google-ads/answer/9028254?hl=en" target="_blank">Learn more</a>.',
 			'tools',
 			[ 'grid' => 'item', 'badge' =>  $this->isPro ? null : 'PRO' ]
 		);
@@ -236,6 +236,16 @@ class SettingsService {
 		);
 
 		$this->wpSettingsUtil->addSettingsSection(
+			'consent_mode_integration_complianz',
+			'Complianz Integration',
+			'Integrated Complianz Cookies Banner and Consent Management Platform with GTM Consent Mode v2.',
+			'consent_mode',
+			[ 'grid' => 'item', 'badge' =>  $this->isPro ? null : 'PRO' ]
+		);
+
+
+
+		$this->wpSettingsUtil->addSettingsSection(
 			'event_deferral',
 			'Event Deferral',
 			'Defer events pushed to data layer until "DOM ready" event. Useful when using asynchronous Consent Management Platform to ensure consent state is provided before firing any events.',
@@ -244,11 +254,27 @@ class SettingsService {
 		);
 
 		$this->wpSettingsUtil->addSettingsSection(
+			'server_side_gtmjs',
+			'Load gtm.js from sGTM',
+			'Modify the gtm.js installation snippet to be loaded from 1st party domain of your sGTM container.',
+			'gtm_server',
+			[ 'grid' => 'start' ]
+		);
+
+		$this->wpSettingsUtil->addSettingsSection(
+			'server_side_webhooks',
+			'Server-to-server Webhook',
+			'Send selected events server-to-server to improve tracking coverage.',
+			'gtm_server',
+			[ 'grid' => 'item', 'badge' =>  $this->isPro ? null : 'PRO' ]
+		);
+
+		$this->wpSettingsUtil->addSettingsSection(
 			'cookies_storage',
 			'Cookies Storage',
 			'When using server-side webhooks having access to ad cookies is required.',
 			'gtm_server',
-			[ 'grid' => 'start', 'badge' =>  $this->isPro ? null : 'PRO' ]
+			[ 'grid' => 'item', 'badge' =>  $this->isPro ? null : 'PRO' ]
 		);
 
 		$this->wpSettingsUtil->addSettingsSection(
@@ -318,6 +344,109 @@ class SettingsService {
 		);
 
 		$this->wpSettingsUtil->addSettingsField(
+			'consent_mode_default_ad_storage',
+			'ad_storage',
+			[$this, 'selectField'],
+			'consent_mode_default',
+			'Default state for `ad_storage` consent type.',
+			[
+				'options' => [
+					'denied' => 'denied',
+					'granted' => 'granted'
+				]
+			]
+		);
+
+		$this->wpSettingsUtil->addSettingsField(
+			'consent_mode_default_ad_user_data',
+			'ad_user_data',
+			[$this, 'selectField'],
+			'consent_mode_default',
+			'Default state for `ad_user_data` consent type.',
+			[
+				'options' => [
+					'denied' => 'denied',
+					'granted' => 'granted'
+				]
+			]
+		);
+
+		$this->wpSettingsUtil->addSettingsField(
+			'consent_mode_default_ad_personalization',
+			'ad_personalization',
+			[$this, 'selectField'],
+			'consent_mode_default',
+			'Default state for `ad_personalization` consent type.',
+			[
+				'options' => [
+					'denied' => 'denied',
+					'granted' => 'granted'
+				]
+			]
+		);
+
+		$this->wpSettingsUtil->addSettingsField(
+			'consent_mode_default_analytics_storage',
+			'analytics_storage',
+			[$this, 'selectField'],
+			'consent_mode_default',
+			'Default state for `analytics_storage` consent type.',
+			[
+				'options' => [
+					'denied' => 'denied',
+					'granted' => 'granted'
+				]
+			]
+		);
+
+		$this->wpSettingsUtil->addSettingsField(
+			'consent_mode_default_wait_for_update',
+			'wait_for_update',
+			[$this, 'inputField'],
+			'consent_mode_default',
+			'Number of ms to wait for asynchronous Consent Management Platform (banner) to load, e.g. 500',
+			[
+				'type' => 'number'
+			]
+		);
+
+		$this->wpSettingsUtil->addSettingsField(
+			'consent_mode_default_region',
+			'region',
+			[$this, 'inputField'],
+			'consent_mode_default',
+			'Comma separated list of country codes, e.g. `US, FR, IT`.',
+			[
+				'type' => 'text'
+			]
+		);
+
+		$this->wpSettingsUtil->addSettingsField(
+			'consent_mode_default_url_passthrough',
+			'url_passthrough',
+			[$this, 'checkboxField'],
+			'consent_mode_default',
+			'Pass through ad click, client ID, and session ID information in URLs'
+		);
+
+		$this->wpSettingsUtil->addSettingsField(
+			'consent_mode_default_ads_data_redaction',
+			'ads_data_redaction',
+			[$this, 'checkboxField'],
+			'consent_mode_default',
+			'Redact ads data'
+		);
+
+		$this->wpSettingsUtil->addSettingsField(
+			'consent_mode_integration_complianz_enabled',
+			'Enable',
+			[$this, 'checkboxField'],
+			'consent_mode_integration_complianz',
+			'When clicked consent mode update will be generated based on Complianz JS API.'
+		);
+
+
+		$this->wpSettingsUtil->addSettingsField(
 			'google_business_vertical',
 			'Google Business Vertical',
 			[$this, 'selectField'],
@@ -358,6 +487,30 @@ class SettingsService {
 		);
 
 		$this->wpSettingsUtil->addSettingsField(
+			'cart_data_google_feed_country',
+			'AW Feed Country',
+			[$this, 'inputField'],
+			'cart_data_gads',
+			'The country code of the product feed to use with the integration, e.g. `US`.',
+			[
+				'type' => 'text',
+				'disabled' => !$this->isPro
+			]
+		);
+
+		$this->wpSettingsUtil->addSettingsField(
+			'cart_data_google_feed_lanuage',
+			'AW Feed Language',
+			[$this, 'inputField'],
+			'cart_data_gads',
+			'The lanugage code of the product feed to use with the integration, e.g. `EN`.',
+			[
+				'type' => 'text',
+				'disabled' => !$this->isPro
+			]
+		);
+
+		$this->wpSettingsUtil->addSettingsField(
 			'server_side_endpoint_cogs_enabled',
 			'Enable COGS Endpoint',
 			[$this, 'checkboxField'],
@@ -374,6 +527,17 @@ class SettingsService {
 			[$this, 'checkboxField'],
 			'product_feed_google',
 			'When enabled the public file will be created and updated every day.'
+		);
+
+		$this->wpSettingsUtil->addSettingsField(
+			'product_feed_google_id_pattern',
+			'Product ID Pattern',
+			[$this, 'inputField'],
+			'product_feed_google',
+			'How Product ID should be generated. Use {{sku}} or {{id}} and any prefix/suffix.',
+			[
+				'type' => 'text'
+			]
 		);
 
 		/*$this->wpSettingsUtil->addSettingsField(
@@ -425,7 +589,7 @@ class SettingsService {
 			[$this, 'inputField'],
 			'gtm_server_container',
 			'The full url of you GTM Server Container.',
-			['type'        => 'text', 'placeholder' => 'https://measure.example.com', 'disabled' => !$this->allowServerTracking]
+			['type'        => 'text', 'placeholder' => 'https://measure.example.com']
 		);
 
 
@@ -433,7 +597,7 @@ class SettingsService {
 			'gtm_server_ga4_client_activation_path',
 			'GA4 Client Activation Path',
 			[$this, 'inputField'],
-			'gtm_server_container',
+			'server_side_webhooks',
 			'GA4 Client Activation path as defined in GTM Client. If you are using our Presets use default value of `/mp`.',
 			['type'        => 'text', 'placeholder' => '/mp', 'disabled' => !$this->allowServerTracking]
 		);
@@ -442,9 +606,17 @@ class SettingsService {
 			'gtm_server_preview_header',
 			'X-Gtm-Server-Preview HTTP header',
 			[$this, 'inputField'],
-			'gtm_server_container',
+			'server_side_webhooks',
 			'In order to use GTM Preview feature, paste the HTTP header from GTM Preview tool. The value will change over time.',
 			['type'        => 'text', 'placeholder' => 'header value', 'disabled' => !$this->allowServerTracking]
+		);
+
+		$this->wpSettingsUtil->addSettingsField(
+			'server_side_gtmjs_enable',
+			'Enable',
+			[$this, 'checkboxField'],
+			'server_side_gtmjs',
+			'Will change public GTM domain to sGTM custom domain provided in the settings above.',
 		);
 
 		$this->wpSettingsUtil->addSettingsField(
@@ -453,7 +625,7 @@ class SettingsService {
 			[$this, 'checkboxField'],
 			'cookies_storage',
 			'In order to connect web events with server events identifiers from cookies can be stored on the server and added to server events.',
-			['disabled' => false, 'title' => 'Checking will start storing cookies']
+			['disabled' => !$this->isPro, 'title' => 'Checking will start storing cookies']
 		);
 
 		foreach ($this->events as $eventName) {
@@ -489,6 +661,10 @@ class SettingsService {
 				$this->allowServerTracking ? '' : '<a style="font-size: 0.7em" href="https://go.tagconcierge.com/MSm8e" target="_blank">Upgrade to PRO</a>',
 				['disabled' => !$this->allowServerTracking, 'title' => $this->allowServerTracking ? '' : 'Upgrade to PRO to use the beta of server-side tracking']
 			);
+		}
+
+		if ($this->wpSettingsUtil->getOption('product_feed_google_id_pattern') === false) {
+			$this->wpSettingsUtil->updateOption('product_feed_google_id_pattern', '{{sku}}');
 		}
 	}
 

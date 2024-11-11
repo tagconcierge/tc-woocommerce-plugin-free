@@ -59,9 +59,10 @@
 
             return template
                 .replace('{{event}}', eventName)
-                .replace('{{json}}', JSON.stringify(item, null, 2));
+                .replace('{{json}}', hljs.highlight(JSON.stringify(item, null, 2), { language: 'json' }).value);
         });
         $("#gtm-ecommerce-woo-event-inspector-list").html(rendered);
+
     }
 
     $(function() {
@@ -88,9 +89,6 @@
         renderItems(existingStoredEvents);
 
         setInterval(checkDataLayer, 100);
-        if (w.hljs) {
-            w.hljs.highlightAll();
-        }
 
         $('#gtm-ecommerce-woo-event-inspector').show();
     });

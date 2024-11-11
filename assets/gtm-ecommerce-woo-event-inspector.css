@@ -127,6 +127,10 @@
     color: #202124;
 }
 
+#gtm-ecommerce-woo-event-inspector code {
+    background: none;
+}
+
 #gtm-ecommerce-woo-event-inspector h3 {
     color: #202124;
     font-weight: 500;

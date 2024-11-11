@@ -28,7 +28,7 @@ class ProductFeedService {
 		]
 	];
 	protected $defaultSchedule = [
-		'google' => '00:00:00'
+		'google' => '00:30:00'
 	];
 
 
@@ -42,7 +42,9 @@ class ProductFeedService {
 
 		$cronName = $this->snakeCaseNamespace . '_product_feed';
 
-		if (false) {
+
+		// TODO: support multiple types
+		if ('1' !== $this->wpSettingsUtil->getOption('product_feed_google_enabled')) {
 			$timestamp = wp_next_scheduled( $cronName );
 			wp_unschedule_event( $timestamp, $cronName );
 			return;
@@ -199,12 +201,14 @@ class ProductFeedService {
 		return false;
 	}
 
-	protected function formatProductData( $product, $type) {
+	protected function formatProductData( $product, $type ) {
+
+		$idPattern = $this->wpSettingsUtil->getOption('product_feed_' . $type . '_id_pattern', '{{sku}}');
 		$data = [];
 		foreach ($this->headers[$type] as $header) {
 			switch ($header) {
 				case 'id':
-					$data[] = $product->get_sku();
+					$data[] = $this->getProductId($product, $idPattern);
 					break;
 				case 'title':
 					$data[] = $product->get_name();
@@ -229,13 +233,26 @@ class ProductFeedService {
 					break;
 				case 'item_group_id':
 					$parentProduct = wc_get_product($product->get_parent_id());
-					$data[] = $parentProduct ? $parentProduct->get_sku() : '';
+					$data[] = $parentProduct ? $this->getProductId($parentProduct, $idPattern) : '';
 					break;
 				default:
 					$data[] = '';
 			}
 		}
 		return $data;
+	}
+
+	protected function getProductId( $product, $pattern ) {
+		$id = $pattern;
+		if (strstr($id, '{{id}}')) {
+			$id = str_replace('{{id}}', $product->get_id(), $id);
+		}
+
+		if (strstr($id, '{{sku}}')) {
+			$id = str_replace('{{sku}}', $product->get_sku(), $id);
+		}
+
+		return $id;
 	}
 
 
