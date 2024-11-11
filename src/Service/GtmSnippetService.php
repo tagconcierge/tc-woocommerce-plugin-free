@@ -97,7 +97,7 @@ END;
 			echo $this->defaultConsentModeState();
 		}
 
-		$snippet = filter_var($this->wpSettingsUtil->getOption('gtm_snippet_head'), FILTER_FLAG_STRIP_BACKTICK);
+		$snippet = $this->wpSettingsUtil->getOption('gtm_snippet_head');
 
 		if ('1' === $this->wpSettingsUtil->getOption('server_side_gtmjs_enable')) {
 
@@ -108,12 +108,12 @@ END;
 
 		}
 
-		echo $snippet . "\n";
+		echo filter_var($snippet, FILTER_FLAG_STRIP_BACKTICK) . "\n";
 	}
 
 	public function bodySnippet() {
 
-		$snippet = filter_var($this->wpSettingsUtil->getOption('gtm_snippet_body'), FILTER_FLAG_STRIP_BACKTICK);
+		$snippet = $this->wpSettingsUtil->getOption('gtm_snippet_body');
 
 		if ('1' === $this->wpSettingsUtil->getOption('server_side_gtmjs_enable')) {
 
@@ -124,6 +124,6 @@ END;
 
 		}
 
-		echo $snippet . "\n";
+		echo filter_var($snippet, FILTER_FLAG_STRIP_BACKTICK) . "\n";
 	}
 }

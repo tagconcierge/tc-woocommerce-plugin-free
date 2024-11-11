@@ -463,11 +463,11 @@ class SettingsService {
 		);
 
 		$this->wpSettingsUtil->addSettingsField(
-			'dynamic_remarketing_google_id_prefix',
-			'Item ID prefix',
+			'dynamic_remarketing_google_id_pattern',
+			'Item ID Pattern',
 			[$this, 'inputField'],
 			'cart_data_gads',
-			'Optional prefix to match your product feed in Google Merchant Center, e.g. `woocommerce_gpf_`.',
+			'Product ID pattern to match your product feed in Google Merchant Center, e.g. `woocommerce_gpf_{{sku}}`. Use {{sku}} or {{id}} and any prefix or suffix.',
 			[
 				'type' => 'text',
 				'disabled' => !$this->isPro
