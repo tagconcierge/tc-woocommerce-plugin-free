@@ -58,10 +58,10 @@ class GtmSnippetService {
 window.dataLayer = window.dataLayer || [];
 function gtag(){dataLayer.push(arguments);}
 gtag('consent', 'default', {
-  'ad_storage': '${ad_storage}',
-  'ad_user_data': '${ad_user_data}',
-  'ad_personalization': '${ad_personalization}',
-  'analytics_storage': '${analytics_storage}'
+  'ad_storage': '{$ad_storage}',
+  'ad_user_data': '{$ad_user_data}',
+  'ad_personalization': '{$ad_personalization}',
+  'analytics_storage': '{$analytics_storage}'
 });
 
 END;
