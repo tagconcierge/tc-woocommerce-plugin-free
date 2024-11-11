@@ -616,7 +616,7 @@ class SettingsService {
 			'Enable',
 			[$this, 'checkboxField'],
 			'server_side_gtmjs',
-			'Will change public GTM domain to sGTM custom domain provided in the settings above.',
+			'Will change public GTM domain to sGTM custom domain provided in the settings above.'
 		);
 
 		$this->wpSettingsUtil->addSettingsField(

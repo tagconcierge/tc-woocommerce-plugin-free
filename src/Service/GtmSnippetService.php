@@ -47,7 +47,7 @@ class GtmSnippetService {
 			'region',
 			'url_passthrough',
 			'ads_data_redaction'
-		], function($agg, $settingName) {
+		], function( $agg, $settingName ) {
 			$agg[$settingName] = $this->wpSettingsUtil->getOption('consent_mode_default_' . $settingName);
 			return $agg;
 		}, []);
@@ -72,8 +72,8 @@ END;
 
 		if ($region) {
 			$regions = explode(',', $region);
-			$cleanedRegions = array_map(function($r) {
-				return "'".trim(str_replace("'", '', $r))."'";
+			$cleanedRegions = array_map(function( $r ) {
+				return "'" . trim(str_replace("'", '', $r)) . "'";
 			}, $regions);
 			$regionsString = implode(',', $cleanedRegions);
 			$consentJs .= "gtag('set', 'region', [$regionsString]);\n";
@@ -94,7 +94,7 @@ END;
 	public function headSnippet() {
 
 		if ('1' === $this->wpSettingsUtil->getOption('consent_mode_default_enabled')) {
-			echo $this->defaultConsentModeState();
+			echo filter_var($this->defaultConsentModeState(), FILTER_FLAG_STRIP_BACKTICK);
 		}
 
 		$snippet = $this->wpSettingsUtil->getOption('gtm_snippet_head');
