@@ -36,11 +36,12 @@ class WpSettingsUtil {
 		return register_setting( $this->snakeCaseNamespace, $this->snakeCaseNamespace . '_' . $settingName );
 	}
 
-	public function addTab( $tabName, $tabTitle, $showSaveButton = true) {
+	public function addTab( $tabName, $tabTitle, $showSaveButton = true, $inactive = false) {
 		$this->tabs[$tabName] = [
 			'name' => $tabName,
 			'title' => $tabTitle,
-			'show_save_button' => $showSaveButton
+			'show_save_button' => $showSaveButton,
+			'inactive' => $inactive
 		];
 	}
 
@@ -129,8 +130,14 @@ class WpSettingsUtil {
 
 				<h2 class="nav-tab-wrapper">
 					<?php foreach ($this->tabs as $tab) : ?>
+					<?php
+						$link = sprintf('?page=%s&tab=%s', $this->spineCaseNamespace, $tab['name']);
+						if (true === @$tab['inactive']) {
+							$link = '#';
+						}
+						?>
 					<a
-						href="<?php echo esc_url(sprintf('?page=%s&tab=%s', $this->spineCaseNamespace, $tab['name'])); ?>"
+						href="<?php echo esc_url($link); ?>"
 						class="nav-tab
 						<?php if ($activeTab === $tab['name']) : ?>
 							nav-tab-active

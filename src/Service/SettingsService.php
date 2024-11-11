@@ -79,6 +79,13 @@ class SettingsService {
 		);
 
 		$this->wpSettingsUtil->addTab(
+			'gtm_server_presets',
+			'GTM Server Presets' . $this->isPro ? '' : ' PRO',
+			false,
+			!$this->isPro
+		);
+
+		$this->wpSettingsUtil->addTab(
 			'support',
 			'Support',
 			false
