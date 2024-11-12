@@ -8,7 +8,7 @@ Stable tag: 1.10.35
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Complete Google Tag Manager plugin for WooCommerce, Consent Mode v2 and Server-Side GTM ready. Ready setup for GA4 and Facebook Pixel. Built-in product feeds for Google Ads and Facebook.
+Complete Google Tag Manager plugin for WooCommerce, Consent Mode v2 and Server-Side GTM ready. Ready setup for GA4 and Facebook Pixel. Built-in product feeds for Google Merchant Center.
 
 == Description ==
 
@@ -149,14 +149,15 @@ Yes! Just use the appropriate preset available in the settings screen of the plu
 
 == Screenshots ==
 
-1. **GTM for WooCommerce** integrations
+1. Plugin tracked `add_to_cart` and `purchase` events
 2. **GTM for WooCommerce** settings and GTM snippets
-3. eCommerce results in GA4 property
-4. eCommerce results in Universal Analytics property
-5. `add_to_cart` event captured in GTM debugger
-6. `purchase` event captured in GTM debugger
-7. How to import the provided GTM container?
-8. GTM workspace tags after importer provided JSON file
+3. Available events in PRO version
+4. GTM Presets gallery
+5. Google Tag Manager import preview
+6. Google Ads Conversion status
+7. Complete purchase journey in GA4 (requires PRO)
+8. Event and Cart Data tools
+9. Server-side tools
 
 
 

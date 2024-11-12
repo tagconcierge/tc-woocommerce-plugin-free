@@ -80,7 +80,7 @@ class SettingsService {
 
 		$this->wpSettingsUtil->addTab(
 			'gtm_server_presets',
-			'GTM Server Presets' . ($this->isPro ? '' : ' PRO'),
+			'GTM Server Presets' . ( $this->isPro ? '' : ' PRO' ),
 			false,
 			!$this->isPro
 		);
@@ -463,7 +463,12 @@ class SettingsService {
 				'options' => [
 					'no' => 'None',
 					'retail' => 'Retail',
-					'education' => 'Education'
+					'education' => 'Education',
+					'hotel_rental' => 'Hotels and rentals',
+					'jobs' => 'Jobs',
+					'local' => 'Local deals',
+					'real_estate' => 'Real estate',
+					'custom' => 'Custom'
 				],
 				'disabled' => !$this->isPro,
 			]
