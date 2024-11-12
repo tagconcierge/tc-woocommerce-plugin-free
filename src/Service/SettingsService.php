@@ -80,7 +80,7 @@ class SettingsService {
 
 		$this->wpSettingsUtil->addTab(
 			'gtm_server_presets',
-			'GTM Server Presets' . $this->isPro ? '' : ' PRO',
+			'GTM Server Presets' . ($this->isPro ? '' : ' PRO'),
 			false,
 			!$this->isPro
 		);
