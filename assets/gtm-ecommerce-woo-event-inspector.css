@@ -115,6 +115,7 @@
     border: none;
     color: #ffffff;
     font-size: 20px;
+    padding: 10px;
 }
 
 #gtm-ecommerce-woo-event-inspector pre {
@@ -140,4 +141,5 @@
 
 #gtm-ecommerce-woo-event-inspector ul {
     margin: 0;
+    padding: 0;
 }
