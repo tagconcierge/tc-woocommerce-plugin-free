@@ -4,11 +4,11 @@ Tags: google tag manager, GA4, ecommerce events, Google Analytics, Facebook Pixe
 Requires at least: 5.1.0
 Tested up to: 6.6.2
 Requires PHP: 7.0
-Stable tag: 1.10.35
+Stable tag: 1.11.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Complete Google Tag Manager plugin for WooCommerce, Consent Mode v2 and Server-Side GTM ready. Ready setup for GA4 and Facebook Pixel. Built-in product feeds for Google Merchant Center.
+Complete Google Tag Manager plugin for WooCommerce, Consent Mode v2 and Server-Side GTM ready. Ready GTM configuration for GA4 and Facebook Pixel. Built-in product feed for Google Merchant Center.
 
 == Description ==
 
@@ -165,7 +165,10 @@ Yes! Just use the appropriate preset available in the settings screen of the plu
 
 = 1.11.0 =
 
-* added product feed tool
+* added product feed generator
+* added default consent mode state
+* added server-side GTM snippet modifier
+* added ability to add extra parameters to ecommerce object
 * introduced tools gallery
 * improved styling of events inspector
 
