@@ -1,14 +1,14 @@
-=== GTM for WooCommerce FREE - Google Tag Manager Integration ===
+=== Tag Pilot FREE - Google Tag Manager Integration for WooCommerce ===
 Contributors: Tag Concierge
 Tags: google tag manager, GA4, ecommerce events, Google Analytics, Facebook Pixel, Microsoft UET, consent mode
 Requires at least: 5.1.0
 Tested up to: 6.6.2
 Requires PHP: 7.0
-Stable tag: 1.10.35
+Stable tag: 1.11.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Complete Google Tag Manager plugin, Consent Mode v2 and server-side GTM ready. Quick install for GA4 and Facebook Pixel.
+Complete Google Tag Manager plugin for WooCommerce, Consent Mode v2 and Server-Side GTM ready. Ready GTM configuration for GA4 and Facebook Pixel. Built-in product feed for Google Merchant Center.
 
 == Description ==
 
@@ -149,18 +149,28 @@ Yes! Just use the appropriate preset available in the settings screen of the plu
 
 == Screenshots ==
 
-1. **GTM for WooCommerce** integrations
+1. Plugin tracked `add_to_cart` and `purchase` events
 2. **GTM for WooCommerce** settings and GTM snippets
-3. eCommerce results in GA4 property
-4. eCommerce results in Universal Analytics property
-5. `add_to_cart` event captured in GTM debugger
-6. `purchase` event captured in GTM debugger
-7. How to import the provided GTM container?
-8. GTM workspace tags after importer provided JSON file
+3. Available events in PRO version
+4. GTM Presets gallery
+5. Google Tag Manager import preview
+6. Google Ads Conversion status
+7. Complete purchase journey in GA4 (requires PRO)
+8. Event and Cart Data tools
+9. Server-side tools
 
 
 
 == Changelog ==
+
+= 1.11.0 =
+
+* added product feed generator
+* added default consent mode state
+* added server-side GTM snippet modifier
+* added ability to add extra parameters to ecommerce object
+* introduced tools gallery
+* improved styling of events inspector
 
 = 1.10.34 =
 

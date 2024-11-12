@@ -34,8 +34,29 @@ class EventInspectorService {
 				}
 		}
 
-		add_action( 'wp_enqueue_scripts', [$this, 'enqueueScript'], 0 );
+		$this->wcOutputUtil->scriptFile('gtm-ecommerce-woo-event-inspector', ['jquery']);
+		$this->wcOutputUtil->cssFile('gtm-ecommerce-woo-event-inspector');
+
+		add_action( 'wp_enqueue_scripts', [$this, 'wpEnqueueScripts'] );
 		add_action( 'wp_footer', [$this, 'footerHtml'], 0 );
+	}
+
+	public function wpEnqueueScripts() {
+		wp_enqueue_script(
+			'highlight.js',
+			'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js'
+		);
+
+		wp_enqueue_script(
+			'highlight.js-json',
+			'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/json.min.js',
+			['highlight.js']
+		);
+
+		wp_enqueue_style(
+			'highlight.js',
+			'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css'
+		);
 	}
 
 	public function isDisabled(): bool {
@@ -51,25 +72,38 @@ class EventInspectorService {
 		return false;
 	}
 
-	public function enqueueScript() {
-		if ($this->isDisabled()) {
-			return;
-		}
-		$this->wcOutputUtil->scriptFile('gtm-ecommerce-woo-event-inspector', ['jquery']);
-	}
-
-
 	public function footerHtml() {
 		if ($this->isDisabled()) {
 			return;
 		}
 		?>
-<div id="gtm-ecommerce-woo-event-inspector" style="position: fixed; bottom: 0; right: 0; left: 0; z-index:99999; background-color: white;padding: 10px;text-align: center;border-top: 1px solid gray; max-height: 30%; overflow-y: scroll;">
-	<div>Start shopping (add to cart, purchase) to see eCommerce events below, click event to see details.<br />Those events can be forwarded to number of tools in GTM. See <a href="https://tagconcierge.com/google-tag-manager-for-woocommerce/#documentation" target="_blank">documentation</a> for details.</div>
-	<div id="gtm-ecommerce-woo-event-inspector-list-template" style="display: none;">
-		<li style="cursor: pointer;list-style: none;color: black;font-weight: bold;padding-top: 10px;">{{event}}</li>
+<div id="gtm-ecommerce-woo-event-inspector" style="display: none;">
+	<div class="header">
+		<span>GTM Debug Tool</span>
+		<div>
+			<button class="clear-history">Clear History</button>
+			<button class="toggle-size" aria-label="Toggle tool size">_</button>
+		</div>
 	</div>
-	<ul id="gtm-ecommerce-woo-event-inspector-list"></ul>
+	<?php
+	/*<div class="tabs">
+		<div class="tab active" data-tab="events">Events</div>
+		<div class="tab" data-tab="consent">Consent</div>
+		<div class="tab" data-tab="cookies">Cookies</div>
+		<div class="tab" data-tab="http">HTTP Calls</div>
+	</div>*/
+		?>
+	 <div class="content">
+		<div class="tab-content active" id="events">
+			<div id="gtm-ecommerce-woo-event-inspector-list-template" style="display: none;">
+				<li style="cursor: pointer;list-style: none;color: black;font-weight: bold;padding-top: 10px;"><span>{{event}}</span><pre style="display:none;"><code class="language-json">{{json}}</code></pre></li>
+			</div>
+			<ul id="gtm-ecommerce-woo-event-inspector-list"></ul>
+		</div>
+		<div class="tab-content" id="consent"></div>
+		<div class="tab-content" id="cookies"></div>
+		<div class="tab-content" id="http"></div>
+	</div>
 </div>
 <?php
 	}

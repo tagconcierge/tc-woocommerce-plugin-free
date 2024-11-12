@@ -33,6 +33,9 @@ class SettingsService {
 	/** @var false */
 	protected $allowServerTracking = false;
 
+	/** @var false */
+	protected $isPro = false;
+
 	/** @var string */
 	protected $filter = 'basic';
 
@@ -66,8 +69,20 @@ class SettingsService {
 		);
 
 		$this->wpSettingsUtil->addTab(
+			'consent_mode',
+			'Consent Mode'
+		);
+
+		$this->wpSettingsUtil->addTab(
 			'gtm_server',
 			'GTM Server-Side'
+		);
+
+		$this->wpSettingsUtil->addTab(
+			'gtm_server_presets',
+			'GTM Server Presets' . ( $this->isPro ? '' : ' PRO' ),
+			false,
+			!$this->isPro
 		);
 
 		$this->wpSettingsUtil->addTab(
@@ -184,7 +199,7 @@ class SettingsService {
 			'Google Tag Manager presets',
 			'It\'s time to define what to do with tracked eCommerce events. We know that settings up GTM workspace may be cumbersome. That\'s why the plugin comes with a set of presets you can import to your GTM workspace to create all required Tags, Triggers and Variables. Select a preset in dropdown below, download the JSON file and import it in Admin panel in your GTM workspace, see plugin <a href="https://docs.tagconcierge.com/" target="_blank">Documentation</a> for details):<br /><br />
 				<div id="gtm-ecommerce-woo-presets-loader" style="text-align: center;"><span class="spinner is-active" style="float: none;"></span></div><div class="metabox-holder"><div id="gtm-ecommerce-woo-presets-grid" class="postbox-container" style="float: none;"><div id="gtm-ecommerce-woo-preset-tmpl" style="display: none;"><div style="display: inline-block;
-    margin-left: 4%; width: 45%" class="postbox"><h3 class="name">Google Analytics 4</h3><div class="inside"><p class="description">Description</p><p><b>Supported events:</b> <span class="events-count">2</span> <span class="events-list dashicons dashicons-info-outline" style="cursor: pointer;"></span></p><p><a class="download button button-primary" href="#">Download</a><a class="documentation button" style="margin-left: 5px; display: none;" target="_blank" href="#">Documentation</a></p><p>Version: <span class="version">N/A</span></p></div></div></div></div></div><br /><div id="gtm-ecommerce-woo-presets-upgrade" style="text-align: center; display: none;"><a class="button button-primary" href="https://go.tagconcierge.com/MSm8e" target="_blank">Upgrade to PRO</a></div>',
+	margin-left: 4%; width: 45%" class="postbox"><h3 class="name">Google Analytics 4</h3><div class="inside"><p class="description">Description</p><p><b>Supported events:</b> <span class="events-count">2</span> <span class="events-list dashicons dashicons-info-outline" style="cursor: pointer;"></span></p><p><a class="download button button-primary" href="#">Download</a><a class="documentation button" style="margin-left: 5px; display: none;" target="_blank" href="#">Documentation</a></p><p>Version: <span class="version">N/A</span></p></div></div></div></div></div><br /><div id="gtm-ecommerce-woo-presets-upgrade" style="text-align: center; display: none;"><a class="button button-primary" href="https://go.tagconcierge.com/MSm8e" target="_blank">Upgrade to PRO</a></div>',
 			'gtm_presets'
 		);
 
@@ -199,8 +214,91 @@ class SettingsService {
 			'event_inspector',
 			'Event Inspector',
 			'Events Inspector provide basic way of confirming that events are being tracked. Depending on the setting below it will show a small window at the bottom of every page with all eCommerce events captured during a given session.',
-			'tools'
+			'tools',
+			[ 'grid' => 'start' ]
 		);
+
+		$this->wpSettingsUtil->addSettingsSection(
+			'cart_data_gads',
+			'Google Ads Cart Data',
+			'Pass additional Cart Data parameters to your Google Ads Conversions. This allows to use Dynamic Remarketing campaigns or track conversion value based on COGS information provided in your Google Merchant Center Account. <a href="https://support.google.com/google-ads/answer/9028254?hl=en" target="_blank">Learn more</a>.',
+			'tools',
+			[ 'grid' => 'item', 'badge' =>  $this->isPro ? null : 'PRO' ]
+		);
+
+		$this->wpSettingsUtil->addSettingsSection(
+			'product_feed_google',
+			'Google Product Feed',
+			'Generates a public CSV file with all product data (published and visible products and their variants) that can be loaded to Google Merchant Center to populate product catalog. The file URL will be available shortly after enabling.<br /><br />URL:' . ( $this->wpSettingsUtil->getOption('product_feed_google_file_url') ? '<input style="margin-left: 10px;width: 85%;" type="text" value="' . $this->wpSettingsUtil->getOption('product_feed_google_file_url') . '" />' : ' Pending' ),
+			'tools',
+			[ 'grid' => 'end' ]
+		);
+
+		$this->wpSettingsUtil->addSettingsSection(
+			'consent_mode_default',
+			'Default Consent Mode',
+			'Correct Google Consent Mode v2 requires setting default consent state before GTM installation snippet. No all Consent Management Platforms can achieve that, use the settings below to get it loaded before gtm.js.',
+			'consent_mode',
+			[ 'grid' => 'start' ]
+		);
+
+		$this->wpSettingsUtil->addSettingsSection(
+			'consent_mode_integration_complianz',
+			'Complianz Integration',
+			'Integrated Complianz Cookies Banner and Consent Management Platform with GTM Consent Mode v2.',
+			'consent_mode',
+			[ 'grid' => 'item', 'badge' =>  $this->isPro ? null : 'PRO' ]
+		);
+
+
+
+		$this->wpSettingsUtil->addSettingsSection(
+			'event_deferral',
+			'Event Deferral',
+			'Defer events pushed to data layer until "DOM ready" event. Useful when using asynchronous Consent Management Platform to ensure consent state is provided before firing any events.',
+			'consent_mode',
+			[ 'grid' => 'end', 'badge' =>  $this->isPro ? null : 'PRO' ]
+		);
+
+		$this->wpSettingsUtil->addSettingsSection(
+			'server_side_gtmjs',
+			'Load gtm.js from sGTM',
+			'Modify the gtm.js installation snippet to be loaded from 1st party domain of your sGTM container.',
+			'gtm_server',
+			[ 'grid' => 'start' ]
+		);
+
+		$this->wpSettingsUtil->addSettingsSection(
+			'server_side_webhooks',
+			'Server-to-server Webhook',
+			'Send selected events server-to-server to improve tracking coverage.',
+			'gtm_server',
+			[ 'grid' => 'item', 'badge' =>  $this->isPro ? null : 'PRO' ]
+		);
+
+		$this->wpSettingsUtil->addSettingsSection(
+			'cookies_storage',
+			'Cookies Storage',
+			'When using server-side webhooks having access to ad cookies is required.',
+			'gtm_server',
+			[ 'grid' => 'item', 'badge' =>  $this->isPro ? null : 'PRO' ]
+		);
+
+		$this->wpSettingsUtil->addSettingsSection(
+			'server_side_endpoint_cogs',
+			'sGTM COGS Endpoint',
+			'When using server-side GTM you can make additional transformation before data is sent to the 3rd party platform. This endpoint allows replacing default revenue based conversion values with profit information stored in WooCommerce using COGS plugin.',
+			'gtm_server',
+			[ 'grid' => 'end', 'badge' =>  $this->isPro ? null : 'PRO' ]
+		);
+
+		/*$this->wpSettingsUtil->addSettingsSection(
+			'product_feed_facebook',
+			'Facebook Product Feed',
+			'',
+			'tools',
+			[ 'grid' => 'end', 'badge' => 'PRO' ]
+		);*/
 
 		$this->wpSettingsUtil->addSettingsField(
 			'disabled',
@@ -215,8 +313,8 @@ class SettingsService {
 			'Track user id?',
 			[$this, 'checkboxField'],
 			'basic',
-			$this->allowServerTracking ? 'When checked the plugin will send logged client id to dataLayer.' : '<a style="font-size: 0.7em" href="https://go.tagconcierge.com/MSm8e" target="_blank">Upgrade to PRO to track user id.</a>',
-			['disabled' => !$this->allowServerTracking, 'title' => $this->allowServerTracking ? '' : 'Upgrade to PRO to use user tracking']
+			$this->isPro ? 'When checked the plugin will send logged client id to dataLayer.' : '<a style="font-size: 0.7em" href="https://go.tagconcierge.com/MSm8e" target="_blank">Upgrade to PRO to track user id.</a>',
+			['disabled' => !$this->isPro, 'title' => $this->isPro ? '' : 'Upgrade to PRO to use user tracking']
 		);
 
 		$this->wpSettingsUtil->addSettingsField(
@@ -234,6 +332,233 @@ class SettingsService {
 				]
 			]
 		);
+
+		$this->wpSettingsUtil->addSettingsField(
+			'defer_events',
+			'Defer events?',
+			[$this, 'checkboxField'],
+			'event_deferral',
+			'When clicked Ecommerce events will be pushed to DataLayer after DOM Ready event.',
+			['disabled' => !$this->isPro, 'title' => 'Upgrade to PRO version above.']
+		);
+
+		$this->wpSettingsUtil->addSettingsField(
+			'consent_mode_default_enabled',
+			'Enable',
+			[$this, 'checkboxField'],
+			'consent_mode_default',
+			'When clicked default consent state will be loaded before gtm.js'
+		);
+
+		$this->wpSettingsUtil->addSettingsField(
+			'consent_mode_default_ad_storage',
+			'ad_storage',
+			[$this, 'selectField'],
+			'consent_mode_default',
+			'Default state for `ad_storage` consent type.',
+			[
+				'options' => [
+					'denied' => 'denied',
+					'granted' => 'granted'
+				]
+			]
+		);
+
+		$this->wpSettingsUtil->addSettingsField(
+			'consent_mode_default_ad_user_data',
+			'ad_user_data',
+			[$this, 'selectField'],
+			'consent_mode_default',
+			'Default state for `ad_user_data` consent type.',
+			[
+				'options' => [
+					'denied' => 'denied',
+					'granted' => 'granted'
+				]
+			]
+		);
+
+		$this->wpSettingsUtil->addSettingsField(
+			'consent_mode_default_ad_personalization',
+			'ad_personalization',
+			[$this, 'selectField'],
+			'consent_mode_default',
+			'Default state for `ad_personalization` consent type.',
+			[
+				'options' => [
+					'denied' => 'denied',
+					'granted' => 'granted'
+				]
+			]
+		);
+
+		$this->wpSettingsUtil->addSettingsField(
+			'consent_mode_default_analytics_storage',
+			'analytics_storage',
+			[$this, 'selectField'],
+			'consent_mode_default',
+			'Default state for `analytics_storage` consent type.',
+			[
+				'options' => [
+					'denied' => 'denied',
+					'granted' => 'granted'
+				]
+			]
+		);
+
+		$this->wpSettingsUtil->addSettingsField(
+			'consent_mode_default_wait_for_update',
+			'wait_for_update',
+			[$this, 'inputField'],
+			'consent_mode_default',
+			'Number of ms to wait for asynchronous Consent Management Platform (banner) to load, e.g. 500',
+			[
+				'type' => 'number'
+			]
+		);
+
+		$this->wpSettingsUtil->addSettingsField(
+			'consent_mode_default_region',
+			'region',
+			[$this, 'inputField'],
+			'consent_mode_default',
+			'Comma separated list of country codes, e.g. `US, FR, IT`.',
+			[
+				'type' => 'text'
+			]
+		);
+
+		$this->wpSettingsUtil->addSettingsField(
+			'consent_mode_default_url_passthrough',
+			'url_passthrough',
+			[$this, 'checkboxField'],
+			'consent_mode_default',
+			'Pass through ad click, client ID, and session ID information in URLs'
+		);
+
+		$this->wpSettingsUtil->addSettingsField(
+			'consent_mode_default_ads_data_redaction',
+			'ads_data_redaction',
+			[$this, 'checkboxField'],
+			'consent_mode_default',
+			'Redact ads data'
+		);
+
+		$this->wpSettingsUtil->addSettingsField(
+			'consent_mode_integration_complianz_enabled',
+			'Enable',
+			[$this, 'checkboxField'],
+			'consent_mode_integration_complianz',
+			'When clicked consent mode update will be generated based on Complianz JS API.'
+		);
+
+
+		$this->wpSettingsUtil->addSettingsField(
+			'google_business_vertical',
+			'Google Business Vertical',
+			[$this, 'selectField'],
+			'cart_data_gads',
+			'Select required parameter <a href="https://support.google.com/google-ads/answer/7305793?hl=en" target="_blank">learn more here</a>.',
+			[
+				'options' => [
+					'no' => 'None',
+					'retail' => 'Retail',
+					'education' => 'Education',
+					'hotel_rental' => 'Hotels and rentals',
+					'jobs' => 'Jobs',
+					'local' => 'Local deals',
+					'real_estate' => 'Real estate',
+					'custom' => 'Custom'
+				],
+				'disabled' => !$this->isPro,
+			]
+		);
+
+		$this->wpSettingsUtil->addSettingsField(
+			'dynamic_remarketing_google_id_pattern',
+			'Item ID Pattern',
+			[$this, 'inputField'],
+			'cart_data_gads',
+			'Product ID pattern to match your product feed in Google Merchant Center, e.g. `woocommerce_gpf_{{sku}}`. Use {{sku}} or {{id}} and any prefix or suffix.',
+			[
+				'type' => 'text',
+				'disabled' => !$this->isPro
+			]
+		);
+
+		$this->wpSettingsUtil->addSettingsField(
+			'cart_data_google_merchant_id',
+			'AW Merchant ID',
+			[$this, 'inputField'],
+			'cart_data_gads',
+			'The Merchant Center ID. Provide this parameter if you submit an item in several Merchant Center accounts and you want to control from which Merchant Center the item’s data, for example, its COGS, should be read.',
+			[
+				'type' => 'text',
+				'disabled' => !$this->isPro
+			]
+		);
+
+		$this->wpSettingsUtil->addSettingsField(
+			'cart_data_google_feed_country',
+			'AW Feed Country',
+			[$this, 'inputField'],
+			'cart_data_gads',
+			'The country code of the product feed to use with the integration, e.g. `US`.',
+			[
+				'type' => 'text',
+				'disabled' => !$this->isPro
+			]
+		);
+
+		$this->wpSettingsUtil->addSettingsField(
+			'cart_data_google_feed_lanuage',
+			'AW Feed Language',
+			[$this, 'inputField'],
+			'cart_data_gads',
+			'The lanugage code of the product feed to use with the integration, e.g. `EN`.',
+			[
+				'type' => 'text',
+				'disabled' => !$this->isPro
+			]
+		);
+
+		$this->wpSettingsUtil->addSettingsField(
+			'server_side_endpoint_cogs_enabled',
+			'Enable COGS Endpoint',
+			[$this, 'checkboxField'],
+			'server_side_endpoint_cogs',
+			'Enable serving COGS information for sGTM container.',
+			[
+				'disabled' => !$this->isPro
+			]
+		);
+
+		$this->wpSettingsUtil->addSettingsField(
+			'product_feed_google_enabled',
+			'Enable Product Feed',
+			[$this, 'checkboxField'],
+			'product_feed_google',
+			'When enabled the public file will be created and updated every day.'
+		);
+
+		$this->wpSettingsUtil->addSettingsField(
+			'product_feed_google_id_pattern',
+			'Product ID Pattern',
+			[$this, 'inputField'],
+			'product_feed_google',
+			'How Product ID should be generated. Use {{sku}} or {{id}} and any prefix/suffix.',
+			[
+				'type' => 'text'
+			]
+		);
+
+		/*$this->wpSettingsUtil->addSettingsField(
+			'product_feed_facebook_enabled',
+			'Enable Product Feed',
+			[$this, 'checkboxField'],
+			'product_feed_facebook',
+			'Generate Product Feed for Facebook / Meta Product Catalog.'
+		);*/
 
 		$this->wpSettingsUtil->addSettingsField(
 			'gtm_snippet_prevent_load',
@@ -276,7 +601,7 @@ class SettingsService {
 			[$this, 'inputField'],
 			'gtm_server_container',
 			'The full url of you GTM Server Container.',
-			['type'        => 'text', 'placeholder' => 'https://measure.example.com', 'disabled' => !$this->allowServerTracking]
+			['type'        => 'text', 'placeholder' => 'https://measure.example.com']
 		);
 
 
@@ -284,7 +609,7 @@ class SettingsService {
 			'gtm_server_ga4_client_activation_path',
 			'GA4 Client Activation Path',
 			[$this, 'inputField'],
-			'gtm_server_container',
+			'server_side_webhooks',
 			'GA4 Client Activation path as defined in GTM Client. If you are using our Presets use default value of `/mp`.',
 			['type'        => 'text', 'placeholder' => '/mp', 'disabled' => !$this->allowServerTracking]
 		);
@@ -293,9 +618,26 @@ class SettingsService {
 			'gtm_server_preview_header',
 			'X-Gtm-Server-Preview HTTP header',
 			[$this, 'inputField'],
-			'gtm_server_container',
+			'server_side_webhooks',
 			'In order to use GTM Preview feature, paste the HTTP header from GTM Preview tool. The value will change over time.',
 			['type'        => 'text', 'placeholder' => 'header value', 'disabled' => !$this->allowServerTracking]
+		);
+
+		$this->wpSettingsUtil->addSettingsField(
+			'server_side_gtmjs_enable',
+			'Enable',
+			[$this, 'checkboxField'],
+			'server_side_gtmjs',
+			'Will change public GTM domain to sGTM custom domain provided in the settings above.'
+		);
+
+		$this->wpSettingsUtil->addSettingsField(
+			'cookies_storage',
+			'Cookies Storage',
+			[$this, 'checkboxField'],
+			'cookies_storage',
+			'In order to connect web events with server events identifiers from cookies can be stored on the server and added to server events.',
+			['disabled' => !$this->isPro, 'title' => 'Checking will start storing cookies']
 		);
 
 		foreach ($this->events as $eventName) {
@@ -331,6 +673,10 @@ class SettingsService {
 				$this->allowServerTracking ? '' : '<a style="font-size: 0.7em" href="https://go.tagconcierge.com/MSm8e" target="_blank">Upgrade to PRO</a>',
 				['disabled' => !$this->allowServerTracking, 'title' => $this->allowServerTracking ? '' : 'Upgrade to PRO to use the beta of server-side tracking']
 			);
+		}
+
+		if ($this->wpSettingsUtil->getOption('product_feed_google_id_pattern') === false) {
+			$this->wpSettingsUtil->updateOption('product_feed_google_id_pattern', '{{sku}}');
 		}
 	}
 
@@ -410,7 +756,7 @@ class SettingsService {
 		disabled="disabled"
 		<?php endif; ?>
 		value="<?php echo esc_html($value); ?>"
-		placeholder="<?php echo esc_html( $args['placeholder'] ); ?>"
+		placeholder="<?php echo esc_html( @$args['placeholder'] ); ?>"
 		name="<?php echo esc_attr( $args['label_for'] ); ?>" />
 	  <p class="description">
 		<?php echo esc_html( $args['description'] ); ?>
@@ -421,7 +767,7 @@ class SettingsService {
 	public function optionsPage() {
 		$this->wpSettingsUtil->addSubmenuPage(
 			'options-general.php',
-			$this->allowServerTracking ? 'Google Tag Manager for WooCommerce PRO' : 'Google Tag Manager for WooCommerce FREE',
+			$this->isPro ? 'Google Tag Manager for WooCommerce PRO' : 'Tag Pilot - Google Tag Manager for WooCommerce FREE',
 			'Google Tag Manager',
 			'manage_options'
 		);

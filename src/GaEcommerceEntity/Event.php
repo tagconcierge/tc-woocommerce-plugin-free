@@ -7,6 +7,7 @@ class Event implements \JsonSerializable {
 	public $name;
 	public $items;
 	public $extraProps;
+	public $extraEcomProps;
 	public $currency;
 	public $transactionId;
 	public $affiliation;
@@ -18,6 +19,7 @@ class Event implements \JsonSerializable {
 	public function __construct( $name ) {
 		$this->name = $name;
 		$this->extraProps = [];
+		$this->extraEcomProps = [];
 	}
 
 	public function setItems( array $items ): Event {
@@ -67,6 +69,11 @@ class Event implements \JsonSerializable {
 
 	public function setExtraProperty( string $propName, $propValue ): Event {
 		$this->extraProps[$propName] = $propValue;
+		return $this;
+	}
+
+	public function setExtraEcomProperty( string $propName, $propValue ): Event {
+		$this->extraEcomProps[$propName] = $propValue;
 		return $this;
 	}
 
@@ -157,6 +164,10 @@ class Event implements \JsonSerializable {
 
 		foreach ($this->extraProps as $propName => $propValue) {
 			$jsonEvent[$propName] = $propValue;
+		}
+
+		foreach ($this->extraEcomProps as $propName => $propValue) {
+			$jsonEvent['ecommerce'][$propName] = $propValue;
 		}
 
 		$result = array_filter($jsonEvent, static function( $value ) {

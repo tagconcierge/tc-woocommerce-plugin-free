@@ -7,11 +7,13 @@ class WcOutputUtil {
 	protected $pluginVersion = '';
 	protected $scripts = [];
 	protected $scriptFiles = [];
+	protected $cssFiles = [];
 
 	public function __construct( $pluginVersion) {
 		$this->pluginVersion = $pluginVersion;
 		add_action( 'wp_footer', [$this, 'wpFooter'], 20 );
 		add_action( 'wp_enqueue_scripts', [$this, 'wpEnqueueScripts'] );
+		add_action( 'wp_enqueue_scripts', [$this, 'wpEnqueueStyles'] );
 		add_filter( 'safe_style_css', function( $styles ) {
 			$styles[] = 'display';
 
@@ -59,6 +61,13 @@ class WcOutputUtil {
 		];
 	}
 
+	public function cssFile( $cssFileName, $cssFileDeps = [] ) {
+		$this->cssFiles[] = [
+			'name' => $cssFileName,
+			'deps' => $cssFileDeps
+		];
+	}
+
 	public function wpEnqueueScripts() {
 		foreach ($this->scriptFiles as $scriptFile) {
 			wp_enqueue_script(
@@ -67,6 +76,17 @@ class WcOutputUtil {
 				$scriptFile['deps'],
 				$this->pluginVersion,
 				$scriptFile['in_footer']
+			);
+		}
+	}
+
+	public function wpEnqueueStyles() {
+		foreach ($this->cssFiles as $cssFile) {
+			wp_enqueue_style(
+				$cssFile['name'],
+				plugin_dir_url( dirname( $this->pluginDir ) ) . 'assets/' . $cssFile['name'] . '.css',
+				$cssFile['deps'],
+				$this->pluginVersion
 			);
 		}
 	}
