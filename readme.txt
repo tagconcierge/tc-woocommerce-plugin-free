@@ -1,6 +1,6 @@
 === Tag Pilot FREE - Google Tag Manager Integration for WooCommerce ===
-Contributors: Tag Concierge
-Tags: google tag manager, GA4, ecommerce events, Google Analytics, Facebook Pixel, Microsoft UET, consent mode
+Contributors: tagconcierge
+Tags: google tag manager, GA4, WooCommerce, Facebook Pixel, Consent Mode
 Requires at least: 5.1.0
 Tested up to: 6.6.2
 Requires PHP: 7.0
@@ -8,7 +8,7 @@ Stable tag: 1.11.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Complete Google Tag Manager plugin for WooCommerce, Consent Mode v2 and Server-Side GTM ready. Ready GTM configuration for GA4 and Facebook Pixel. Built-in product feed for Google Merchant Center.
+Complete GTM plugin for WooCommerce (consent Mode v2 and server-side GTM). Ready for GA4 and FB Pixel. Product feed for Google Merchant Center.
 
 == Description ==
 
