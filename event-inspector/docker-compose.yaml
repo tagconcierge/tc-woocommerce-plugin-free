@@ -1,0 +1,7 @@
+services:
+  node-cli:
+    image: node:21
+    working_dir: /app
+    entrypoint: bash
+    volumes:
+      - .:/app
