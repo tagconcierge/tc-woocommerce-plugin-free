@@ -8,6 +8,7 @@ use GtmEcommerceWoo\Lib\Service\GtmSnippetService;
 use GtmEcommerceWoo\Lib\Service\SettingsService;
 use GtmEcommerceWoo\Lib\Service\PluginService;
 use GtmEcommerceWoo\Lib\Service\EventInspectorService;
+use GtmEcommerceWoo\Lib\Service\ProductFeedService;
 use GtmEcommerceWoo\Lib\Util\WpSettingsUtil;
 use GtmEcommerceWoo\Lib\Util\WcOutputUtil;
 use GtmEcommerceWoo\Lib\Util\WcTransformerUtil;
@@ -29,6 +30,8 @@ class Container {
 	/** @var EventInspectorService */
 	public $eventInspectorService;
 
+	public $productFeedService;
+
 	/** @var WcTransformerUtil */
 	protected $wcTransformerUtil;
 
@@ -45,8 +48,13 @@ class Container {
 			'add_billing_info',
 			'add_payment_info',
 			'add_shipping_info',
+			'add_to_wishlist',
+			'remove_from_wishlist',
 			'abandon_cart',
 			'abandon_checkout',
+			'language',
+			'change_language',
+			'change_currency'
 		];
 		$serverEvents = [
 			// 'add_to_cart',
@@ -75,6 +83,7 @@ class Container {
 		$this->settingsService = new SettingsService($wpSettingsUtil, $events, $proEvents, $serverEvents, $tagConciergeApiUrl, $pluginVersion);
 		$this->pluginService = new PluginService($spineCaseNamespace, $wpSettingsUtil, $wcOutputUtil, $pluginVersion);
 		$this->eventInspectorService = new EventInspectorService($wpSettingsUtil, $wcOutputUtil);
+		$this->productFeedService = new ProductFeedService($snakeCaseNamespace, $wpSettingsUtil);
 	}
 
 	public function getSettingsService(): SettingsService {
@@ -95,6 +104,10 @@ class Container {
 
 	public function getEventInspectorService(): EventInspectorService {
 		return $this->eventInspectorService;
+	}
+
+	public function getProductFeedService(): ProductFeedService {
+		return $this->productFeedService;
 	}
 
 	public function getWcTransformerUtil() {

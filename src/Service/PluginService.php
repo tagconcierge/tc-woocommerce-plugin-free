@@ -142,7 +142,7 @@ class PluginService {
 		?>
 		<div class="notice notice-success is-dismissible" data-gtm-ecommerce-woo-feedback>
 			<p>
-				Boost your WordPress & WooCommerce projects with services from a top EU developer, all starting at €250. <a href="https://tagconcierge.com/services" target="_blank">Get your site to the next level now!</a>
+				Need help with the tracking setup? Explore our <a href="https://tagconcierge.com/services" target="_blank">Services</a> to ensure data issues are not hindering your business growth.
 			</p>
 		</div>
 		<?php

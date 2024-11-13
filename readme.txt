@@ -1,35 +1,35 @@
-=== GTM for WooCommerce FREE ===
-Contributors: Tag Concierge
-Tags: google tag manager, GA4, ecommerce events, Google Analytics, Facebook Pixel, Microsoft UET, consent mode
+=== Tag Pilot FREE - Google Tag Manager Integration for WooCommerce ===
+Contributors: tagconcierge
+Tags: google tag manager, GA4, WooCommerce, Facebook Pixel, Consent Mode
 Requires at least: 5.1.0
-Tested up to: 6.5
+Tested up to: 6.6.2
 Requires PHP: 7.0
-Stable tag: 1.10.32
+Stable tag: 1.11.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Enable new growth channels for your WooCommerce with GA4 and Consent Mode ready GTM integration. Use packages GTM presets for quick installation.
+Complete GTM plugin for WooCommerce (consent Mode v2 and server-side GTM). Ready for GA4 and FB Pixel. Product feed for Google Merchant Center.
 
 == Description ==
 
-Looking to accelerate the growth of your WooCommerce shop? Uncertain about complex tagging requirements to start tracking customer activities and optimizing paid sales campaigns?
+Tracking eCommerce events via Google Tag Manager and DataLayer makes adding new growth channels a straighforward task. Regardless of a number of connected platforms the data quality and events coverage stays the same.
 
-Discover our plugin, that seamlessly integrates WooCommerce with Google Tag Manager (GTM), pushing standard eCommerce data to the GTM Data Layer. Once integrated, you gain the flexibility to utilize any analytics or marketing tool, even if you're undecided on your choice.
+https://youtu.be/rxY13l4N4JI
 
-To speed up the process, our plugin offers pre-packaged integrations for GA4 and Facebook Pixel. You can be up and running in minutes, bypassing the need for extensive GTM configuration. See how it works here:
+This plugin, once activated, starts pushing standard GA4 eCommerce events into GTM DataLayer. Once the data is there you can leverage Google Tag Manager containers to connect virtually any analytics o marketing platform, even if you're still undecided on your choice.
 
-https://youtu.be/5s5_tCGuKu4
+To speed up the process, our plugin offers pre-packaged integrations for GA4 and Facebook Pixel. You can be up and running in minutes, bypassing the need for time-consuming GTM configuration. See how it works here:
 
 
-Check [live demo here](https://demo-woocommerce.tagconcierge.com/) (perform typical shop activities - add to cart, purchase - to see how events are triggered). This demo showcase all PRO plugin features - FREE version is limited to 2 events listed below.
+Check [live demo here](https://demo2-woocommerce.tagconcierge.com/) (perform typical shop activities - add to cart, purchase - to see how events are triggered). This demo showcase all PRO plugin features - FREE version is limited to 2 events listed below.
 
 More information and documentation can be found [here](https://docs.tagconcierge.com/).
 
 ## Example scenarios
 
-1. Analyse eCommerce behaviors and study your sales funnel in Google Analytics (**GA4 supported**)
+1. Analyse eCommerce behaviors and study your sales funnel in Google Analytics 4
 2. Get most out of Facebook and Instagram paid campaigns with conversion tracking
-3. Optimise your Google Ads campaigns with enhanced conversion (requires PRO version)
+3. Optimise your Google Ads campaigns with Enhanced Conversion (requires PRO version)
 4. Expand to new platforms with TikTok, Pinterest and Microsoft UET presets (requires PRO version)
 
 
@@ -40,24 +40,65 @@ After the plugin is installed it automatically tracks the following events:
 - Add To Cart
 - Purchase
 
-Which are a great base for **conversion measurements** and building **sales funnels** related to cart behavior.
+Which are a great base for **conversion measurements** and analysing **sales funnels** related to cart behavior.
 
 **For full eCommerce events coverage, improved handling and professional support [buy PRO version](https://tagconcierge.com/google-tag-manager-for-woocommerce/).**
 
+## PRO Version
+
+The paid version covers following events:
+
+- view_item_list
+- select_item
+- view_item
+- add_to_cart
+- view_cart
+- remove_from_cart
+- begin_checkout
+- add_billing_info
+- add_payment_info
+- add_shipping_info
+- purchase
+- user_data
+
+Comes with presets for:
+
+- Google Ads (Enhanced Conversions)
+- Google Ads Dynamic Remarketing
+- Facebook Pixel (Advanced Matching)
+- Microsoft UET / Bing Ads
+- Pinterest
+- TikTok
+- Consent Mode
+- Server-side GTM
+
+Additonally, works with 3rd party plugins:
+
+- WooCommerce Brands
+- Yith Brands
+- WooCommerce Quick View
+- WooCommerce Wishlists
+- WPC Smart Wishlist
+- WooCommerce Multilingual
+- WPML
+- Polylang
+
+
 ## Advantage over alternative solutions
 
-### Only single plugin needed
+### Only one plugin needed
 
-Without GTM for WooCommerce plugin, you would need a separate plugin for each of those integrations. And each additional plugin may make your Wordpress setup more complex.
-With GTM for WooCommerce, all data is sent in standardized Google format to GTM and everything else is configured there.
+Without a GTM plugin, you would need a separate plugin for each of those integrations. Each plugin can track events differently. They can cause conflicts and slow-down on the front-end
+
+With a dedicated GTM plugin, all data is sent in standardized Google format to Google Tag Manager which forwards events to multiple destination services.
 
 ### Reporting consistency
 
-A common problem when trying to use other GTM and Google Analytics plugins is that data can be sent twice corrupting analytics reporting. Using DataLayer is a standard way to ensure your tracking information stays consistent.
+A common problem when trying to use other GTM and Google Analytics plugins is that data can be sent twice corrupting analytics reporting. Using DataLayer is a standard way to ensure your tracking information stays consistent across all connected tools.
 
-### Cookies opt-in
+### Google Consent Mode v2
 
-Using GTM and dataLayer allows to build more complex scenarios, such as only processing the data after obtaining user consent. Other plugin directly pipe events into target system no matter if required permission was given or not. This is a more advanced scenario that requires manual changes in Google Tag Manager, but out-of-box support may be added in this plugin in future.
+Using GTM and dataLayer allows to build more complex scenarios, such as only processing the data after obtaining user consent. Other plugin directly pipe events into target system no matter if required permission was given or not.
 
 
 == Installation ==
@@ -69,7 +110,7 @@ Using GTM and dataLayer allows to build more complex scenarios, such as only pro
 
 ### How to use JSON file with GTM container?
 
-In order to perform such import go to `Settings > Google Tag Manager` and scroll down. There is a link to the JSON file with the GTM container. Save it as a JSON file on your computer.
+In order to perform such import go to `Settings > Google Tag Manager` and click `GTM Presets` tab. Look for GTM Preset that you would like to install. Save it as a JSON file on your computer.
 
 Then in GTM go to the `Admin` panel of your workspace. Click `Import Container`. Choose the container file you have just downloaded. Decide which workspace it should go to. Then select `Merge` and `Overwrite conflicting tags, triggers and variables.` as import options.
 Hit `Confirm` to create tags, variables, and triggers for pushing Ecommerce events to the GA4 property.
@@ -108,18 +149,43 @@ Yes! Just use the appropriate preset available in the settings screen of the plu
 
 == Screenshots ==
 
-1. **GTM for WooCommerce** integrations
+1. Plugin tracked `add_to_cart` and `purchase` events
 2. **GTM for WooCommerce** settings and GTM snippets
-3. eCommerce results in GA4 property
-4. eCommerce results in Universal Analytics property
-5. `add_to_cart` event captured in GTM debugger
-6. `purchase` event captured in GTM debugger
-7. How to import the provided GTM container?
-8. GTM workspace tags after importer provided JSON file
+3. Available events in PRO version
+4. GTM Presets gallery
+5. Google Tag Manager import preview
+6. Google Ads Conversion status
+7. Complete purchase journey in GA4 (requires PRO)
+8. Event and Cart Data tools
+9. Server-side tools
 
 
 
 == Changelog ==
+
+= 1.11.0 =
+
+* added product feed generator
+* added default consent mode state
+* added server-side GTM snippet modifier
+* added ability to add extra parameters to ecommerce object
+* introduced tools gallery
+* improved styling of events inspector
+
+= 1.10.34 =
+
+* removed unnecessary code
+* tested against the latest versions of WordPress and WooCommerce
+
+= 1.10.34 =
+
+* tested against the latest versions of WordPress and WooCommerce
+* documentation and wording adjustments
+
+= 1.10.33 =
+
+* push `ecommerce: null` to dataLayer before every event
+* send product name without variant attribute as the main product name
 
 = 1.10.32 =
 

@@ -36,29 +36,55 @@ class WpSettingsUtil {
 		return register_setting( $this->snakeCaseNamespace, $this->snakeCaseNamespace . '_' . $settingName );
 	}
 
-	public function addTab( $tabName, $tabTitle, $showSaveButton = true) {
+	public function addTab( $tabName, $tabTitle, $showSaveButton = true, $inactive = false) {
 		$this->tabs[$tabName] = [
 			'name' => $tabName,
 			'title' => $tabTitle,
-			'show_save_button' => $showSaveButton
+			'show_save_button' => $showSaveButton,
+			'inactive' => $inactive
 		];
 	}
 
-	public function addSettingsSection( $sectionName, $sectionTitle, $description, $tab): void {
+	public function addSettingsSection( $sectionName, $sectionTitle, $description, $tab, $extra = null): void {
 		$this->sections[$sectionName] = [
 			'name' => $sectionName,
 			'tab' => $tab
 		];
+		$args = [
+			'before_section' => '',
+			'after_section' => '',
+		];
+
+		$grid = isset($extra['grid']) ? $extra['grid'] : null;
+		$badge = isset($extra['badge']) ? $extra['badge'] : null;
+
+		if ( 'start' === $grid || 'single' === $grid ) {
+			$args['before_section'] = '<div class="metabox-holder"><div class="postbox-container" style="float: none; display: flex; flex-wrap:wrap;">';
+		}
+		if ( null !== $grid ) {
+			$args['before_section'] .= '<div style="margin-left: 4%; width: 45%" class="postbox"><div class="inside">';
+			$args['after_section'] = '</div></div>';
+		}
+
+		if ( 'end' === $grid || 'single' === $grid ) {
+			$args['after_section'] .= '</div></div><br />';
+		}
+
+		$title = __( $sectionTitle, $this->spineCaseNamespace );
+		if ($badge) {
+			$title .= ' <code>' . strtoupper($badge) . '</code>';
+		}
+
 		add_settings_section(
 			$this->snakeCaseNamespace . '_' . $sectionName,
-			__( $sectionTitle, $this->spineCaseNamespace ),
-			static function( $args) use ( $description) {
+			$title,
+			static function( $args) use ( $description, $grid ) {
 				?>
-
 			  <p id="<?php echo esc_attr( $args['id'] ); ?>"><?php echo wp_kses($description, SanitizationUtil::WP_KSES_ALLOWED_HTML, SanitizationUtil::WP_KSES_ALLOWED_PROTOCOLS); ?></p>
-				<?php
+			  <?php
 			},
-			$this->snakeCaseNamespace . '_' . $tab
+			$this->snakeCaseNamespace . '_' . $tab,
+			$args
 		);
 	}
 
@@ -104,8 +130,14 @@ class WpSettingsUtil {
 
 				<h2 class="nav-tab-wrapper">
 					<?php foreach ($this->tabs as $tab) : ?>
+					<?php
+						$link = sprintf('?page=%s&tab=%s', $this->spineCaseNamespace, $tab['name']);
+						if (true === @$tab['inactive']) {
+							$link = '#';
+						}
+						?>
 					<a
-						href="<?php echo esc_url(sprintf('?page=%s&tab=%s', $this->spineCaseNamespace, $tab['name'])); ?>"
+						href="<?php echo esc_url($link); ?>"
 						class="nav-tab
 						<?php if ($activeTab === $tab['name']) : ?>
 							nav-tab-active

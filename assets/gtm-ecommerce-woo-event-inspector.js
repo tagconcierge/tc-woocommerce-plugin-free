@@ -1,4 +1,4 @@
-(function($) {
+(function($, w) {
     dataLayer = window.dataLayer || [];
 
     var dataLayerIndex = 0;
@@ -57,38 +57,39 @@
                 eventName = "checkout (UA)";
             }
 
-            return template.replace('{{event}}', eventName);
+            return template
+                .replace('{{event}}', eventName)
+                .replace('{{json}}', hljs.highlight(JSON.stringify(item, null, 2), { language: 'json' }).value);
         });
         $("#gtm-ecommerce-woo-event-inspector-list").html(rendered);
+
     }
 
     $(function() {
-        $("#gtm-ecommerce-woo-event-inspector-list").on("click", "li", function(ev) {
-            var index = $(ev.target).index();
-            var existingStoredEvents = JSON.parse(sessionStorage.getItem("gtmDatalayerDebugger")) || [];
-            // since items are stored in chronological order, but we render them in reverse order:
-            alert(JSON.stringify(existingStoredEvents.reverse()[index], null, 2));
+        // Toggle tool size
+        $('#gtm-ecommerce-woo-event-inspector').on('click', '.toggle-size', function() {
+            $('#gtm-ecommerce-woo-event-inspector').toggleClass('minimized');
+            sessionStorage.setItem('gtmDatalayerDebuggerMinimized', $('#gtm-ecommerce-woo-event-inspector').hasClass('minimized'));
+        });
+
+        if (sessionStorage.getItem('gtmDatalayerDebuggerMinimized') === 'true') {
+            $('#gtm-ecommerce-woo-event-inspector').addClass('minimized');
+        }
+
+        $('#gtm-ecommerce-woo-event-inspector').on('click', '.clear-history', function() {
+            sessionStorage.setItem("gtmDatalayerDebugger", '[]');
+            renderItems([]);
+        });
+
+        $("#gtm-ecommerce-woo-event-inspector-list").on("click", "li span", function(ev) {
+            $(ev.currentTarget).siblings('pre').toggle();
         });
 
         var existingStoredEvents = JSON.parse(sessionStorage.getItem("gtmDatalayerDebugger")) || [];
         renderItems(existingStoredEvents);
 
         setInterval(checkDataLayer, 100);
+
+        $('#gtm-ecommerce-woo-event-inspector').show();
     });
-
-    // dataLayer.push = function() {
-    //     originalPush.call(arguments);
-    //     var event = arguments[0];
-    //     if (!event.event || event.event.substring(0, 4) === "gtm.") {
-    //         return
-    //     }
-    //     var existingStoredEvents = JSON.parse(sessionStorage.getItem("gtmDatalayerDebugger")) || [];
-    //     existingStoredEvents.push(event);
-    //     sessionStorage.setItem("gtmDatalayerDebugger", JSON.stringify(existingStoredEvents));
-    //     $(function() {
-    //         renderItems(existingStoredEvents);
-    //     });
-    // }
-
-
-})(jQuery);
+})(jQuery, window);
