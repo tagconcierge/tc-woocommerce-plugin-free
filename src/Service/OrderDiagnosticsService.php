@@ -11,8 +11,8 @@ use WP_REST_Request;
 class OrderDiagnosticsService {
 
 	const ORDER_META_KEY_ORDER_DIAGNOSED = 'gtm_ecommerce_woo_order_diagnosed';
-	protected WpSettingsUtil $wpSettingsUtil;
-	protected WcOutputUtil $wcOutputUtil;
+	protected $wpSettingsUtil;
+	protected $wcOutputUtil;
 	public function __construct( WpSettingsUtil $wpSettingsUtil, WcOutputUtil $wcOutputUtil) {
 		$this->wpSettingsUtil = $wpSettingsUtil;
 		$this->wcOutputUtil = $wcOutputUtil;

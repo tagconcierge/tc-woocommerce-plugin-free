@@ -350,7 +350,7 @@ class SettingsService {
 			$statistics['analytics_denied']['count'],
 			$statistics['analytics_denied']['value'],
 			$statistics['ad_denied']['count'],
-			$statistics['ad_denied']['value'],
+			$statistics['ad_denied']['value']
 		);
 		/*
 		 * /TODO
