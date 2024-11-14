@@ -86,6 +86,12 @@ class SettingsService {
 		);
 
 		$this->wpSettingsUtil->addTab(
+			'monitoring',
+			'Monitoring',
+			false
+		);
+
+		$this->wpSettingsUtil->addTab(
 			'support',
 			'Support',
 			false
@@ -285,20 +291,20 @@ class SettingsService {
 		);
 
 		$this->wpSettingsUtil->addSettingsSection(
-			'server_side_endpoint_cogs',
-			'sGTM COGS Endpoint',
+			'server_side_endpoint_poas',
+			'sGTM POAS Endpoint',
 			'When using server-side GTM you can make additional transformation before data is sent to the 3rd party platform. This endpoint allows replacing default revenue based conversion values with profit information stored in WooCommerce using COGS plugin.',
 			'gtm_server',
 			[ 'grid' => 'end', 'badge' =>  $this->isPro ? null : 'PRO' ]
 		);
 
-		/*$this->wpSettingsUtil->addSettingsSection(
-			'product_feed_facebook',
-			'Facebook Product Feed',
-			'',
-			'tools',
-			[ 'grid' => 'end', 'badge' => 'PRO' ]
-		);*/
+		$this->wpSettingsUtil->addSettingsSection(
+			'monitoring',
+			'Tracking Monitoring',
+			'<br /><br />
+				<div class="metabox-holder"><div class="postbox-container" style="float: none; display: flex; flex-wrap:wrap;"><div style="margin-left: 3%; width: 21%" class="postbox"><div class="inside"><h3>Total</h3><p>All transactions<br /></p>transactions: 123<br />value: $125</div></div><div style="margin-left: 3%; width: 21%" class="postbox"><div class="inside"><h3>Blocked</h3><p>Transactions blocked by browsers and ad blocking extensions</p>transactions: 123<br />value: $125</div></div><div style="margin-left: 3%; width: 21%" class="postbox"><div class="inside"><h3>Analytics Denied</h3><p>Transactions with analytical purposes denied by the user. Won\'t show up in GA4 reporting</p>transactions: 10<br />value: $12</div></div><div style="margin-left: 3%; width: 21%" class="postbox"><div class="inside"><h3>Ad Denied</h3><p>Transactions with ad purposes denied by the user. Won\'t show up in Google Ads reporting</p>transactions: 10<br />value: $12</div></div></div></div><br />',
+			'monitoring'
+		);
 
 		$this->wpSettingsUtil->addSettingsField(
 			'disabled',
@@ -523,11 +529,11 @@ class SettingsService {
 		);
 
 		$this->wpSettingsUtil->addSettingsField(
-			'server_side_endpoint_cogs_enabled',
-			'Enable COGS Endpoint',
+			'server_side_endpoint_poas_enabled',
+			'Enable POAS Endpoint',
 			[$this, 'checkboxField'],
-			'server_side_endpoint_cogs',
-			'Enable serving COGS information for sGTM container.',
+			'server_side_endpoint_poas',
+			'Enable serving Profit (POAS) information for sGTM container.',
 			[
 				'disabled' => !$this->isPro
 			]
@@ -551,14 +557,6 @@ class SettingsService {
 				'type' => 'text'
 			]
 		);
-
-		/*$this->wpSettingsUtil->addSettingsField(
-			'product_feed_facebook_enabled',
-			'Enable Product Feed',
-			[$this, 'checkboxField'],
-			'product_feed_facebook',
-			'Generate Product Feed for Facebook / Meta Product Catalog.'
-		);*/
 
 		$this->wpSettingsUtil->addSettingsField(
 			'gtm_snippet_prevent_load',
