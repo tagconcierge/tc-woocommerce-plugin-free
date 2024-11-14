@@ -22,7 +22,7 @@ class OrderDiagnosticsService {
 		if ('1' === $this->wpSettingsUtil->getOption('monitor_disabled')) {
 			return;
 		}
-		
+
 		add_action(
 			'rest_api_init',
 			function () {

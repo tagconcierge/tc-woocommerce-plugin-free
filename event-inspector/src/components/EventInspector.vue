@@ -8,22 +8,22 @@
       </div>
     </div>
     <div class="tabs">
-      <div 
-        class="tab" 
+      <div
+        class="tab"
         :class="{ active: activeTab === 'events' }"
         @click="activeTab = 'events'"
       >
         Events
       </div>
-      <div 
-        class="tab" 
+      <div
+        class="tab"
         :class="{ active: activeTab === 'containers' }"
         @click="activeTab = 'containers'"
       >
         GTM Containers
       </div>
-      <div 
-        class="tab" 
+      <div
+        class="tab"
         :class="{ active: activeTab === 'consent' }"
         @click="activeTab = 'consent'"
       >
@@ -33,8 +33,8 @@
     <div class="content">
       <div class="tab-content" :class="{ active: activeTab === 'events' }" id="events">
         <ul id="gtm-ecommerce-woo-event-inspector-list">
-          <li 
-            v-for="(event, index) in reversedEvents" 
+          <li
+            v-for="(event, index) in reversedEvents"
             :key="index"
             style="cursor: pointer; list-style: none; color: black; font-weight: bold; padding-top: 10px;"
           >
@@ -48,8 +48,8 @@
           No containers found
         </div>
         <ul v-else>
-          <li 
-            v-for="id in Object.keys(gtmContainers)" 
+          <li
+            v-for="id in Object.keys(gtmContainers)"
             :key="id"
             style="list-style: none; color: black; font-weight: bold; padding: 10px;"
           >
@@ -79,12 +79,12 @@ import 'highlight.js/styles/default.css';
 
 export default {
   name: 'EventInspector',
-  
+
   data() {
     return {
       events: [],
       minimized: false,
-      dataLayerIndex: 0,
+      dataLayerIndex: -1,
       checkInterval: null,
       activeTab: 'events',
       gtmContainers: {},
@@ -129,9 +129,9 @@ export default {
       const dataLayer = window.dataLayer || [];
       const currentLength = dataLayer.length;
 
-      if (currentLength > this.dataLayerIndex) {
-        const newEvents = dataLayer.slice();
-        this.dataLayerIndex = currentLength;
+      if (currentLength > this.dataLayerIndex + 1) {
+        const newEvents = dataLayer.slice(this.dataLayerIndex + 1);
+        this.dataLayerIndex = currentLength - 1;
 
         newEvents.forEach(event => {
           if ('object' === typeof event && event[0] === 'consent') {
@@ -143,7 +143,7 @@ export default {
             return;
           }
 
-          if ((!event.event && !event.ecommerce) || 
+          if ((!event.event && !event.ecommerce) ||
               (event.event && event.event.substring(0, 4) === 'gtm.')) {
             return;
           }
@@ -162,7 +162,7 @@ export default {
 
     getEventName(item) {
       if (!item) return 'Unknown Event';
-      
+
       if (!item.event && item.ecommerce) {
         if (item.ecommerce.purchase) return 'Purchase (UA)';
         if (item.ecommerce.impressions) return 'Product Impression (UA)';
@@ -192,7 +192,7 @@ export default {
     toggleEventDetails(index) {
       const actualIndex = this.events.length - 1 - index;
       if (actualIndex >= 0 && actualIndex < this.events.length) {
-        this.$set(this.events[actualIndex], 'isExpanded', 
+        this.$set(this.events[actualIndex], 'isExpanded',
           !this.events[actualIndex].isExpanded);
       }
     },
@@ -203,7 +203,7 @@ export default {
           return '';
         }
         const jsonString = JSON.stringify(data, null, 2);
-        
+
         if (!jsonString) {
           return '';
         }
@@ -220,7 +220,7 @@ export default {
 
     getGTMContainers() {
       if (!window.google_tag_manager) return;
-      
+
       const containers = {};
       Object.keys(window.google_tag_manager).forEach(key => {
         if (key.startsWith('GTM-')) {
@@ -408,4 +408,4 @@ export default {
 .consent-section pre {
   margin: 0;
 }
-</style> 
+</style>
