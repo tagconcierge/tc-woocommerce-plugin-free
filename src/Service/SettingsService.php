@@ -380,6 +380,14 @@ class SettingsService {
 		);
 
 		$this->wpSettingsUtil->addSettingsField(
+			'monitor_disabled',
+			'Disable monitor?',
+			[$this, 'checkboxField'],
+			'basic',
+			'When checked the plugin won\'t diagnose orders context like information about adblock or denied user consents.'
+		);
+
+		$this->wpSettingsUtil->addSettingsField(
 			'event_inspector_enabled',
 			'Enable Event Inspector?',
 			[$this, 'selectField'],
