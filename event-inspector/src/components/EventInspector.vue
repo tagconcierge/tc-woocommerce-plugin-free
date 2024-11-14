@@ -3,7 +3,7 @@
     <div class="header">
       <span>GTM Debug Tool</span>
       <div>
-        <button class="clear-history" @click="clearHistory">Clear History</button>
+        <button class="clear-history" @click="clearHistory">Clear Events</button>
         <button class="toggle-size" @click="toggleSize" aria-label="Toggle tool size">_</button>
       </div>
     </div>
@@ -38,6 +38,7 @@
             :key="index"
             style="cursor: pointer; list-style: none; color: black; font-weight: bold; padding-top: 10px;"
           >
+            <span class="event-number">{{ events.length - index }}.</span>
             <span @click="toggleEventDetails(index)">{{ event.eventName }}</span>
             <pre v-show="event.isExpanded"><code class="language-json" v-html="highlightJson(event.data)"></code></pre>
           </li>
@@ -86,7 +87,7 @@ export default {
       minimized: false,
       dataLayerIndex: -1,
       checkInterval: null,
-      activeTab: 'events',
+      activeTab: sessionStorage.getItem('gtmDebuggerActiveTab') || 'events',
       gtmContainers: {},
       gtmCheckInterval: null,
       consentDefault: null,
@@ -228,6 +229,11 @@ export default {
         }
       });
       this.gtmContainers = containers;
+    }
+  },
+  watch: {
+    activeTab(newValue) {
+      sessionStorage.setItem('gtmDebuggerActiveTab', newValue);
     }
   }
 }
@@ -407,5 +413,11 @@ export default {
 
 .consent-section pre {
   margin: 0;
+}
+
+.event-number {
+  color: #666;
+  margin-right: 8px;
+  font-size: 0.9em;
 }
 </style>
