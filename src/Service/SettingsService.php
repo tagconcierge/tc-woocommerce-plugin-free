@@ -302,13 +302,13 @@ class SettingsService {
 		/*
 		 * TODO move to another place
 		 */
-		$getStatistics = function($metaKey, $negatedMetaValue) {
+		$getStatistics = function( $metaKey, $negatedMetaValue) {
 			$orders = wc_get_orders([
 				'meta_key' => $metaKey,
 				'meta_value' => $negatedMetaValue,
 				'meta_compare' => '!='
 			]);
-			$values = array_map(function(WC_Order $order) {
+			$values = array_map(function( WC_Order $order) {
 				return $order->get_total();
 			}, $orders);
 
@@ -337,7 +337,7 @@ class SettingsService {
 			],
 		];
 
-		$statistics = array_map(function($item) use ($getStatistics) {
+		$statistics = array_map(function( $item) use ( $getStatistics) {
 			return $getStatistics($item['meta_key'], $item['negated_meta_value']);
 		}, $statisticsTypes);
 

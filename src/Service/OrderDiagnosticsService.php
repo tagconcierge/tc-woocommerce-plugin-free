@@ -44,8 +44,7 @@ class OrderDiagnosticsService {
 		);
 	}
 
-	public function endpointDiagnoseOrder( WP_REST_Request $data )
-	{
+	public function endpointDiagnoseOrder( WP_REST_Request $data ) {
 		if (false === isset($data['order_id'])) {
 			return;
 		}
@@ -68,7 +67,7 @@ class OrderDiagnosticsService {
 
 		$requestData = array_intersect_key($data->get_params(), $expectedKeys);
 
-		$requestData = array_map(function ($item) {
+		$requestData = array_map(function ( $item) {
 			return sanitize_key($item);
 		}, $requestData);
 
@@ -81,7 +80,7 @@ class OrderDiagnosticsService {
 		$order->save();
 	}
 
-	public function thankYouPage($orderId) {
+	public function thankYouPage( $orderId) {
 		$trackOrderEndpointUrlPattern = sprintf('%sgtm-ecommerce-woo/v1/diagnose-order/%d', get_rest_url(), $orderId);
 
 		$this->wcOutputUtil->script(<<<EOD
