@@ -164,4 +164,9 @@ class WpSettingsUtil {
 			}
 		);
 	}
+
+	public function getSnakeCaseNamespace()
+	{
+		return $this->snakeCaseNamespace;
+	}
 }

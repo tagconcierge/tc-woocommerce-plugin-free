@@ -38,6 +38,7 @@ $container->getGtmSnippetService()->initialize();
 $container->getEventStrategiesService()->initialize();
 $container->getEventInspectorService()->initialize();
 $container->getProductFeedService()->initialize();
+$container->getOrderDiagnosticsService()->initialize();
 
 $pluginService = $container->getPluginService();
 $pluginService->initialize();
