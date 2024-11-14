@@ -55,7 +55,7 @@ class OrderDiagnosticsService {
 			return;
 		}
 
-		if (false === empty($order->get_meta(self::ORDER_META_KEY_ORDER_DIAGNOSED))) {
+		if (false === $this->shouldBeProcessed($order)) {
 			return;
 		}
 
@@ -81,36 +81,52 @@ class OrderDiagnosticsService {
 	}
 
 	public function thankYouPage( $orderId) {
+		$order = wc_get_order( (int) $orderId );
+
+		if (false === $order instanceof WC_Order) {
+			return;
+		}
+
+		if (false === $this->shouldBeProcessed($order)) {
+			return;
+		}
+
 		$trackOrderEndpointUrlPattern = sprintf('%sgtm-ecommerce-woo/v1/diagnose-order/%d', get_rest_url(), $orderId);
 
 		$this->wcOutputUtil->script(<<<EOD
 (function($, window, dataLayer){
-	const gtm = undefined !== window.google_tag_manager;
-	let consents = {
-		ad_storage: 'denied',
-		analytics_storage: 'denied',
-	};
+	setTimeout(function() {
+		const gtm = undefined !== window.google_tag_manager;
+		let consents = {
+			ad_storage: 'denied',
+			analytics_storage: 'denied',
+		};
 
-	dataLayer.forEach(event => {
-		if ('object' === typeof event && event[0] === 'consent') {
-			consents = {
-				...consents,
-				...event[2]
-			};
-		}
-	});
+		dataLayer.forEach(event => {
+			if ('object' === typeof event && event[0] === 'consent') {
+				consents = {
+					...consents,
+					...event[2]
+				};
+			}
+		});
 
-	$.ajax({
-		type: 'POST',
-		async: false,
-		url: '{$trackOrderEndpointUrlPattern}',
-		data: {
-			gtm: gtm,
-			...consents
-		},
-	});
+		$.ajax({
+			type: 'POST',
+			async: false,
+			url: '{$trackOrderEndpointUrlPattern}',
+			data: {
+				gtm: gtm,
+				...consents
+			},
+		});
+	}, 1000);
 })(jQuery, window, dataLayer);
 EOD
 		);
+	}
+
+	private function shouldBeProcessed( WC_Order $order) {
+		return true === empty($order->get_meta(self::ORDER_META_KEY_ORDER_DIAGNOSED));
 	}
 }
