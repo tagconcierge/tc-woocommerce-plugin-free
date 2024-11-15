@@ -63,7 +63,8 @@ class WcTransformerUtil {
 	public function getItemFromProduct( $product ): Item {
 		$regularPrice = wc_get_price_including_tax($product, ['price' => $product->get_regular_price(null)]);
 		$salePrice = wc_get_price_including_tax($product);
-		$discount = $regularPrice - $salePrice;
+
+		$discount = ( is_float($regularPrice) && is_float($salePrice) ) ? $regularPrice - $salePrice : 0;
 
 		$item = new Item($product->get_name());
 		$item->setItemId($product->get_id());
