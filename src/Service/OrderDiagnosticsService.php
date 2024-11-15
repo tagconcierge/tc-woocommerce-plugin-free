@@ -61,6 +61,8 @@ class OrderDiagnosticsService {
 
 		$expectedKeys = [
 			'gtm' => null,
+			'adblock' => null,
+			'itp' => null,
 			'ad_storage' => null,
 			'analytics_storage' => null,
 		];
@@ -87,15 +89,15 @@ class OrderDiagnosticsService {
 			return;
 		}
 
-		// if (false === $this->shouldBeProcessed($order)) {
-		// 	return;
-		// }
+		if (false === $this->shouldBeProcessed($order)) {
+			return;
+		}
 
 		$trackOrderEndpointUrlPattern = sprintf('%sgtm-ecommerce-woo/v1/diagnose-order/%d', get_rest_url(), $orderId);
 
 		$this->wcOutputUtil->script(<<<EOD
 (function($, window, dataLayer){
-	var ad = document.createElement('ins');
+	const ad = document.createElement('ins');
 	ad.className = 'AdSense';
 	ad.style.display = 'block';
 	ad.style.position = 'absolute';
@@ -105,6 +107,14 @@ class OrderDiagnosticsService {
 
 	setTimeout(function() {
 		const gtm = undefined !== window.google_tag_manager;
+		const itp = navigator.userAgent.includes('Safari') &&
+			!navigator.userAgent.includes('Chrome') &&
+			(navigator.userAgent.includes('iPhone') ||
+			navigator.userAgent.includes('iPad') ||
+			navigator.platform.includes('Mac'));
+		const adblock = !document.querySelector('.AdSense').clientHeight;
+		document.body.removeChild(ad);
+
 		let consents = {
 			ad_storage: 'denied',
 			analytics_storage: 'denied',
@@ -119,16 +129,14 @@ class OrderDiagnosticsService {
 			}
 		});
 
-		var isAdblockEnabledCheck = !document.querySelector('.AdSense').clientHeight;
-		document.body.removeChild(ad);
-
 		$.ajax({
 			type: 'POST',
 			async: false,
 			url: '{$trackOrderEndpointUrlPattern}',
 			data: {
-				gtm: gtm,
-				adblock: isAdblockEnabledCheck,
+				gtm,
+				adblock,
+				itp,
 				...consents
 			},
 		});
