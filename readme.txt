@@ -163,6 +163,10 @@ Yes! Just use the appropriate preset available in the settings screen of the plu
 
 == Changelog ==
 
+= 1.12.1 =
+
+* orders monitor improvements
+
 = 1.12.0 =
 
 * introduced orders monitor
