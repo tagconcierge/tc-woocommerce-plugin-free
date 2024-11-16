@@ -353,8 +353,8 @@ class SettingsService {
 
 		$totalValue = (int) $statistics['total']['count'];
 
-		$statistics = array_map(function( $item) use ($totalValue) {
-			$item['count_percentage'] = $totalValue > 0 ? round(($item['count']/$totalValue) * 100): 0;
+		$statistics = array_map(function( $item) use ( $totalValue) {
+			$item['count_percentage'] = $totalValue > 0 ? round(( $item['count']/$totalValue ) * 100): 0;
 
 			return $item;
 		}, $statistics);
@@ -374,7 +374,7 @@ class SettingsService {
 			$statistics['ad_denied']['value'],
 			$statistics['no_thank_you_page']['count'],
 			$statistics['no_thank_you_page']['count_percentage'],
-			$statistics['no_thank_you_page']['value'],
+			$statistics['no_thank_you_page']['value']
 		);
 		/*
 		 * /TODO

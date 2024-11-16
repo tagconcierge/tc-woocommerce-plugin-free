@@ -55,7 +55,7 @@ class OrderMonitorService {
 			'woocommerce_store_api_checkout_update_order_meta',
 			[$this, 'handleDiagnosticsSave']
 		);
-		
+
 		add_action(
 			'woocommerce_thankyou',
 			[$this, 'handleThankYouPage']
@@ -80,9 +80,10 @@ class OrderMonitorService {
 		WC()->session->set(self::SESSION_KEY_ORDER_MONITOR, $requestData);
 	}
 
-	public function handleDiagnosticsSave(WC_Order $order)
-	{
-		if (false === is_array($data = WC()->session->get(self::SESSION_KEY_ORDER_MONITOR))) {
+	public function handleDiagnosticsSave( WC_Order $order) {
+		$data = WC()->session->get(self::SESSION_KEY_ORDER_MONITOR);
+
+		if (false === is_array($data)) {
 			return;
 		}
 
@@ -97,8 +98,7 @@ class OrderMonitorService {
 		WC()->session->set(self::SESSION_KEY_ORDER_MONITOR, null);
 	}
 
-	public function handleThankYouPage($orderId)
-	{
+	public function handleThankYouPage( $orderId) {
 		$order = wc_get_order( $orderId );
 
 		if (false === $order instanceof WC_Order) {
