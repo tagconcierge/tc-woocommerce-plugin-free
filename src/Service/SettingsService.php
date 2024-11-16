@@ -302,11 +302,12 @@ class SettingsService {
 		/*
 		 * TODO move to another place
 		 */
-		$getStatistics = function( $metaKey, $negatedMetaValue) {
+		$getStatistics = function( $metaKey, $metaValue, $metaCompare) {
 			$orders = wc_get_orders([
+				'limit' => -1,
 				'meta_key' => $metaKey,
-				'meta_value' => $negatedMetaValue,
-				'meta_compare' => '!='
+				'meta_value' => $metaValue,
+				'meta_compare' => $metaCompare
 			]);
 			$values = array_map(function( WC_Order $order) {
 				return $order->get_total();
@@ -320,37 +321,60 @@ class SettingsService {
 
 		$statisticsTypes = [
 			'total' => [
-				'meta_key' => 'gtm_ecommerce_woo_order_diagnosed',
-				'negated_meta_value' => ''
+				'meta_key' => 'gtm_ecommerce_woo_order_monitor_check',
+				'meta_value' => '',
+				'meta_compare' => '!='
 			],
 			'blocked' => [
-				'meta_key' => 'gtm_ecommerce_woo_gtm',
-				'negated_meta_value' => 'true'
+				'meta_key' => 'gtm_ecommerce_woo_order_monitor_gtm',
+				'meta_value' => 'true',
+				'meta_compare' => '!='
 			],
 			'analytics_denied' => [
-				'meta_key' => 'gtm_ecommerce_woo_analytics_storage',
-				'negated_meta_value' => 'granted'
+				'meta_key' => 'gtm_ecommerce_woo_order_monitor_analytics_storage',
+				'meta_value' => 'granted',
+				'meta_compare' => '!='
 			],
 			'ad_denied' => [
-				'meta_key' => 'gtm_ecommerce_woo_ad_storage',
-				'negated_meta_value' => 'granted'
+				'meta_key' => 'gtm_ecommerce_woo_order_monitor_ad_storage',
+				'meta_value' => 'granted',
+				'meta_compare' => '!='
+			],
+			'no_thank_you_page' => [
+				'meta_key' => 'gtm_ecommerce_woo_order_monitor_thank_you_page_visited',
+				'meta_value' => '0',
+				'meta_compare' => '<'
 			],
 		];
 
 		$statistics = array_map(function( $item) use ( $getStatistics) {
-			return $getStatistics($item['meta_key'], $item['negated_meta_value']);
+			return $getStatistics($item['meta_key'], $item['meta_value'], $item['meta_compare']);
 		}, $statisticsTypes);
 
+		$totalValue = (int) $statistics['total']['count'];
+
+		$statistics = array_map(function( $item) use ($totalValue) {
+			$item['count_percentage'] = $totalValue > 0 ? round(($item['count']/$totalValue) * 100): 0;
+
+			return $item;
+		}, $statistics);
+
 		$description = sprintf('<br /><br />
-				<div class="metabox-holder"><div class="postbox-container" style="float: none; display: flex; flex-wrap:wrap;"><div style="margin-left: 3%%; width: 21%%" class="postbox"><div class="inside"><h3>Total</h3><p>All transactions<br /></p>transactions: %d<br />value: %.2f</div></div><div style="margin-left: 3%%; width: 21%%" class="postbox"><div class="inside"><h3>Blocked</h3><p>Transactions blocked by browsers and ad blocking extensions</p>transactions: %d<br />value: %.2f</div></div><div style="margin-left: 3%%; width: 21%%" class="postbox"><div class="inside"><h3>Analytics Denied</h3><p>Transactions with analytical purposes denied by the user. Won\'t show up in GA4 reporting</p>transactions: %d<br />value: %.2f</div></div><div style="margin-left: 3%%; width: 21%%" class="postbox"><div class="inside"><h3>Ad Denied</h3><p>Transactions with ad purposes denied by the user. Won\'t show up in Google Ads reporting</p>transactions: %d<br />value: %.2f</div></div></div></div><br />',
+				<div class="metabox-holder"><div class="postbox-container" style="float: none; display: flex; flex-wrap:wrap;"><div style="margin-left: 3%%; width: 21%%" class="postbox"><div class="inside"><h3>Total</h3><p>All transactions<br /></p>transactions: %d<br />value: %.2f</div></div><div style="margin-left: 3%%; width: 21%%" class="postbox"><div class="inside"><h3>Blocked</h3><p>Transactions blocked by browsers and ad blocking extensions</p>transactions: %d (%d%%)<br />value: %.2f</div></div><div style="margin-left: 3%%; width: 21%%" class="postbox"><div class="inside"><h3>Analytics Denied</h3><p>Transactions with analytical purposes denied by the user. Won\'t show up in GA4 reporting</p>transactions: %d (%d%%)<br />value: %.2f</div></div><div style="margin-left: 3%%; width: 21%%" class="postbox"><div class="inside"><h3>Ad Denied</h3><p>Transactions with ad purposes denied by the user. Won\'t show up in Google Ads reporting</p>transactions: %d (%d%%)<br />value: %.2f</div></div><div style="margin-left: 3%%; width: 21%%" class="postbox"><div class="inside"><h3>No thank you page visit</h3><p>Orders where customers didn\'t reach the order confirmation page (thank you page).<br /></p>transactions: %d (%d%%)<br />value: %.2f</div></div></div></div><br />',
 			$statistics['total']['count'],
 			$statistics['total']['value'],
 			$statistics['blocked']['count'],
+			$statistics['blocked']['count_percentage'],
 			$statistics['blocked']['value'],
 			$statistics['analytics_denied']['count'],
+			$statistics['analytics_denied']['count_percentage'],
 			$statistics['analytics_denied']['value'],
 			$statistics['ad_denied']['count'],
-			$statistics['ad_denied']['value']
+			$statistics['ad_denied']['count_percentage'],
+			$statistics['ad_denied']['value'],
+			$statistics['no_thank_you_page']['count'],
+			$statistics['no_thank_you_page']['count_percentage'],
+			$statistics['no_thank_you_page']['value'],
 		);
 		/*
 		 * /TODO

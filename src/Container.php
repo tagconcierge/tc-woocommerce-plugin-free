@@ -5,6 +5,7 @@ namespace GtmEcommerceWoo\Lib;
 use GtmEcommerceWoo\Lib\EventStrategy;
 use GtmEcommerceWoo\Lib\Service\EventStrategiesService;
 use GtmEcommerceWoo\Lib\Service\GtmSnippetService;
+use GtmEcommerceWoo\Lib\Service\OrderMonitorService;
 use GtmEcommerceWoo\Lib\Service\SettingsService;
 use GtmEcommerceWoo\Lib\Service\PluginService;
 use GtmEcommerceWoo\Lib\Service\EventInspectorService;
@@ -36,7 +37,7 @@ class Container {
 	/** @var WcTransformerUtil */
 	protected $wcTransformerUtil;
 
-	protected $orderDiagnosticsService;
+	protected $orderMonitorService;
 
 	public function __construct( string $pluginVersion ) {
 		$snakeCaseNamespace = 'gtm_ecommerce_woo';
@@ -87,7 +88,7 @@ class Container {
 		$this->pluginService = new PluginService($spineCaseNamespace, $wpSettingsUtil, $wcOutputUtil, $pluginVersion);
 		$this->eventInspectorService = new EventInspectorService($wpSettingsUtil, $wcOutputUtil);
 		$this->productFeedService = new ProductFeedService($snakeCaseNamespace, $wpSettingsUtil);
-		$this->orderDiagnosticsService = new OrderDiagnosticsService($wpSettingsUtil, $wcOutputUtil);
+		$this->orderMonitorService = new OrderMonitorService($wpSettingsUtil, $wcOutputUtil);
 	}
 
 	public function getSettingsService(): SettingsService {
@@ -118,7 +119,7 @@ class Container {
 		return $this->wcTransformerUtil;
 	}
 
-	public function getOrderDiagnosticsService(): OrderDiagnosticsService {
-		return $this->orderDiagnosticsService;
+	public function getOrderMonitorService(): OrderMonitorService {
+		return $this->orderMonitorService;
 	}
 }

@@ -7,10 +7,13 @@ use GtmEcommerceWoo\Lib\Util\WpSettingsUtil;
 use WC_Order;
 use WP_REST_Request;
 
+class OrderMonitorService {
 
-class OrderDiagnosticsService {
+	const ORDER_META_KEY_ORDER_MONITOR_CHECK = 'gtm_ecommerce_woo_order_monitor_check';
 
-	const ORDER_META_KEY_ORDER_DIAGNOSED = 'gtm_ecommerce_woo_order_diagnosed';
+	const ORDER_META_KEY_ORDER_MONITOR_THANK_YOU_PAGE_VISITED = 'gtm_ecommerce_woo_order_monitor_thank_you_page_visited';
+
+	const SESSION_KEY_ORDER_MONITOR = 'gtm_ecommerce_woo_order_monitor';
 	protected $wpSettingsUtil;
 	protected $wcOutputUtil;
 	public function __construct( WpSettingsUtil $wpSettingsUtil, WcOutputUtil $wcOutputUtil) {
@@ -28,10 +31,10 @@ class OrderDiagnosticsService {
 			function () {
 				register_rest_route(
 					'gtm-ecommerce-woo/v1',
-					'/diagnose-order/(?P<order_id>\d+)',
+					'/diagnostics',
 					[
 						'methods'             => 'POST',
-						'callback'            => [ $this, 'endpointDiagnoseOrder' ],
+						'callback'            => [ $this, 'endpointDiagnostics' ],
 						'permission_callback' => '__return_true',
 					]
 				);
@@ -39,26 +42,27 @@ class OrderDiagnosticsService {
 		);
 
 		add_action(
+			'wp_footer',
+			[$this, 'handleDiagnosticsScript']
+		);
+
+		add_action(
+			'woocommerce_checkout_order_created',
+			[$this, 'handleDiagnosticsSave']
+		);
+
+		add_action(
+			'woocommerce_store_api_checkout_update_order_meta',
+			[$this, 'handleDiagnosticsSave']
+		);
+		
+		add_action(
 			'woocommerce_thankyou',
-			[$this, 'thankYouPage']
+			[$this, 'handleThankYouPage']
 		);
 	}
 
-	public function endpointDiagnoseOrder( WP_REST_Request $data ) {
-		if (false === isset($data['order_id'])) {
-			return;
-		}
-
-		$order = wc_get_order( (int) $data['order_id'] );
-
-		if (false === $order instanceof WC_Order) {
-			return;
-		}
-
-		if (false === $this->shouldBeProcessed($order)) {
-			return;
-		}
-
+	public function endpointDiagnostics( WP_REST_Request $data ) {
 		$expectedKeys = [
 			'gtm' => null,
 			'adblock' => null,
@@ -73,27 +77,48 @@ class OrderDiagnosticsService {
 			return sanitize_key($item);
 		}, $requestData);
 
-		foreach ($requestData as $key => $value) {
-			$order->update_meta_data(sprintf('%s_%s', $this->wpSettingsUtil->getSnakeCaseNamespace(), $key), $value);
-		}
-
-		$order->update_meta_data(self::ORDER_META_KEY_ORDER_DIAGNOSED, time());
-
-		$order->save();
+		WC()->session->set(self::SESSION_KEY_ORDER_MONITOR, $requestData);
 	}
 
-	public function thankYouPage( $orderId) {
-		$order = wc_get_order( (int) $orderId );
+	public function handleDiagnosticsSave(WC_Order $order)
+	{
+		if (false === is_array($data = WC()->session->get(self::SESSION_KEY_ORDER_MONITOR))) {
+			return;
+		}
+
+		foreach ($data as $key => $value) {
+			$order->update_meta_data(sprintf('%s_order_monitor_%s', $this->wpSettingsUtil->getSnakeCaseNamespace(), $key), $value);
+		}
+
+		$order->update_meta_data(self::ORDER_META_KEY_ORDER_MONITOR_THANK_YOU_PAGE_VISITED, -1);
+		$order->update_meta_data(self::ORDER_META_KEY_ORDER_MONITOR_CHECK, time());
+		$order->save();
+
+		WC()->session->set(self::SESSION_KEY_ORDER_MONITOR, null);
+	}
+
+	public function handleThankYouPage($orderId)
+	{
+		$order = wc_get_order( $orderId );
 
 		if (false === $order instanceof WC_Order) {
 			return;
 		}
 
-		if (false === $this->shouldBeProcessed($order)) {
+		if (0 < (int) $order->get_meta(self::ORDER_META_KEY_ORDER_MONITOR_THANK_YOU_PAGE_VISITED)) {
 			return;
 		}
 
-		$trackOrderEndpointUrlPattern = sprintf('%sgtm-ecommerce-woo/v1/diagnose-order/%d', get_rest_url(), $orderId);
+		$order->update_meta_data(self::ORDER_META_KEY_ORDER_MONITOR_THANK_YOU_PAGE_VISITED, time());
+		$order->save();
+	}
+
+	public function handleDiagnosticsScript() {
+		if (!is_checkout() || is_order_received_page()) {
+			return;
+		}
+
+		$trackOrderEndpointUrlPattern = sprintf('%sgtm-ecommerce-woo/v1/diagnostics', get_rest_url());
 
 		$this->wcOutputUtil->script(<<<EOD
 (function($, window, dataLayer){
@@ -144,9 +169,5 @@ class OrderDiagnosticsService {
 })(jQuery, window, dataLayer);
 EOD
 		);
-	}
-
-	private function shouldBeProcessed( WC_Order $order) {
-		return true === empty($order->get_meta(self::ORDER_META_KEY_ORDER_DIAGNOSED));
 	}
 }
