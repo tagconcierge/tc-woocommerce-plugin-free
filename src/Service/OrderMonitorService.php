@@ -63,6 +63,10 @@ class OrderMonitorService {
 	}
 
 	public function endpointDiagnostics( WP_REST_Request $data ) {
+		if ( is_null( WC()->cart ) ) {
+			wc_load_cart();
+		}
+		
 		$expectedKeys = [
 			'gtm' => null,
 			'adblock' => null,
