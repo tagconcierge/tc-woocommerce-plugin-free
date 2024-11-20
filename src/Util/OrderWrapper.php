@@ -49,8 +49,7 @@ class OrderWrapper {
 			|| false === $this->purchaseTracked($this->metaData);
 	}
 
-	public function isMonitoringAvailable()
-	{
+	public function isMonitoringAvailable() {
 		return true === isset($this->metaData[OrderMonitorService::ORDER_META_KEY_ORDER_MONITOR_CHECK])
 			&& null !== $this->metaData[OrderMonitorService::ORDER_META_KEY_ORDER_MONITOR_CHECK];
 	}
