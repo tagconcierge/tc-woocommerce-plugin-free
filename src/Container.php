@@ -84,11 +84,11 @@ class Container {
 
 		$this->eventStrategiesService = new EventStrategiesService($wpSettingsUtil, $wcOutputUtil, $eventStrategies);
 		$this->gtmSnippetService = new GtmSnippetService($wpSettingsUtil);
-		$this->settingsService = new SettingsService($wpSettingsUtil, $events, $proEvents, $serverEvents, $tagConciergeApiUrl, $pluginVersion);
+		$this->orderMonitorService = new OrderMonitorService($wpSettingsUtil, $wcOutputUtil);
+		$this->settingsService = new SettingsService($wpSettingsUtil, $this->orderMonitorService, $events, $proEvents, $serverEvents, $tagConciergeApiUrl, $pluginVersion);
 		$this->pluginService = new PluginService($spineCaseNamespace, $wpSettingsUtil, $wcOutputUtil, $pluginVersion);
 		$this->eventInspectorService = new EventInspectorService($wpSettingsUtil, $wcOutputUtil);
 		$this->productFeedService = new ProductFeedService($snakeCaseNamespace, $wpSettingsUtil);
-		$this->orderMonitorService = new OrderMonitorService($wpSettingsUtil, $wcOutputUtil);
 	}
 
 	public function getSettingsService(): SettingsService {

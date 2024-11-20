@@ -4,6 +4,8 @@ namespace GtmEcommerceWoo\Lib\Service;
 
 use GtmEcommerceWoo\Lib\Util\WcOutputUtil;
 use GtmEcommerceWoo\Lib\Util\WpSettingsUtil;
+use GtmEcommerceWoo\Lib\ValueObject\OrderMonitorStatistics;
+use WC_Meta_Data;
 use WC_Order;
 use WP_REST_Request;
 
@@ -11,7 +13,17 @@ class OrderMonitorService {
 
 	const ORDER_META_KEY_ORDER_MONITOR_CHECK = 'gtm_ecommerce_woo_order_monitor_check';
 
+	const ORDER_META_KEY_ORDER_MONITOR_GTM = 'gtm_ecommerce_woo_order_monitor_gtm';
+
+	const ORDER_META_KEY_ORDER_MONITOR_ANALYTICS_STORAGE = 'gtm_ecommerce_woo_order_monitor_analytics_storage';
+
+	const ORDER_META_KEY_ORDER_MONITOR_AD_STORAGE = 'gtm_ecommerce_woo_order_monitor_ad_storage';
+
 	const ORDER_META_KEY_ORDER_MONITOR_THANK_YOU_PAGE_VISITED = 'gtm_ecommerce_woo_order_monitor_thank_you_page_visited';
+
+	const ORDER_META_KEY_ORDER_MONITOR_ADBLOCK = 'gtm_ecommerce_woo_order_monitor_adblock';
+
+	const ORDER_META_KEY_ORDER_MONITOR_ITP = 'gtm_ecommerce_woo_order_monitor_itp';
 
 	const SESSION_KEY_ORDER_MONITOR = 'gtm_ecommerce_woo_order_monitor';
 	protected $wpSettingsUtil;
@@ -66,7 +78,7 @@ class OrderMonitorService {
 		if ( is_null( WC()->cart ) ) {
 			wc_load_cart();
 		}
-		
+
 		$expectedKeys = [
 			'gtm' => null,
 			'adblock' => null,
@@ -173,5 +185,45 @@ class OrderMonitorService {
 })(jQuery, window, dataLayer);
 EOD
 		);
+	}
+
+	public function getStatistics(int $timeLimitInSeconds = 7*24*60*60)
+	{
+		$orders = wc_get_orders([
+			'limit' => -1,
+			'date_created' => '>' . ( time() - $timeLimitInSeconds ),
+			'meta_key' => self::ORDER_META_KEY_ORDER_MONITOR_CHECK,
+			'meta_value' => '',
+			'meta_compare' => '!='
+		]);
+
+
+		$data = array_map(function (WC_Order $order) {
+			if (null === $order->get_date_paid()) {
+				return null;
+			}
+
+			$baseAcc = array_map(function ($item) {
+				return null;
+			}, array_flip(OrderMonitorStatistics::IMPORTANT_KEYS));
+
+			$baseAcc['value'] = (float) $order->get_total();
+			$baseAcc['id'] = $order->get_id();
+
+			return array_reduce($order->get_meta_data(), function ($acc, WC_Meta_Data $item) {
+				$data = $item->get_data();
+				if (in_array($data['key'], OrderMonitorStatistics::IMPORTANT_KEYS)) {
+					$acc[$data['key']] = $data['value'];
+				}
+
+				return $acc;
+			}, $baseAcc);
+		}, $orders);
+
+		$data = array_filter($data, function ($item) {
+			return null !== $item;
+		});
+
+		return new OrderMonitorStatistics($data);
 	}
 }
