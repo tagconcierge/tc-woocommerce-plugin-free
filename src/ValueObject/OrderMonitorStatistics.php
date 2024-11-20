@@ -4,8 +4,10 @@ namespace GtmEcommerceWoo\Lib\ValueObject;
 
 use GtmEcommerceWoo\Lib\EventStrategy\PurchaseStrategy;
 use GtmEcommerceWoo\Lib\Service\OrderMonitorService;
+use GtmEcommerceWoo\Lib\Util\OrderMonitorTrait;
 
 class OrderMonitorStatistics {
+	use OrderMonitorTrait;
 
 	const IMPORTANT_KEYS = [
 		OrderMonitorService::ORDER_META_KEY_ORDER_MONITOR_CHECK,
@@ -15,11 +17,9 @@ class OrderMonitorStatistics {
 		OrderMonitorService::ORDER_META_KEY_ORDER_MONITOR_THANK_YOU_PAGE_VISITED,
 		OrderMonitorService::ORDER_META_KEY_ORDER_MONITOR_ADBLOCK,
 		OrderMonitorService::ORDER_META_KEY_ORDER_MONITOR_ITP,
-		PurchaseStrategy::ORDER_META_KEY_PURCHASE_EVENT_TRACKED,
-		self::ORDER_META_KEY_PURCHASE_SERVER_EVENT_TRACKED
+		OrderMonitorService::ORDER_META_KEY_PURCHASE_EVENT_TRACKED,
+		OrderMonitorService::ORDER_META_KEY_PURCHASE_SERVER_EVENT_TRACKED
 	];
-
-	const ORDER_META_KEY_PURCHASE_SERVER_EVENT_TRACKED = 'gtm_ecommerce_woo_purchase_server_event_tracked';
 
 	private $data;
 
@@ -114,25 +114,5 @@ class OrderMonitorStatistics {
 		}
 
 		return $result;
-	}
-
-	private function purchaseTracked( array $item) {
-		return '1' === $item[self::ORDER_META_KEY_PURCHASE_SERVER_EVENT_TRACKED]
-			|| ( '1' === $item[PurchaseStrategy::ORDER_META_KEY_PURCHASE_EVENT_TRACKED]
-			&& 0 < (int) $item[OrderMonitorService::ORDER_META_KEY_ORDER_MONITOR_THANK_YOU_PAGE_VISITED] );
-	}
-
-	private function blockersEnabled( array $item) {
-		return 'true' === $item[OrderMonitorService::ORDER_META_KEY_ORDER_MONITOR_ITP]
-			|| 'true' === $item[OrderMonitorService::ORDER_META_KEY_ORDER_MONITOR_ADBLOCK];
-	}
-
-	private function gtmEnabled( array $item) {
-		return 'true' === $item[OrderMonitorService::ORDER_META_KEY_ORDER_MONITOR_GTM];
-	}
-
-	private function consentsGranted( array $item) {
-		return 'granted' === $item[OrderMonitorService::ORDER_META_KEY_ORDER_MONITOR_ANALYTICS_STORAGE]
-			&& 'granted' === $item[OrderMonitorService::ORDER_META_KEY_ORDER_MONITOR_AD_STORAGE];
 	}
 }

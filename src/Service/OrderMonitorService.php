@@ -2,6 +2,8 @@
 
 namespace GtmEcommerceWoo\Lib\Service;
 
+use GtmEcommerceWoo\Lib\EventStrategy\PurchaseStrategy;
+use GtmEcommerceWoo\Lib\Util\OrderWrapper;
 use GtmEcommerceWoo\Lib\Util\WcOutputUtil;
 use GtmEcommerceWoo\Lib\Util\WpSettingsUtil;
 use GtmEcommerceWoo\Lib\ValueObject\OrderMonitorStatistics;
@@ -24,6 +26,12 @@ class OrderMonitorService {
 	const ORDER_META_KEY_ORDER_MONITOR_ADBLOCK = 'gtm_ecommerce_woo_order_monitor_adblock';
 
 	const ORDER_META_KEY_ORDER_MONITOR_ITP = 'gtm_ecommerce_woo_order_monitor_itp';
+
+	const ORDER_META_KEY_PURCHASE_EVENT_TRACKED = PurchaseStrategy::ORDER_META_KEY_PURCHASE_EVENT_TRACKED;
+
+	const ORDER_META_KEY_PURCHASE_SERVER_EVENT_TRACKED = 'gtm_ecommerce_woo_purchase_server_event_tracked';
+
+	const ORDER_LIST_COLUMN_NAME_TRACKING_STATUS = 'gtm_ecommerce_woo_tracking_status';
 
 	const SESSION_KEY_ORDER_MONITOR = 'gtm_ecommerce_woo_order_monitor';
 	protected $wpSettingsUtil;
@@ -72,6 +80,38 @@ class OrderMonitorService {
 			'woocommerce_thankyou',
 			[$this, 'handleThankYouPage']
 		);
+
+
+		add_filter('woocommerce_shop_order_list_table_columns', function($columns) {
+			$newColumns = [];
+			foreach ($columns as $key => $column) {
+				$newColumns[$key] = $column;
+				if ('order_status' === $key) {
+					$newColumns[self::ORDER_LIST_COLUMN_NAME_TRACKING_STATUS] = 'Tracking';
+				}
+			}
+			return $newColumns;
+		});
+
+		add_action('woocommerce_shop_order_list_table_custom_column', function($columnId, $order) {
+			if (self::ORDER_LIST_COLUMN_NAME_TRACKING_STATUS === $columnId) {
+				$orderWrapper = new OrderWrapper($order);
+
+				if (true === $orderWrapper->isTrackedSuccessfully()) {
+					echo '<span class="dashicons dashicons-yes-alt tips" style="color: green;" data-tip="Event was correctly tracked by Google Tag Manager and not issues were detected"></span>';
+					return;
+				}
+
+				if (true === $orderWrapper->isTrackedWithWarnings()) {
+					echo '<span class="dashicons dashicons-warning tips" style="color: orange;" data-tip="Event was correctly tracked by Google Tag Manager but we detected: adblock was detected, analytical consent was denied or advertising consent was denied"></span>';
+					return;
+				}
+
+				if (true === $orderWrapper->isNotTracked()) {
+					echo '<span class="dashicons dashicons-dismiss tips" style="color: red;" data-tip="Event wasn\'t correctly tracked by Google Tag Manager. Depending on tracking implementation it can be caused by user not returning to the order confirmation page"></span>';
+				}
+			}
+		}, 20, 2);
 	}
 
 	public function endpointDiagnostics( WP_REST_Request $data ) {
