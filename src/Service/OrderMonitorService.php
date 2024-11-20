@@ -5,6 +5,7 @@ namespace GtmEcommerceWoo\Lib\Service;
 use GtmEcommerceWoo\Lib\EventStrategy\PurchaseStrategy;
 use GtmEcommerceWoo\Lib\Util\OrderWrapper;
 use GtmEcommerceWoo\Lib\Util\WcOutputUtil;
+use GtmEcommerceWoo\Lib\Util\WooCommerceFeaturesUtil;
 use GtmEcommerceWoo\Lib\Util\WpSettingsUtil;
 use GtmEcommerceWoo\Lib\ValueObject\OrderMonitorStatistics;
 use WC_Meta_Data;
@@ -81,37 +82,54 @@ class OrderMonitorService {
 			[$this, 'handleThankYouPage']
 		);
 
+		if (WooCommerceFeaturesUtil::isHposEnabled()) {
+			add_filter('woocommerce_shop_order_list_table_columns', [$this, 'addTrackingStatusColumn']);
+			add_action('woocommerce_shop_order_list_table_custom_column', [$this, 'handleTrackingStatusColumnValue'], 20, 2);
+		} else {
+			add_filter('manage_edit-shop_order_columns', [$this, 'addTrackingStatusColumn']);
+			add_action('manage_shop_order_posts_custom_column', [$this, 'handleTrackingStatusColumnValue'], 20, 2);
+		}
+	}
 
-		add_filter('woocommerce_shop_order_list_table_columns', function( $columns) {
-			$newColumns = [];
-			foreach ($columns as $key => $column) {
-				$newColumns[$key] = $column;
-				if ('order_status' === $key) {
-					$newColumns[self::ORDER_LIST_COLUMN_NAME_TRACKING_STATUS] = 'Tracking';
-				}
+	public function addTrackingStatusColumn($columns)
+	{
+		$newColumns = [];
+		foreach ($columns as $key => $column) {
+			$newColumns[$key] = $column;
+			if ('order_status' === $key) {
+				$newColumns[self::ORDER_LIST_COLUMN_NAME_TRACKING_STATUS] = 'Tracking';
 			}
-			return $newColumns;
-		});
+		}
+		return $newColumns;
+	}
 
-		add_action('woocommerce_shop_order_list_table_custom_column', function( $columnId, $order) {
-			if (self::ORDER_LIST_COLUMN_NAME_TRACKING_STATUS === $columnId) {
-				$orderWrapper = new OrderWrapper($order);
+	public function handleTrackingStatusColumnValue($columnId, $order)
+	{
+		if (false === is_object($order)) {
+			$order = wc_get_order($order);
+		}
 
-				if (true === $orderWrapper->isTrackedSuccessfully()) {
-					echo '<span class="dashicons dashicons-yes-alt tips" style="color: green;" data-tip="Event was correctly tracked by Google Tag Manager and not issues were detected"></span>';
-					return;
-				}
+		if (null === $order) {
+			return;
+		}
+		
+		if (self::ORDER_LIST_COLUMN_NAME_TRACKING_STATUS === $columnId) {
+			$orderWrapper = new OrderWrapper($order);
 
-				if (true === $orderWrapper->isTrackedWithWarnings()) {
-					echo '<span class="dashicons dashicons-warning tips" style="color: orange;" data-tip="Event was correctly tracked by Google Tag Manager but we detected: adblock was detected, analytical consent was denied or advertising consent was denied"></span>';
-					return;
-				}
-
-				if (true === $orderWrapper->isNotTracked()) {
-					echo '<span class="dashicons dashicons-dismiss tips" style="color: red;" data-tip="Event wasn\'t correctly tracked by Google Tag Manager. Depending on tracking implementation it can be caused by user not returning to the order confirmation page"></span>';
-				}
+			if (true === $orderWrapper->isTrackedSuccessfully()) {
+				echo '<span class="dashicons dashicons-yes-alt tips" style="color: green;" data-tip="Event was correctly tracked by Google Tag Manager and not issues were detected"></span>';
+				return;
 			}
-		}, 20, 2);
+
+			if (true === $orderWrapper->isTrackedWithWarnings()) {
+				echo '<span class="dashicons dashicons-warning tips" style="color: orange;" data-tip="Event was correctly tracked by Google Tag Manager but we detected: adblock was detected, analytical consent was denied or advertising consent was denied"></span>';
+				return;
+			}
+
+			if (true === $orderWrapper->isNotTracked()) {
+				echo '<span class="dashicons dashicons-dismiss tips" style="color: red;" data-tip="Event wasn\'t correctly tracked by Google Tag Manager. Depending on tracking implementation it can be caused by user not returning to the order confirmation page"></span>';
+			}
+		}
 	}
 
 	public function endpointDiagnostics( WP_REST_Request $data ) {
