@@ -110,9 +110,14 @@ class OrderMonitorService {
 		if (null === $order) {
 			return;
 		}
-		
+
 		if (self::ORDER_LIST_COLUMN_NAME_TRACKING_STATUS === $columnId) {
 			$orderWrapper = new OrderWrapper($order);
+
+			if (false === $orderWrapper->isMonitoringAvailable()) {
+				echo 'n/a';
+				return;
+			}
 
 			if (true === $orderWrapper->isTrackedSuccessfully()) {
 				echo '<span class="dashicons dashicons-yes-alt tips" style="color: green;" data-tip="Event was correctly tracked by Google Tag Manager and not issues were detected"></span>';

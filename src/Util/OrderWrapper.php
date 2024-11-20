@@ -2,6 +2,7 @@
 
 namespace GtmEcommerceWoo\Lib\Util;
 
+use GtmEcommerceWoo\Lib\Service\OrderMonitorService;
 use GtmEcommerceWoo\Lib\ValueObject\OrderMonitorStatistics;
 use WC_Meta_Data;
 use WC_Order;
@@ -46,5 +47,11 @@ class OrderWrapper {
 	public function isNotTracked() {
 		return false === $this->gtmEnabled($this->metaData)
 			|| false === $this->purchaseTracked($this->metaData);
+	}
+
+	public function isMonitoringAvailable()
+	{
+		return true === isset($this->metaData[OrderMonitorService::ORDER_META_KEY_ORDER_MONITOR_CHECK])
+			&& null !== $this->metaData[OrderMonitorService::ORDER_META_KEY_ORDER_MONITOR_CHECK];
 	}
 }
