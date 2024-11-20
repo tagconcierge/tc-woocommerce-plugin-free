@@ -187,8 +187,7 @@ EOD
 		);
 	}
 
-	public function getStatistics(int $timeLimitInSeconds = 7*24*60*60)
-	{
+	public function getStatistics( int $timeLimitInSeconds = 7*24*60*60) {
 		$orders = wc_get_orders([
 			'limit' => -1,
 			'date_created' => '>' . ( time() - $timeLimitInSeconds ),
@@ -198,19 +197,19 @@ EOD
 		]);
 
 
-		$data = array_map(function (WC_Order $order) {
+		$data = array_map(function ( WC_Order $order) {
 			if (null === $order->get_date_paid()) {
 				return null;
 			}
 
-			$baseAcc = array_map(function ($item) {
+			$baseAcc = array_map(function ( $item) {
 				return null;
 			}, array_flip(OrderMonitorStatistics::IMPORTANT_KEYS));
 
 			$baseAcc['value'] = (float) $order->get_total();
 			$baseAcc['id'] = $order->get_id();
 
-			return array_reduce($order->get_meta_data(), function ($acc, WC_Meta_Data $item) {
+			return array_reduce($order->get_meta_data(), function ( $acc, WC_Meta_Data $item) {
 				$data = $item->get_data();
 				if (in_array($data['key'], OrderMonitorStatistics::IMPORTANT_KEYS)) {
 					$acc[$data['key']] = $data['value'];
@@ -220,7 +219,7 @@ EOD
 			}, $baseAcc);
 		}, $orders);
 
-		$data = array_filter($data, function ($item) {
+		$data = array_filter($data, function ( $item) {
 			return null !== $item;
 		});
 
