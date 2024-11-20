@@ -91,8 +91,7 @@ class OrderMonitorService {
 		}
 	}
 
-	public function addTrackingStatusColumn($columns)
-	{
+	public function addTrackingStatusColumn( $columns) {
 		$newColumns = [];
 		foreach ($columns as $key => $column) {
 			$newColumns[$key] = $column;
@@ -103,8 +102,7 @@ class OrderMonitorService {
 		return $newColumns;
 	}
 
-	public function handleTrackingStatusColumnValue($columnId, $order)
-	{
+	public function handleTrackingStatusColumnValue( $columnId, $order) {
 		if (false === is_object($order)) {
 			$order = wc_get_order($order);
 		}
