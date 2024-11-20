@@ -306,7 +306,7 @@ class SettingsService {
 		$statistics = $this->orderMonitorService->getStatistics();
 
 		$total = $statistics->getTotal();
-		
+
 		$stats = [
 			'total' => $total,
 			'tracked' => $statistics->getTracked($total['count']),
@@ -330,9 +330,7 @@ class SettingsService {
 		);
 
 		$description .= sprintf('<br /><br />
-				<div class="metabox-holder"><div class="postbox-container" style="float: none; display: flex; flex-wrap:wrap;"><div style="margin-left: 3%%; width: 21%%" class="postbox"><div class="inside"><h3>Total</h3><p>All transactions<br /></p>transactions: %d<br />value: %.2f</div></div><div style="margin-left: 3%%; width: 21%%" class="postbox"><div class="inside"><h3>Blocked</h3><p>Transactions blocked by browsers and ad blocking extensions</p>transactions: %d (%d%%)<br />value: %.2f</div></div><div style="margin-left: 3%%; width: 21%%" class="postbox"><div class="inside"><h3>Analytics Denied</h3><p>Transactions with analytical purposes denied by the user. Won\'t show up in GA4 reporting</p>transactions: %d (%d%%)<br />value: %.2f</div></div><div style="margin-left: 3%%; width: 21%%" class="postbox"><div class="inside"><h3>Ad Denied</h3><p>Transactions with ad purposes denied by the user. Won\'t show up in Google Ads reporting</p>transactions: %d (%d%%)<br />value: %.2f</div></div><div style="margin-left: 3%%; width: 21%%" class="postbox"><div class="inside"><h3>No thank you page visit</h3><p>Orders where customers didn\'t reach the order confirmation page (thank you page).<br /></p>transactions: %d (%d%%)<br />value: %.2f</div></div></div></div><br />',
-			$stats['total']['count'],
-			$stats['total']['value'],
+				<div class="metabox-holder"><div class="postbox-container" style="float: none; display: flex; flex-wrap:wrap;"><div style="margin-left: 3%%; width: 21.75%%" class="postbox"><div class="inside"><h3>Blocked</h3><p>Transactions blocked by browsers and ad blocking extensions</p>transactions: %d (%d%%)<br />value: %.2f</div></div><div style="margin-left: 3%%; width: 21.75%%" class="postbox"><div class="inside"><h3>Analytics Denied</h3><p>Transactions with analytical purposes denied by the user. Won\'t show up in GA4 reporting</p>transactions: %d (%d%%)<br />value: %.2f</div></div><div style="margin-left: 3%%; width: 21.75%%" class="postbox"><div class="inside"><h3>Ad Denied</h3><p>Transactions with ad purposes denied by the user. Won\'t show up in Google Ads reporting</p>transactions: %d (%d%%)<br />value: %.2f</div></div><div style="margin-left: 3%%; width: 21.75%%" class="postbox"><div class="inside"><h3>No thank you page visit</h3><p>Orders where customers didn\'t reach the order confirmation page (thank you page).<br /></p>transactions: %d (%d%%)<br />value: %.2f</div></div></div></div><br />',
 			$stats['blocked']['count'],
 			$stats['blocked']['count_percentage'],
 			$stats['blocked']['value'],
