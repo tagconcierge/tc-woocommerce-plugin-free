@@ -82,7 +82,7 @@ class OrderMonitorService {
 		);
 
 
-		add_filter('woocommerce_shop_order_list_table_columns', function($columns) {
+		add_filter('woocommerce_shop_order_list_table_columns', function( $columns) {
 			$newColumns = [];
 			foreach ($columns as $key => $column) {
 				$newColumns[$key] = $column;
@@ -93,7 +93,7 @@ class OrderMonitorService {
 			return $newColumns;
 		});
 
-		add_action('woocommerce_shop_order_list_table_custom_column', function($columnId, $order) {
+		add_action('woocommerce_shop_order_list_table_custom_column', function( $columnId, $order) {
 			if (self::ORDER_LIST_COLUMN_NAME_TRACKING_STATUS === $columnId) {
 				$orderWrapper = new OrderWrapper($order);
 

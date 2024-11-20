@@ -4,8 +4,8 @@ namespace GtmEcommerceWoo\Lib\Util;
 
 use GtmEcommerceWoo\Lib\Service\OrderMonitorService;
 
-trait OrderMonitorTrait
-{
+trait OrderMonitorTrait {
+
 	protected function purchaseTracked( array $metaData) {
 		return '1' === $metaData[OrderMonitorService::ORDER_META_KEY_PURCHASE_SERVER_EVENT_TRACKED]
 			|| ( '1' === $metaData[OrderMonitorService::ORDER_META_KEY_PURCHASE_EVENT_TRACKED]
