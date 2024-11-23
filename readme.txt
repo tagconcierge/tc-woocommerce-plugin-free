@@ -2,9 +2,9 @@
 Contributors: tagconcierge
 Tags: google tag manager, GA4, WooCommerce, Facebook Pixel, Consent Mode
 Requires at least: 5.1.0
-Tested up to: 6.6.2
+Tested up to: 6.7.1
 Requires PHP: 7.0
-Stable tag: 1.12.0
+Stable tag: 1.12.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -162,6 +162,10 @@ Yes! Just use the appropriate preset available in the settings screen of the plu
 
 
 == Changelog ==
+
+= 1.12.1 =
+
+* orders monitor improvements
 
 = 1.12.0 =
 

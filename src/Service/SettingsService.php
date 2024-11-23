@@ -13,6 +13,9 @@ class SettingsService {
 	/** @var WpSettingsUtil */
 	protected $wpSettingsUtil;
 
+	/** @var OrderMonitorService */
+	protected $orderMonitorService;
+
 	/** @var array */
 	protected $events;
 
@@ -43,8 +46,9 @@ class SettingsService {
 	/** @var array */
 	protected $eventsConfig = [];
 
-	public function __construct( WpSettingsUtil $wpSettingsUtil, array $events, array $proEvents, array $serverEvents, string $tagConciergeApiUrl, string $pluginVersion) {
+	public function __construct( WpSettingsUtil $wpSettingsUtil, OrderMonitorService $orderMonitorService, array $events, array $proEvents, array $serverEvents, string $tagConciergeApiUrl, string $pluginVersion) {
 		$this->wpSettingsUtil = $wpSettingsUtil;
+		$this->orderMonitorService = $orderMonitorService;
 		$this->events = $events;
 		$this->proEvents = $proEvents;
 		$this->serverEvents = $serverEvents;
@@ -299,62 +303,48 @@ class SettingsService {
 			[ 'grid' => 'end', 'badge' =>  $this->isPro ? null : 'PRO' ]
 		);
 
-		/*
-		 * TODO move to another place
-		 */
-		$getStatistics = function( $metaKey, $negatedMetaValue) {
-			$orders = wc_get_orders([
-				'meta_key' => $metaKey,
-				'meta_value' => $negatedMetaValue,
-				'meta_compare' => '!='
-			]);
-			$values = array_map(function( WC_Order $order) {
-				return $order->get_total();
-			}, $orders);
+		$statistics = $this->orderMonitorService->getStatistics();
 
-			return [
-				'count' => count($orders),
-				'value' => array_sum($values),
-			];
-		};
+		$total = $statistics->getTotal();
 
-		$statisticsTypes = [
-			'total' => [
-				'meta_key' => 'gtm_ecommerce_woo_order_diagnosed',
-				'negated_meta_value' => ''
-			],
-			'blocked' => [
-				'meta_key' => 'gtm_ecommerce_woo_gtm',
-				'negated_meta_value' => 'true'
-			],
-			'analytics_denied' => [
-				'meta_key' => 'gtm_ecommerce_woo_analytics_storage',
-				'negated_meta_value' => 'granted'
-			],
-			'ad_denied' => [
-				'meta_key' => 'gtm_ecommerce_woo_ad_storage',
-				'negated_meta_value' => 'granted'
-			],
+		$stats = [
+			'total' => $total,
+			'tracked' => $statistics->getTracked($total['count']),
+			'tracked_with_warnings' => $statistics->getTrackedWithWarnings($total['count']),
+			'not_tracked' => $statistics->getNotTracked($total['count']),
+			'blocked' => $statistics->getBlocked($total['count']),
+			'analytics_denied' => $statistics->getAnalyticsDenied($total['count']),
+			'ad_denied' => $statistics->getAdDenied($total['count']),
+			'no_thank_you_page' => $statistics->getNoThankYouPage($total['count'])
 		];
-
-		$statistics = array_map(function( $item) use ( $getStatistics) {
-			return $getStatistics($item['meta_key'], $item['negated_meta_value']);
-		}, $statisticsTypes);
-
 		$description = sprintf('<br /><br />
-				<div class="metabox-holder"><div class="postbox-container" style="float: none; display: flex; flex-wrap:wrap;"><div style="margin-left: 3%%; width: 21%%" class="postbox"><div class="inside"><h3>Total</h3><p>All transactions<br /></p>transactions: %d<br />value: %.2f</div></div><div style="margin-left: 3%%; width: 21%%" class="postbox"><div class="inside"><h3>Blocked</h3><p>Transactions blocked by browsers and ad blocking extensions</p>transactions: %d<br />value: %.2f</div></div><div style="margin-left: 3%%; width: 21%%" class="postbox"><div class="inside"><h3>Analytics Denied</h3><p>Transactions with analytical purposes denied by the user. Won\'t show up in GA4 reporting</p>transactions: %d<br />value: %.2f</div></div><div style="margin-left: 3%%; width: 21%%" class="postbox"><div class="inside"><h3>Ad Denied</h3><p>Transactions with ad purposes denied by the user. Won\'t show up in Google Ads reporting</p>transactions: %d<br />value: %.2f</div></div></div></div><br />',
-			$statistics['total']['count'],
-			$statistics['total']['value'],
-			$statistics['blocked']['count'],
-			$statistics['blocked']['value'],
-			$statistics['analytics_denied']['count'],
-			$statistics['analytics_denied']['value'],
-			$statistics['ad_denied']['count'],
-			$statistics['ad_denied']['value']
+				<div class="metabox-holder"><div class="postbox-container" style="float: none; display: flex; flex-wrap:wrap;"><div style="margin-left: 3%%; width: 30%%" class="postbox"><div class="inside"><h3>Total</h3><p>Total trackable<br /></p>transactions: %d<br />value: %.2f</div></div><div style="margin-left: 3%%; width: 30%%" class="postbox"><div class="inside"><h3>Tracked with warnings</h3><p>Events was correctly tracked by Google Tag Manager but we detected: adblock was detected, analytical consent was denied or advertising consent was denied</p>transactions: %d (%d%%)<br />value: %.2f</div></div><div style="margin-left: 3%%; width: 30%%" class="postbox"><div class="inside"><h3>Not tracked</h3><p>Events weren\'t correctly tracked by Google Tag Manager. Depending on tracking implementation it can be caused by user not returning to the order confirmation page.</p>transactions: %d (%d%%)<br />value: %.2f</div></div> </div></div><br />',
+			$stats['total']['count'],
+			$stats['total']['value'],
+			$stats['tracked_with_warnings']['count'],
+			$stats['tracked_with_warnings']['count_percentage'],
+			$stats['tracked_with_warnings']['value'],
+			$stats['not_tracked']['count'],
+			$stats['not_tracked']['count_percentage'],
+			$stats['not_tracked']['value']
 		);
-		/*
-		 * /TODO
-		 */
+
+		$description .= sprintf('<br /><br />
+				<div class="metabox-holder"><div class="postbox-container" style="float: none; display: flex; flex-wrap:wrap;"><div style="margin-left: 3%%; width: 21.75%%" class="postbox"><div class="inside"><h3>Blocked</h3><p>Transactions blocked by browsers and ad blocking extensions</p>transactions: %d (%d%%)<br />value: %.2f</div></div><div style="margin-left: 3%%; width: 21.75%%" class="postbox"><div class="inside"><h3>Analytics Denied</h3><p>Transactions with analytical purposes denied by the user. Won\'t show up in GA4 reporting</p>transactions: %d (%d%%)<br />value: %.2f</div></div><div style="margin-left: 3%%; width: 21.75%%" class="postbox"><div class="inside"><h3>Ad Denied</h3><p>Transactions with ad purposes denied by the user. Won\'t show up in Google Ads reporting</p>transactions: %d (%d%%)<br />value: %.2f</div></div><div style="margin-left: 3%%; width: 21.75%%" class="postbox"><div class="inside"><h3>No thank you page visit</h3><p>Orders where customers didn\'t reach the order confirmation page (thank you page).<br /></p>transactions: %d (%d%%)<br />value: %.2f</div></div></div></div><br />',
+			$stats['blocked']['count'],
+			$stats['blocked']['count_percentage'],
+			$stats['blocked']['value'],
+			$stats['analytics_denied']['count'],
+			$stats['analytics_denied']['count_percentage'],
+			$stats['analytics_denied']['value'],
+			$stats['ad_denied']['count'],
+			$stats['ad_denied']['count_percentage'],
+			$stats['ad_denied']['value'],
+			$stats['no_thank_you_page']['count'],
+			$stats['no_thank_you_page']['count_percentage'],
+			$stats['no_thank_you_page']['value']
+		);
+
 		$this->wpSettingsUtil->addSettingsSection(
 			'monitoring',
 			'Tracking Monitoring',
