@@ -34,7 +34,7 @@ class OrderMonitorStatistics {
 	public function getBlocked( $totalCount) {
 		return $this->formatResult(
 			array_filter($this->data, function ( $item) {
-				return 'true' !== $item[OrderMonitorService::ORDER_META_KEY_ORDER_MONITOR_GTM];
+				return 'true' === $item[OrderMonitorService::ORDER_META_KEY_ORDER_MONITOR_ADBLOCK];
 			}),
 			$totalCount
 		);
