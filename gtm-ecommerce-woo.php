@@ -3,7 +3,7 @@
  * Plugin Name: Tag Pilot FREE - Google Tag Manager Integration for WooCommerce
  * Plugin URI:  https://wordpress.org/plugins/gtm-ecommerce-woo
  * Description: Complete Google Tag Manager plugin for WooCommerce, Consent Mode v2 and Server-Side GTM ready. Ready GTM configuration for GA4 and Facebook Pixel. Built-in product feed for Google Merchant Center.
- * Version:     1.12.1
+ * Version:     1.12.2
  * Author:      Tag Concierge
  * Author URI:  https://tagconcierge.com/
  * License:     GPLv2 or later
@@ -31,16 +31,19 @@ add_action( 'before_woocommerce_init', function() {
 	}
 });
 
-$container = new Container($pluginVersion);
 
-$container->getSettingsService()->initialize();
-$container->getGtmSnippetService()->initialize();
-$container->getEventStrategiesService()->initialize();
-$container->getEventInspectorService()->initialize();
-$container->getProductFeedService()->initialize();
-$container->getOrderMonitorService()->initialize();
+add_action('plugins_loaded', function () use ( $pluginVersion) {
+	$container = new Container($pluginVersion);
 
-$pluginService = $container->getPluginService();
-$pluginService->initialize();
+	$container->getSettingsService()->initialize();
+	$container->getGtmSnippetService()->initialize();
+	$container->getEventStrategiesService()->initialize();
+	$container->getEventInspectorService()->initialize();
+	$container->getProductFeedService()->initialize();
+	$container->getOrderMonitorService()->initialize();
 
-register_activation_hook( __FILE__, [$pluginService, 'activationHook'] );
+	$pluginService = $container->getPluginService();
+	$pluginService->initialize();
+
+	register_activation_hook( __FILE__, [$pluginService, 'activationHook'] );
+});
