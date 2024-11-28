@@ -14,7 +14,7 @@ Complete GTM plugin for WooCommerce (consent Mode v2 and server-side GTM). Ready
 
 Tracking eCommerce events via Google Tag Manager and DataLayer makes adding new growth channels a straighforward task. Regardless of a number of connected platforms the data quality and events coverage stays the same.
 
-https://youtu.be/rxY13l4N4JI
+https://youtu.be/tTluZ8l94VA
 
 This plugin, once activated, starts pushing standard GA4 eCommerce events into GTM DataLayer. Once the data is there you can leverage Google Tag Manager containers to connect virtually any analytics o marketing platform, even if you're still undecided on your choice.
 
