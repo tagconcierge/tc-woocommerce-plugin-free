@@ -298,23 +298,19 @@ EOD
 		return new OrderMonitorStatistics($data);
 	}
 
-	private function setTransient($customerHash, $data)
-	{
+	private function setTransient( $customerHash, $data) {
 		set_transient(sprintf(self::TRANSIENT_KEY_PATTERN_ORDER_MONITOR, $customerHash), $data, 3600);
 	}
 
-	private function getTransient($customerHash)
-	{
+	private function getTransient( $customerHash) {
 		return get_transient(sprintf(self::TRANSIENT_KEY_PATTERN_ORDER_MONITOR, $customerHash));
 	}
 
-	private function getCustomerHash()
-	{
+	private function getCustomerHash() {
 		return hash('sha512', WC()->session->get_customer_id());
 	}
 
-	private function removeTransient($customerHash)
-	{
+	private function removeTransient( $customerHash) {
 		delete_transient(sprintf(self::TRANSIENT_KEY_PATTERN_ORDER_MONITOR, $customerHash));
 	}
 }
