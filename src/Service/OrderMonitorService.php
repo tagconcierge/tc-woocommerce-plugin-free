@@ -30,13 +30,18 @@ class OrderMonitorService {
 
 	const ORDER_META_KEY_PURCHASE_EVENT_TRACKED = PurchaseStrategy::ORDER_META_KEY_PURCHASE_EVENT_TRACKED;
 
+	const ORDER_META_KEY_PURCHASE_EVENT_TRACKED_ON_ORDER_FORM = 'gtm_ecommerce_woo_purchase_event_tracked_on_order_form';
+
 	const ORDER_META_KEY_PURCHASE_SERVER_EVENT_TRACKED = 'gtm_ecommerce_woo_purchase_server_event_tracked';
 
 	const ORDER_LIST_COLUMN_NAME_TRACKING_STATUS = 'gtm_ecommerce_woo_tracking_status';
 
-	const SESSION_KEY_ORDER_MONITOR = 'gtm_ecommerce_woo_order_monitor';
+	const TRANSIENT_KEY_PATTERN_ORDER_MONITOR = 'gtm_ecommerce_woo_order_monitor_%s';
+
 	protected $wpSettingsUtil;
+
 	protected $wcOutputUtil;
+
 	public function __construct( WpSettingsUtil $wpSettingsUtil, WcOutputUtil $wcOutputUtil) {
 		$this->wpSettingsUtil = $wpSettingsUtil;
 		$this->wcOutputUtil = $wcOutputUtil;
@@ -136,11 +141,8 @@ class OrderMonitorService {
 	}
 
 	public function endpointDiagnostics( WP_REST_Request $data ) {
-		if ( is_null( WC()->cart ) ) {
-			wc_load_cart();
-		}
-
 		$expectedKeys = [
+			'c' => null,
 			'gtm' => null,
 			'adblock' => null,
 			'itp' => null,
@@ -154,11 +156,19 @@ class OrderMonitorService {
 			return sanitize_key($item);
 		}, $requestData);
 
-		WC()->session->set(self::SESSION_KEY_ORDER_MONITOR, $requestData);
+		$customerHash = $requestData['c'];
+
+		if (true === empty($customerHash)) {
+			return;
+		}
+
+		unset($requestData['c']);
+
+		$this->setTransient($customerHash, $requestData);
 	}
 
 	public function handleDiagnosticsSave( WC_Order $order) {
-		$data = WC()->session->get(self::SESSION_KEY_ORDER_MONITOR);
+		$data = $this->getTransient($this->getCustomerHash());
 
 		if (false === is_array($data)) {
 			return;
@@ -172,7 +182,7 @@ class OrderMonitorService {
 		$order->update_meta_data(self::ORDER_META_KEY_ORDER_MONITOR_CHECK, time());
 		$order->save();
 
-		WC()->session->set(self::SESSION_KEY_ORDER_MONITOR, null);
+		$this->removeTransient($this->getCustomerHash());
 	}
 
 	public function handleThankYouPage( $orderId) {
@@ -196,9 +206,11 @@ class OrderMonitorService {
 		}
 
 		$trackOrderEndpointUrlPattern = sprintf('%sgtm-ecommerce-woo/v1/diagnostics', get_rest_url());
+		$customerIdHash = $this->getCustomerHash();
 
 		$this->wcOutputUtil->script(<<<EOD
 (function($, window, dataLayer){
+	const c = '{$customerIdHash}';
 	const ad = document.createElement('ins');
 	ad.className = 'AdSense';
 	ad.style.display = 'block';
@@ -236,6 +248,7 @@ class OrderMonitorService {
 			async: false,
 			url: '{$trackOrderEndpointUrlPattern}',
 			data: {
+				c,
 				gtm,
 				adblock,
 				itp,
@@ -285,5 +298,21 @@ EOD
 		});
 
 		return new OrderMonitorStatistics($data);
+	}
+
+	private function setTransient( $customerHash, $data) {
+		set_transient(sprintf(self::TRANSIENT_KEY_PATTERN_ORDER_MONITOR, $customerHash), $data, 3600);
+	}
+
+	private function getTransient( $customerHash) {
+		return get_transient(sprintf(self::TRANSIENT_KEY_PATTERN_ORDER_MONITOR, $customerHash));
+	}
+
+	private function getCustomerHash() {
+		return hash('sha512', WC()->session->get_customer_id());
+	}
+
+	private function removeTransient( $customerHash) {
+		delete_transient(sprintf(self::TRANSIENT_KEY_PATTERN_ORDER_MONITOR, $customerHash));
 	}
 }

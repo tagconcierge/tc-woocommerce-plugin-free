@@ -18,7 +18,8 @@ class OrderMonitorStatistics {
 		OrderMonitorService::ORDER_META_KEY_ORDER_MONITOR_ADBLOCK,
 		OrderMonitorService::ORDER_META_KEY_ORDER_MONITOR_ITP,
 		OrderMonitorService::ORDER_META_KEY_PURCHASE_EVENT_TRACKED,
-		OrderMonitorService::ORDER_META_KEY_PURCHASE_SERVER_EVENT_TRACKED
+		OrderMonitorService::ORDER_META_KEY_PURCHASE_SERVER_EVENT_TRACKED,
+		OrderMonitorService::ORDER_META_KEY_PURCHASE_EVENT_TRACKED_ON_ORDER_FORM,
 	];
 
 	private $data;
