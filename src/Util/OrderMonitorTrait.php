@@ -9,7 +9,9 @@ trait OrderMonitorTrait {
 	protected function purchaseTracked( array $metaData) {
 		return '1' === $metaData[OrderMonitorService::ORDER_META_KEY_PURCHASE_SERVER_EVENT_TRACKED]
 			|| ( '1' === $metaData[OrderMonitorService::ORDER_META_KEY_PURCHASE_EVENT_TRACKED]
-				&& 0 < (int) $metaData[OrderMonitorService::ORDER_META_KEY_ORDER_MONITOR_THANK_YOU_PAGE_VISITED] );
+				&& 0 < (int) $metaData[OrderMonitorService::ORDER_META_KEY_ORDER_MONITOR_THANK_YOU_PAGE_VISITED] )
+			|| ( '1' === $metaData[OrderMonitorService::ORDER_META_KEY_PURCHASE_EVENT_TRACKED]
+				&& '1' === $metaData[OrderMonitorService::ORDER_META_KEY_PURCHASE_EVENT_TRACKED_ON_ORDER_FORM] );
 	}
 
 	protected function blockersEnabled( array $metaData) {
