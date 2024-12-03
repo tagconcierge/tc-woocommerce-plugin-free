@@ -30,6 +30,8 @@ class OrderMonitorService {
 
 	const ORDER_META_KEY_PURCHASE_EVENT_TRACKED = PurchaseStrategy::ORDER_META_KEY_PURCHASE_EVENT_TRACKED;
 
+	const ORDER_META_KEY_PURCHASE_EVENT_TRACKED_ON_ORDER_FORM = 'gtm_ecommerce_woo_purchase_event_tracked_on_order_form';
+
 	const ORDER_META_KEY_PURCHASE_SERVER_EVENT_TRACKED = 'gtm_ecommerce_woo_purchase_server_event_tracked';
 
 	const ORDER_LIST_COLUMN_NAME_TRACKING_STATUS = 'gtm_ecommerce_woo_tracking_status';
