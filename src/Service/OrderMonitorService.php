@@ -108,7 +108,7 @@ class OrderMonitorService {
 	}
 
 	public function handleTrackingStatusColumnValue( $columnId, $order) {
-		if (false === is_object($order)) {
+		if (false === is_object($order) && function_exists('wc_get_order')) {
 			$order = wc_get_order($order);
 		}
 
@@ -262,6 +262,11 @@ EOD
 	}
 
 	public function getStatistics( int $timeLimitInSeconds = 7*24*60*60) {
+
+		if (!function_exists('wc_get_orders')) {
+			return null;
+		}
+
 		$orders = wc_get_orders([
 			'limit' => -1,
 			'date_created' => '>' . ( time() - $timeLimitInSeconds ),
