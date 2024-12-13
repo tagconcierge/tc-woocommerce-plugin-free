@@ -305,45 +305,48 @@ class SettingsService {
 
 		$statistics = $this->orderMonitorService->getStatistics();
 
-		$total = $statistics->getTotal();
+		if ($statistics) {
 
-		$stats = [
-			'total' => $total,
-			'tracked' => $statistics->getTracked($total['count']),
-			'tracked_with_warnings' => $statistics->getTrackedWithWarnings($total['count']),
-			'not_tracked' => $statistics->getNotTracked($total['count']),
-			'blocked' => $statistics->getBlocked($total['count']),
-			'analytics_denied' => $statistics->getAnalyticsDenied($total['count']),
-			'ad_denied' => $statistics->getAdDenied($total['count']),
-			'no_thank_you_page' => $statistics->getNoThankYouPage($total['count'])
-		];
-		$description = sprintf('<br /><br />
-				<div class="metabox-holder"><div class="postbox-container" style="float: none; display: flex; flex-wrap:wrap;"><div style="margin-left: 3%%; width: 30%%" class="postbox"><div class="inside"><h3>Total</h3><p>Total trackable<br /></p>transactions: %d<br />value: %.2f</div></div><div style="margin-left: 3%%; width: 30%%" class="postbox"><div class="inside"><h3>Tracked with warnings</h3><p>Events was correctly tracked by Google Tag Manager but we detected: adblock was detected, analytical consent was denied or advertising consent was denied</p>transactions: %d (%d%%)<br />value: %.2f</div></div><div style="margin-left: 3%%; width: 30%%" class="postbox"><div class="inside"><h3>Not tracked</h3><p>Events weren\'t correctly tracked by Google Tag Manager. Depending on tracking implementation it can be caused by user not returning to the order confirmation page.</p>transactions: %d (%d%%)<br />value: %.2f</div></div> </div></div><br />',
-			$stats['total']['count'],
-			$stats['total']['value'],
-			$stats['tracked_with_warnings']['count'],
-			$stats['tracked_with_warnings']['count_percentage'],
-			$stats['tracked_with_warnings']['value'],
-			$stats['not_tracked']['count'],
-			$stats['not_tracked']['count_percentage'],
-			$stats['not_tracked']['value']
-		);
+			$total = $statistics->getTotal();
 
-		$description .= sprintf('<br /><br />
-				<div class="metabox-holder"><div class="postbox-container" style="float: none; display: flex; flex-wrap:wrap;"><div style="margin-left: 3%%; width: 21.75%%" class="postbox"><div class="inside"><h3>Blocked</h3><p>Transactions blocked by browsers and ad blocking extensions</p>transactions: %d (%d%%)<br />value: %.2f</div></div><div style="margin-left: 3%%; width: 21.75%%" class="postbox"><div class="inside"><h3>Analytics Denied</h3><p>Transactions with analytical purposes denied by the user. Won\'t show up in GA4 reporting</p>transactions: %d (%d%%)<br />value: %.2f</div></div><div style="margin-left: 3%%; width: 21.75%%" class="postbox"><div class="inside"><h3>Ad Denied</h3><p>Transactions with ad purposes denied by the user. Won\'t show up in Google Ads reporting</p>transactions: %d (%d%%)<br />value: %.2f</div></div><div style="margin-left: 3%%; width: 21.75%%" class="postbox"><div class="inside"><h3>No thank you page visit</h3><p>Orders where customers didn\'t reach the order confirmation page (thank you page).<br /></p>transactions: %d (%d%%)<br />value: %.2f</div></div></div></div><br />',
-			$stats['blocked']['count'],
-			$stats['blocked']['count_percentage'],
-			$stats['blocked']['value'],
-			$stats['analytics_denied']['count'],
-			$stats['analytics_denied']['count_percentage'],
-			$stats['analytics_denied']['value'],
-			$stats['ad_denied']['count'],
-			$stats['ad_denied']['count_percentage'],
-			$stats['ad_denied']['value'],
-			$stats['no_thank_you_page']['count'],
-			$stats['no_thank_you_page']['count_percentage'],
-			$stats['no_thank_you_page']['value']
-		);
+			$stats = [
+				'total' => $total,
+				'tracked' => $statistics->getTracked($total['count']),
+				'tracked_with_warnings' => $statistics->getTrackedWithWarnings($total['count']),
+				'not_tracked' => $statistics->getNotTracked($total['count']),
+				'blocked' => $statistics->getBlocked($total['count']),
+				'analytics_denied' => $statistics->getAnalyticsDenied($total['count']),
+				'ad_denied' => $statistics->getAdDenied($total['count']),
+				'no_thank_you_page' => $statistics->getNoThankYouPage($total['count'])
+			];
+			$description = sprintf('<br /><br />
+					<div class="metabox-holder"><div class="postbox-container" style="float: none; display: flex; flex-wrap:wrap;"><div style="margin-left: 3%%; width: 30%%" class="postbox"><div class="inside"><h3>Total</h3><p>Total trackable<br /></p>transactions: %d<br />value: %.2f</div></div><div style="margin-left: 3%%; width: 30%%" class="postbox"><div class="inside"><h3>Tracked with warnings</h3><p>Events was correctly tracked by Google Tag Manager but we detected: adblock was detected, analytical consent was denied or advertising consent was denied</p>transactions: %d (%d%%)<br />value: %.2f</div></div><div style="margin-left: 3%%; width: 30%%" class="postbox"><div class="inside"><h3>Not tracked</h3><p>Events weren\'t correctly tracked by Google Tag Manager. Depending on tracking implementation it can be caused by user not returning to the order confirmation page.</p>transactions: %d (%d%%)<br />value: %.2f</div></div> </div></div><br />',
+				$stats['total']['count'],
+				$stats['total']['value'],
+				$stats['tracked_with_warnings']['count'],
+				$stats['tracked_with_warnings']['count_percentage'],
+				$stats['tracked_with_warnings']['value'],
+				$stats['not_tracked']['count'],
+				$stats['not_tracked']['count_percentage'],
+				$stats['not_tracked']['value']
+			);
+
+			$description .= sprintf('<br /><br />
+					<div class="metabox-holder"><div class="postbox-container" style="float: none; display: flex; flex-wrap:wrap;"><div style="margin-left: 3%%; width: 21.75%%" class="postbox"><div class="inside"><h3>Blocked</h3><p>Transactions blocked by browsers and ad blocking extensions</p>transactions: %d (%d%%)<br />value: %.2f</div></div><div style="margin-left: 3%%; width: 21.75%%" class="postbox"><div class="inside"><h3>Analytics Denied</h3><p>Transactions with analytical purposes denied by the user. Won\'t show up in GA4 reporting</p>transactions: %d (%d%%)<br />value: %.2f</div></div><div style="margin-left: 3%%; width: 21.75%%" class="postbox"><div class="inside"><h3>Ad Denied</h3><p>Transactions with ad purposes denied by the user. Won\'t show up in Google Ads reporting</p>transactions: %d (%d%%)<br />value: %.2f</div></div><div style="margin-left: 3%%; width: 21.75%%" class="postbox"><div class="inside"><h3>No thank you page visit</h3><p>Orders where customers didn\'t reach the order confirmation page (thank you page).<br /></p>transactions: %d (%d%%)<br />value: %.2f</div></div></div></div><br />',
+				$stats['blocked']['count'],
+				$stats['blocked']['count_percentage'],
+				$stats['blocked']['value'],
+				$stats['analytics_denied']['count'],
+				$stats['analytics_denied']['count_percentage'],
+				$stats['analytics_denied']['value'],
+				$stats['ad_denied']['count'],
+				$stats['ad_denied']['count_percentage'],
+				$stats['ad_denied']['value'],
+				$stats['no_thank_you_page']['count'],
+				$stats['no_thank_you_page']['count_percentage'],
+				$stats['no_thank_you_page']['value']
+			);
+		}
 
 		$this->wpSettingsUtil->addSettingsSection(
 			'monitoring',
@@ -400,6 +403,24 @@ class SettingsService {
 			'event_deferral',
 			'When clicked Ecommerce events will be pushed to DataLayer after DOM Ready event.',
 			['disabled' => !$this->isPro, 'title' => 'Upgrade to PRO version above.']
+		);
+
+		$this->wpSettingsUtil->addSettingsField(
+			'defer_events_event_name',
+			'Event name to wait for',
+			[$this, 'inputField'],
+			'event_deferral',
+			'When specified all eCommerce events will be pushed to dataLayer after the event. Defaults to DOM ready.',
+			['disabled' => !$this->isPro, 'title' => 'Upgrade to PRO version above.', 'placeholder' => 'gtm.load', 'type' => 'text']
+		);
+
+		$this->wpSettingsUtil->addSettingsField(
+			'defer_events_timeout',
+			'Deferral timeout',
+			[$this, 'inputField'],
+			'event_deferral',
+			'Number of milliseconds after which defered eCommerce events will be pushed',
+			['disabled' => !$this->isPro, 'title' => 'Upgrade to PRO version above.', 'type' => 'number']
 		);
 
 		$this->wpSettingsUtil->addSettingsField(

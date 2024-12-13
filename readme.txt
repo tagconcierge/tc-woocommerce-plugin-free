@@ -4,11 +4,11 @@ Tags: google tag manager, GA4, WooCommerce, Facebook Pixel, Consent Mode
 Requires at least: 5.1.0
 Tested up to: 6.7.1
 Requires PHP: 7.0
-Stable tag: 1.12.3
+Stable tag: 1.12.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Complete GTM plugin for WooCommerce (consent Mode v2 and server-side GTM). Ready for GA4 and FB Pixel. Product feed for Google Merchant Center.
+Complete GTM plugin for WooCommerce (Consent Mode v2 and Server-Side). Ready for GA4 and FB Pixel. Product feed for Google Merchant Center.
 
 == Description ==
 
@@ -23,7 +23,7 @@ To speed up the process, our plugin offers pre-packaged integrations for GA4 and
 
 Check [live demo here](https://demo2-woocommerce.tagconcierge.com/) (perform typical shop activities - add to cart, purchase - to see how events are triggered). This demo showcase all PRO plugin features - FREE version is limited to 2 events listed below.
 
-More information and documentation can be found [here](https://docs.tagconcierge.com/).
+More information and documentation can be found [here](https://docs.tagpilot.io/).
 
 ## Example scenarios
 
@@ -162,6 +162,10 @@ Yes! Just use the appropriate preset available in the settings screen of the plu
 
 
 == Changelog ==
+
+= 1.12.4 =
+
+* prevent errors when WooCommerce is not active
 
 = 1.12.3 =
 
