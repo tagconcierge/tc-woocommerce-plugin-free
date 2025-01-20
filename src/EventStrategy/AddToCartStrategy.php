@@ -73,7 +73,12 @@ jQuery(document).on('click', '.cart .single_add_to_cart_button', function(ev) {
 	var product_id = jQuery('[name="add-to-cart"]', form).val();
 
 	var item = {$jsonItem};
+
 	item.quantity = parseInt(quantity);
+
+	if (isNaN(item.quantity)) {
+		item.quantity = 1;
+	}
 
 	let event = {$this->getStringifiedEvent()};
 

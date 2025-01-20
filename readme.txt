@@ -4,7 +4,7 @@ Tags: google tag manager, GA4, WooCommerce, Facebook Pixel, Consent Mode
 Requires at least: 5.1.0
 Tested up to: 6.7.1
 Requires PHP: 7.0
-Stable tag: 1.12.4
+Stable tag: 1.12.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -162,6 +162,11 @@ Yes! Just use the appropriate preset available in the settings screen of the plu
 
 
 == Changelog ==
+
+= 1.12.5 =
+
+* default to 1 when quantity is not found
+* tested against the latest versions of WooCommerce
 
 = 1.12.4 =
 
