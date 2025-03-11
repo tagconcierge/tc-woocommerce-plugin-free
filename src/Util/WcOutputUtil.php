@@ -7,6 +7,7 @@ class WcOutputUtil {
 	protected $pluginVersion = '';
 	protected $scripts = [];
 	protected $scriptFiles = [];
+	protected $localizedScripts = [];
 	protected $cssFiles = [];
 
 	public function __construct( $pluginVersion) {
@@ -61,6 +62,14 @@ class WcOutputUtil {
 		];
 	}
 
+	public function localizedScript( $scriptFileName, $variableName, $variableObject) {
+		$this->localizedScripts[] = [
+			'name' => $scriptFileName,
+			'variable_name' => $variableName,
+			'variable_object' => $variableObject,
+		];
+	}
+
 	public function cssFile( $cssFileName, $cssFileDeps = [] ) {
 		$this->cssFiles[] = [
 			'name' => $cssFileName,
@@ -76,6 +85,14 @@ class WcOutputUtil {
 				$scriptFile['deps'],
 				$this->pluginVersion,
 				$scriptFile['in_footer']
+			);
+		}
+
+		foreach ($this->localizedScripts as $localizedScript) {
+			wp_localize_script(
+				$localizedScript['name'],
+				$localizedScript['variable_name'],
+				$localizedScript['variable_object']
 			);
 		}
 	}
