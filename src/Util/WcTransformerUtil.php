@@ -22,9 +22,9 @@ class WcTransformerUtil {
 		$product = $orderItem->get_product();
 		$variantProduct = ( $orderItem->get_variation_id() ) ? ( wc_get_product( $orderItem->get_variation_id() ) )->get_name() : '';
 		$mainProduct = wc_get_product( $orderItem->get_product_id() );
-		$regularPrice = wc_get_price_including_tax($product, ['price' => $product->get_regular_price(null)]);
-		$salePrice = (float) $order->get_item_total($orderItem, $withTax = true, $round = false);
-		$discount = $regularPrice - $salePrice;
+		$regularPrice = wc_get_price_excluding_tax($product, ['price' => $product->get_regular_price(null)]);
+		$salePrice = (float) $order->get_item_total($orderItem, $withTax = false, $round = false);
+		$discount = round($regularPrice - $salePrice, 2);
 
 		$item = new Item($mainProduct->get_name());
 		$item->setItemId($product->get_id());
@@ -61,17 +61,17 @@ class WcTransformerUtil {
 	 * https://woocommerce.github.io/code-reference/classes/WC-Product-Simple.html
 	 */
 	public function getItemFromProduct( $product ): Item {
-		$regularPrice = wc_get_price_including_tax($product, ['price' => $product->get_regular_price(null)]);
-		$salePrice = wc_get_price_including_tax($product);
+		$regularPrice = wc_get_price_excluding_tax($product, ['price' => $product->get_regular_price(null)]);
+		$salePrice = wc_get_price_excluding_tax($product);
 
 		$discount = ( is_float($regularPrice) && is_float($salePrice) ) ? $regularPrice - $salePrice : 0;
 
 		$item = new Item($product->get_name());
 		$item->setItemId($product->get_id());
-		$item->setPrice(wc_get_price_including_tax($product));
+		$item->setPrice(wc_get_price_excluding_tax($product));
 
 		if (0 < $discount) {
-			$item->setDiscount($discount);
+			$item->setDiscount(round($discount, 2));
 		}
 
 		$productCats = ( $product instanceof WC_Product_Variation )
@@ -106,9 +106,9 @@ class WcTransformerUtil {
 		$event->setCurrency($order->get_currency());
 		$event->setTransactionId($order->get_order_number());
 		$event->setAffiliation(get_bloginfo( 'name' ));
-		$event->setValue(number_format( $order->get_total(), 2, '.', '' ));
+		$event->setValue(number_format( $order->get_total() - $order->get_total_tax() - $order->get_total_shipping(), 2, '.', '' ));
 		$event->setTax(number_format( $order->get_total_tax(), 2, '.', '' ));
-		$event->setShipping(number_format( ( $order->get_total_shipping() + $order->get_shipping_tax() ), 2, '.', '' ));
+		$event->setShipping(number_format( $order->get_total_shipping(), 2, '.', '' ));
 		if ( $order->get_coupon_codes() ) {
 			$event->setCoupon(implode( ',', $order->get_coupon_codes() ) );
 		}

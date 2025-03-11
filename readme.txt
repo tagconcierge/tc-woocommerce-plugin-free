@@ -2,7 +2,7 @@
 Contributors: tagconcierge
 Tags: google tag manager, GA4, WooCommerce, Facebook Pixel, Consent Mode
 Requires at least: 5.1.0
-Tested up to: 6.7.1
+Tested up to: 6.7.2
 Requires PHP: 7.0
 Stable tag: 1.12.5
 License: GPLv2 or later
@@ -162,6 +162,11 @@ Yes! Just use the appropriate preset available in the settings screen of the plu
 
 
 == Changelog ==
+
+= 1.12.6 =
+
+* removes tax and shipping from event value
+* tested against the latest versions of WordPress and WooCommerce
 
 = 1.12.5 =
 
