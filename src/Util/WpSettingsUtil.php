@@ -46,9 +46,14 @@ class WpSettingsUtil {
 	}
 
 	public function isTab( $tabName ) {
-		if ($_GET['page'] === $this->spineCaseNamespace && $_GET['tab'] === $tabName) {
+		if (false === isset($_GET['page']) || false === isset($_GET['tab'])) {
+			return false;
+		}
+
+		if (sanitize_key($_GET['page']) === $this->spineCaseNamespace && sanitize_key($_GET['tab']) === $tabName) {
 			return true;
 		}
+		
 		return false;
 	}
 
