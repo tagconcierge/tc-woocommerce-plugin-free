@@ -45,6 +45,13 @@ class WpSettingsUtil {
 		];
 	}
 
+	public function isTab( $tabName ) {
+		if ($_GET['page'] === $this->spineCaseNamespace && $_GET['tab'] === $tabName) {
+			return true;
+		}
+		return false;
+	}
+
 	public function addSettingsSection( $sectionName, $sectionTitle, $description, $tab, $extra = null): void {
 		$this->sections[$sectionName] = [
 			'name' => $sectionName,

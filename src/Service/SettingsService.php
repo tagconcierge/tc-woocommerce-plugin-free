@@ -303,7 +303,10 @@ class SettingsService {
 			[ 'grid' => 'end', 'badge' =>  $this->isPro ? null : 'PRO' ]
 		);
 
-		$statistics = $this->orderMonitorService->getStatistics();
+		$statistics = null;
+		if ($this->wpSettingsUtil->isTab('monitoring')) {
+			$statistics = $this->orderMonitorService->getStatistics();
+		}
 
 		if ($statistics) {
 
