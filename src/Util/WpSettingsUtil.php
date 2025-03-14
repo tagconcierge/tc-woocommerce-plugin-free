@@ -53,7 +53,7 @@ class WpSettingsUtil {
 		if (sanitize_key($_GET['page']) === $this->spineCaseNamespace && sanitize_key($_GET['tab']) === $tabName) {
 			return true;
 		}
-		
+
 		return false;
 	}
 
