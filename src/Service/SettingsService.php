@@ -304,6 +304,7 @@ class SettingsService {
 		);
 
 		$statistics = null;
+		$description = null;
 		if ($this->wpSettingsUtil->isTab('monitoring')) {
 			$statistics = $this->orderMonitorService->getStatistics();
 		}
