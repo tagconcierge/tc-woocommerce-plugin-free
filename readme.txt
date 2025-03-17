@@ -163,6 +163,10 @@ Yes! Just use the appropriate preset available in the settings screen of the plu
 
 == Changelog ==
 
+= 1.12.8 =
+
+* fix PHP notice
+
 = 1.12.7 =
 
 * optimizes purchase event statistics loading
