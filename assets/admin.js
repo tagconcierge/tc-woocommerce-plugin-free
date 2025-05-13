@@ -1,17 +1,9 @@
 (function($) {
-
+    const originalParams = { ...params };
 	function getPresets() {
 		return $.ajax({
-			url: 'https://api.tagconcierge.com/v2/presets?filter=' + params.filter + '&uuid=' + params.uuid
+			url: 'https://api.tagconcierge.com/v2/presets?filter=' + originalParams.filter + '&uuid=' + originalParams.uuid
 		});
-		// return $.ajax({
-		// 	url: ajaxurl,
-		// 	data: {
-		// 		action: 'gtm_ecommerce_woo_get_presets',
-		// 	}
-		// }).then(function(res) {
-		// 	return res;
-		// });
 	}
 
 	jQuery(function($) {

@@ -7,6 +7,7 @@ yarn && yarn build
 INPUT
 
 docker compose run -T --rm php-cli <<INPUT
+git config --global --add safe.directory /app
 
 composer install
 composer run check
