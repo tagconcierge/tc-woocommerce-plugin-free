@@ -3,7 +3,7 @@
  * Plugin Name: Tag Pilot FREE - Google Tag Manager Integration for WooCommerce
  * Plugin URI:  https://wordpress.org/plugins/gtm-ecommerce-woo
  * Description: Complete Google Tag Manager plugin for WooCommerce, Consent Mode v2 and Server-Side GTM ready. Ready GTM configuration for GA4 and Facebook Pixel. Built-in product feed for Google Merchant Center.
- * Version:     1.12.8
+ * Version:     1.12.9
  * Author:      Tag Concierge
  * Author URI:  https://tagconcierge.com/
  * License:     GPLv2 or later
@@ -12,7 +12,7 @@
  * Domain Path: /languages
  *
  * WC requires at least: 4.0
- * WC tested up to: 9.7.1
+ * WC tested up to: 9.8.5
  */
 
 namespace GtmEcommerceWoo;
