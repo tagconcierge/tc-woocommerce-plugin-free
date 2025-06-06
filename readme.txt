@@ -163,6 +163,11 @@ Yes! Just use the appropriate preset available in the settings screen of the plu
 
 == Changelog ==
 
+= 1.12.10 =
+
+* fix event monitoring
+* disable Facebook Woocommerce plugin integration by default
+
 = 1.12.9 =
 
 * fix presets loading
