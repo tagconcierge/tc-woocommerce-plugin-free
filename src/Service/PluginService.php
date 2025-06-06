@@ -63,6 +63,8 @@ class PluginService {
 		if (!$this->wpSettingsUtil->getOption( 'earliest_active_at' )) {
 			$this->wpSettingsUtil->updateOption( 'earliest_active_at', ( new \DateTime() )->format('Y-m-d H:i:s') );
 		}
+
+		add_filter( 'facebook_for_woocommerce_integration_pixel_enabled', '__return_false' );
 	}
 
 	public function enqueueScripts( $hook) {
