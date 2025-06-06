@@ -233,15 +233,33 @@ class OrderMonitorService {
 			ad_storage: 'denied',
 			analytics_storage: 'denied',
 		};
+		let consentsDefault = {};
+		let consentsUpdate = {};
 
 		dataLayer.forEach(event => {
 			if ('object' === typeof event && event[0] === 'consent') {
-				consents = {
-					...consents,
-					...event[2]
-				};
+				switch (event[1] ?? null) {
+					case 'default':
+						consentsDefault = {
+							...consentsDefault,
+							...event[2]
+						};
+						break;
+					case 'update':
+						consentsUpdate = {
+							...consentsUpdate,
+							...event[2]
+						};
+						break;
+				}
 			}
 		});
+
+		consents = {
+			...consents,
+			...consentsDefault,
+			...consentsUpdate,
+		}
 
 		$.ajax({
 			type: 'POST',
