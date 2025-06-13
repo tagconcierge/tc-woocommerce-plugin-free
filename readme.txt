@@ -163,6 +163,11 @@ Yes! Just use the appropriate preset available in the settings screen of the plu
 
 == Changelog ==
 
+= 1.12.11 =
+
+* fix `value` property in `add_to_cart` event
+* tested against the latest version of WooCommerce
+
 = 1.12.10 =
 
 * fix event monitoring
