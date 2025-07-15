@@ -354,55 +354,55 @@ EOD
 		);
 	}
 
-	public function renderOrderMetaBox($order) {
+	public function renderOrderMetaBox( $order) {
 		$orderWrapper = new OrderWrapper($order);
 
-		$format = fn($val) => is_bool($val) ? ($val === true ? "Yes" : "No") : ucfirst($val);
+		$format = fn( $val) => is_bool($val) ? ( $val === true ? 'Yes' : 'No' ) : ucfirst($val);
 
 		$status = $orderWrapper->isTrackedSuccessfully()
 			? 'Success'
-			: ($orderWrapper->isTrackedWithWarnings()
+			: ( $orderWrapper->isTrackedWithWarnings()
 				? 'Warning'
 				: 'Error'
 			);
 
-		if ($orderWrapper->isMonitoringAvailable()):
-		?>
+		if ($orderWrapper->isMonitoringAvailable()) :
+			?>
 			<h4 style="margin-bottom: .1em;">Conversion tracking status<?php echo wc_help_tip("Success means the conversion was tracked correctly, warning means there were issue detected that could impacted data and error means the event wasn't tracked at all."); ?></h4>
 			<span><?php echo $status; ?></span>
 
 
 			<h4>Details</h4>
 
-			<h5 style="margin-bottom: .1em;">Event generated<?php echo wc_help_tip("The purchase events was correctly generated and available for Google Tag Manager"); ?></h5>
+			<h5 style="margin-bottom: .1em;">Event generated<?php echo wc_help_tip('The purchase events was correctly generated and available for Google Tag Manager'); ?></h5>
 			<span><?php echo $format($orderWrapper->purchaseTracked()); ?></span>
 
-			<h5 style="margin-bottom: .1em;">GTM loaded<?php echo wc_help_tip("Google Tag Manager was loaded correctly for that event"); ?></h5>
+			<h5 style="margin-bottom: .1em;">GTM loaded<?php echo wc_help_tip('Google Tag Manager was loaded correctly for that event'); ?></h5>
 			<span><?php echo $format($orderWrapper->gtmEnabled()); ?></span>
 
-			<h5 style="margin-bottom: .1em;">AdBlock detected<?php echo wc_help_tip("AdBlock plugin could prevented this conversion from being fully tracked."); ?></h5>
+			<h5 style="margin-bottom: .1em;">AdBlock detected<?php echo wc_help_tip('AdBlock plugin could prevented this conversion from being fully tracked.'); ?></h5>
 			<span><?php echo $format($orderWrapper->adblockEnabled()); ?></span>
 
 			<h5 style="margin-bottom: .1em;">ITP detected<?php echo wc_help_tip("Apple's Intelligent Tracking Prevention could impact attribution data for this conversion."); ?></h5>
 			<span><?php echo $format($orderWrapper->itpEnabled()); ?></span>
 
-			<h5 style="margin-bottom: .1em;">Consent for analytics<?php echo wc_help_tip("Analytical consent is required for events to show up in GA4 reporting."); ?></h5>
+			<h5 style="margin-bottom: .1em;">Consent for analytics<?php echo wc_help_tip('Analytical consent is required for events to show up in GA4 reporting.'); ?></h5>
 			<span><?php echo $format($orderWrapper->analyticsConsentGranted()); ?></span>
 
-			<h5 style="margin-bottom: .1em;">Consent for ads<?php echo wc_help_tip("Ad consent is required to conversions being reported to advertisting platforms."); ?></h5>
+			<h5 style="margin-bottom: .1em;">Consent for ads<?php echo wc_help_tip('Ad consent is required to conversions being reported to advertisting platforms.'); ?></h5>
 			<span><?php echo $format($orderWrapper->adConsentGranted()); ?></span>
 
 			<p><a href="https://docs.tagpilot.io/article/76-conversion-tracking-monitoring" target="_blank">Documentation</a></p>
 		<?php
-		else:
-		?>
+		else :
+			?>
 		Conversion tracking monitoring was disabled at the time of this purchase. <br/>
 		Enable it <a href="<?php echo admin_url('options-general.php?page=' . $this->wpSettingsUtil->getSpineCaseNamespace()); ?>">here</a>.
 		<?php
 		endif;
 	}
 
-	public function hideMetaData($protected, $meta_key) {
+	public function hideMetaData( $protected, $meta_key) {
 		return in_array($meta_key, [
 			self::ORDER_META_KEY_ORDER_MONITOR_CHECK,
 			self::ORDER_META_KEY_ORDER_MONITOR_ADBLOCK,
