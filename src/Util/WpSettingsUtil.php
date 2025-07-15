@@ -180,4 +180,8 @@ class WpSettingsUtil {
 	public function getSnakeCaseNamespace() {
 		return $this->snakeCaseNamespace;
 	}
+
+	public function getSpineCaseNamespace() {
+		return $this->spineCaseNamespace;
+	}
 }
