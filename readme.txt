@@ -42,7 +42,8 @@ After the plugin is installed it automatically tracks the following events:
 
 Which are a great base for **conversion measurements** and analysing **sales funnels** related to cart behavior.
 
-**For full eCommerce events coverage, improved handling and professional support [buy PRO version](https://tagconcierge.com/google-tag-manager-for-woocommerce/).**
+**For full eCommerce events coverage, improved handling and professional support, [buy PRO version](https://tagpilot.io/google-tag-manager-for-woocommerce/?utm_source=wordpress_org). You can also subscribe to our [Tag Pilot Care](https://tagpilot.io/care/?utm_source=wordpress_org) support service for ongoing assistance, expert guidance, and priority help whenever you need it.
+
 
 ## PRO Version
 
