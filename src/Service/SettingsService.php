@@ -304,7 +304,7 @@ class SettingsService {
 		);
 
 		$statistics = null;
-		$description = null;
+		$description = 'The report below shows number of transactions in the past 7 days affected by different tracking issues. Learn more about each issue in the <a href="https://docs.tagpilot.io/article/76-conversion-tracking-monitoring" target="_blank">documentation</a>';
 		if ($this->wpSettingsUtil->isTab('monitoring')) {
 			$statistics = $this->orderMonitorService->getStatistics();
 		}
@@ -323,8 +323,8 @@ class SettingsService {
 				'ad_denied' => $statistics->getAdDenied($total['count']),
 				'no_thank_you_page' => $statistics->getNoThankYouPage($total['count'])
 			];
-			$description = sprintf('<br /><br />
-					<div class="metabox-holder"><div class="postbox-container" style="float: none; display: flex; flex-wrap:wrap;"><div style="margin-left: 3%%; width: 30%%" class="postbox"><div class="inside"><h3>Total</h3><p>Total trackable<br /></p>transactions: %d<br />value: %.2f</div></div><div style="margin-left: 3%%; width: 30%%" class="postbox"><div class="inside"><h3>Tracked with warnings</h3><p>Events was correctly tracked by Google Tag Manager but we detected: adblock was detected, analytical consent was denied or advertising consent was denied</p>transactions: %d (%d%%)<br />value: %.2f</div></div><div style="margin-left: 3%%; width: 30%%" class="postbox"><div class="inside"><h3>Not tracked</h3><p>Events weren\'t correctly tracked by Google Tag Manager. Depending on tracking implementation it can be caused by user not returning to the order confirmation page.</p>transactions: %d (%d%%)<br />value: %.2f</div></div> </div></div><br />',
+			$description .= sprintf('<br /><br />
+					<div class="metabox-holder"><div class="postbox-container" style="float: none; display: flex; flex-wrap:wrap;"><div style="margin-left: 3%%; width: 30%%" class="postbox"><div class="inside"><h3>Total</h3><p>Total trackable transactions. Orders are trackable when monitoring is enabled and they were placed directly on the page, not via API or other integrations.<br /></p>transactions: %d<br />value: %.2f</div></div><div style="margin-left: 3%%; width: 30%%" class="postbox"><div class="inside"><h3>Tracked with warnings</h3><p>Events were correctly generated for Google Tag Manager but we adblock was detected or user privacy consent was denied.</p>transactions: %d (%d%%)<br />value: %.2f</div></div><div style="margin-left: 3%%; width: 30%%" class="postbox"><div class="inside"><h3>Not tracked</h3><p>Events weren\'t correctly tracked by Google Tag Manager. This indicates technical issue that prevents being generated.</p>transactions: %d (%d%%)<br />value: %.2f</div></div> </div></div><br />',
 				$stats['total']['count'],
 				$stats['total']['value'],
 				$stats['tracked_with_warnings']['count'],
@@ -336,7 +336,7 @@ class SettingsService {
 			);
 
 			$description .= sprintf('<br /><br />
-					<div class="metabox-holder"><div class="postbox-container" style="float: none; display: flex; flex-wrap:wrap;"><div style="margin-left: 3%%; width: 21.75%%" class="postbox"><div class="inside"><h3>Blocked</h3><p>Transactions blocked by browsers and ad blocking extensions</p>transactions: %d (%d%%)<br />value: %.2f</div></div><div style="margin-left: 3%%; width: 21.75%%" class="postbox"><div class="inside"><h3>Analytics Denied</h3><p>Transactions with analytical purposes denied by the user. Won\'t show up in GA4 reporting</p>transactions: %d (%d%%)<br />value: %.2f</div></div><div style="margin-left: 3%%; width: 21.75%%" class="postbox"><div class="inside"><h3>Ad Denied</h3><p>Transactions with ad purposes denied by the user. Won\'t show up in Google Ads reporting</p>transactions: %d (%d%%)<br />value: %.2f</div></div><div style="margin-left: 3%%; width: 21.75%%" class="postbox"><div class="inside"><h3>No thank you page visit</h3><p>Orders where customers didn\'t reach the order confirmation page (thank you page).<br /></p>transactions: %d (%d%%)<br />value: %.2f</div></div></div></div><br />',
+					<div class="metabox-holder"><div class="postbox-container" style="float: none; display: flex; flex-wrap:wrap;"><div style="margin-left: 3%%; width: 21.75%%" class="postbox"><div class="inside"><h3>Blocked</h3><p>Transactions affected by browsers and ad blocking extensions.</p>transactions: %d (%d%%)<br />value: %.2f</div></div><div style="margin-left: 3%%; width: 21.75%%" class="postbox"><div class="inside"><h3>Analytics Denied</h3><p>Transactions with analytical cookies denied by the user. Those orders won\'t show up in the GA4 reporting.</p>transactions: %d (%d%%)<br />value: %.2f</div></div><div style="margin-left: 3%%; width: 21.75%%" class="postbox"><div class="inside"><h3>Ad Denied</h3><p>Transactions with ad cookies denied by the user. Those orders won\'t show up in Google Ads reporting.</p>transactions: %d (%d%%)<br />value: %.2f</div></div><div style="margin-left: 3%%; width: 21.75%%" class="postbox"><div class="inside"><h3>No `thank you` page visit</h3><p>Orders where customers didn\'t reach the order confirmation page (thank you page), where fallback tracking takes place.<br /></p>transactions: %d (%d%%)<br />value: %.2f</div></div></div></div><br />',
 				$stats['blocked']['count'],
 				$stats['blocked']['count_percentage'],
 				$stats['blocked']['value'],
@@ -381,7 +381,7 @@ class SettingsService {
 			'Disable monitor?',
 			[$this, 'checkboxField'],
 			'basic',
-			'When checked the plugin won\'t diagnose orders context like information about adblock or denied user consents.'
+			'When checked the plugin won\'t diagnose orders context like information about adblock or denied user consents. Learn more in <a href="https://docs.tagpilot.io/article/76-conversion-tracking-monitoring" target="_blank">documentation</a>.'
 		);
 
 		$this->wpSettingsUtil->addSettingsField(

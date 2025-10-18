@@ -31,6 +31,7 @@ class WcTransformerUtil {
 		$item->setPrice($salePrice);
 		$item->setItemVariant($variantProduct);
 		$item->setQuantity($orderItem->get_quantity());
+		$item->setExtraProperty('content_type',  $product->is_type(['variable', 'variable-subscription']) ? 'product_group' : 'product');
 
 		if (0 < $discount) {
 			$item->setDiscount($discount);
@@ -69,6 +70,7 @@ class WcTransformerUtil {
 		$item = new Item($product->get_name());
 		$item->setItemId($product->get_id());
 		$item->setPrice(wc_get_price_excluding_tax($product));
+		$item->setExtraProperty('content_type',  $product->is_type(['variable', 'variable-subscription']) ? 'product_group' : 'product');
 
 		if (0 < $discount) {
 			$item->setDiscount(round($discount, 2));
