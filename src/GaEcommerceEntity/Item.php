@@ -92,7 +92,7 @@ class Item implements \JsonSerializable {
 		$jsonItem = [
 			'item_name' => $this->itemName,
 			'item_id' => $this->itemId,
-			'price' => $this->price,
+			'price' => round($this->price, 2),
 			'item_brand' => @$this->itemBrand,
 			'item_coupon' => @$this->itemCoupon,
 			'item_variant' => @$this->itemVariant,

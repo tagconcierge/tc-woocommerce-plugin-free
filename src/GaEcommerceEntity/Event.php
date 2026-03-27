@@ -87,7 +87,7 @@ class Event implements \JsonSerializable {
 		}
 
 		$value = array_reduce($this->items, static function( $carry, $item ) {
-			$itemPrice = $item->price ?? 0;
+			$itemPrice = round($item->price ?? 0, 2);
 			$itemQuantity = $item->quantity ?? 1;
 			return $carry + ( (float) $itemPrice * (float) $itemQuantity );
 		}, 0);
@@ -118,7 +118,7 @@ class Event implements \JsonSerializable {
 					'purchase' => [
 						'transaction_id' => $this->transactionId,
 						'affiliation' => $this->affiliation,
-						'value' => $this->value,
+						'value' => round($this->value, 2),
 						'tax' => $this->tax,
 						'shipping' => $this->shipping,
 						'currency' => $this->currency,
@@ -127,7 +127,7 @@ class Event implements \JsonSerializable {
 					],
 					'transaction_id' => $this->transactionId,
 					'affiliation' => $this->affiliation,
-					'value' => $this->value,
+					'value' => round($this->value, 2),
 					'tax' => $this->tax,
 					'shipping' => $this->shipping,
 					'currency' => $this->currency,

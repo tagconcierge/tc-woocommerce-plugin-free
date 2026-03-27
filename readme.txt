@@ -164,6 +164,11 @@ Yes! Just use the appropriate preset available in the settings screen of the plu
 
 == Changelog ==
 
+= 1.13.2 =
+
+* added explicit rounding for product prices and event values
+* tested against the latest versions of WordPress and WooCommerce
+
 = 1.13.1 =
 
 * tested against the latest versions of WordPress and WooCommerce
