@@ -363,6 +363,14 @@ EOD
 	}
 
 	public function renderOrderMetaBox( $order) {
+		if (false === $order instanceof WC_Order) {
+			$order = wc_get_order($order->ID ?? 0);
+		}
+
+		if (false === $order instanceof WC_Order) {
+			return;
+		}
+
 		$orderWrapper = new OrderWrapper($order);
 
 		$format = fn( $val) => is_bool($val) ? ( $val === true ? 'Yes' : 'No' ) : ucfirst($val);
