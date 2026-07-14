@@ -12,7 +12,7 @@
  * Domain Path: /languages
  *
  * WC requires at least: 4.0
- * WC tested up to: 10.3.5
+ * WC tested up to: 10.9.4
  */
 
 namespace GtmEcommerceWoo;
