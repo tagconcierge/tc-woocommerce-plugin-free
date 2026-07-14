@@ -38,6 +38,8 @@ class OrderMonitorService {
 
 	const TRANSIENT_KEY_PATTERN_ORDER_MONITOR = 'gtm_ecommerce_woo_order_monitor_%s';
 
+	const SESSION_KEY_CUSTOMER_HASH = 'gtm_ecommerce_woo_order_monitor_customer_hash';
+
 	protected $wpSettingsUtil;
 
 	protected $wcOutputUtil;
@@ -171,7 +173,9 @@ class OrderMonitorService {
 	}
 
 	public function handleDiagnosticsSave( WC_Order $order) {
-		$data = $this->getTransient($this->getCustomerHash());
+		$customerHash = WC()->session->get(self::SESSION_KEY_CUSTOMER_HASH) ?? $this->getCustomerHash();
+
+		$data = $this->getTransient($customerHash);
 
 		if (false === is_array($data)) {
 			return;
@@ -185,7 +189,7 @@ class OrderMonitorService {
 		$order->update_meta_data(self::ORDER_META_KEY_ORDER_MONITOR_CHECK, time());
 		$order->save();
 
-		$this->removeTransient($this->getCustomerHash());
+		$this->removeTransient($customerHash);
 	}
 
 	public function handleThankYouPage( $orderId) {
@@ -210,6 +214,8 @@ class OrderMonitorService {
 
 		$trackOrderEndpointUrlPattern = sprintf('%sgtm-ecommerce-woo/v1/diagnostics', get_rest_url());
 		$customerIdHash = $this->getCustomerHash();
+
+		WC()->session->set(self::SESSION_KEY_CUSTOMER_HASH, $customerIdHash);
 
 		$this->wcOutputUtil->script(<<<EOD
 (function($, window, dataLayer){
@@ -344,17 +350,27 @@ EOD
 
 	public function addOrderMetaBox() {
 
+		$screen = WooCommerceFeaturesUtil::isHposEnabled() ? 'woocommerce_page_wc-orders' : 'shop_order';
+
 		add_meta_box(
 			$this->wpSettingsUtil->getSnakeCaseNamespace() . '_order_monitor_meta_box',
 			'Conversion Tracking',
 			[$this, 'renderOrderMetaBox'],
-			'woocommerce_page_wc-orders', //'shop_order',
+			$screen,
 			'side',
 			'high'
 		);
 	}
 
 	public function renderOrderMetaBox( $order) {
+		if (false === $order instanceof WC_Order) {
+			$order = wc_get_order($order->ID ?? 0);
+		}
+
+		if (false === $order instanceof WC_Order) {
+			return;
+		}
+
 		$orderWrapper = new OrderWrapper($order);
 
 		$format = fn( $val) => is_bool($val) ? ( $val === true ? 'Yes' : 'No' ) : ucfirst($val);
