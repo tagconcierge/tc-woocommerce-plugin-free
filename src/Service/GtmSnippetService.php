@@ -53,21 +53,15 @@ class GtmSnippetService {
 		}, []);
 		extract($settings);
 
-		$consentJs = <<<END
-<script>
-window.dataLayer = window.dataLayer || [];
-function gtag(){dataLayer.push(arguments);}
-gtag('consent', 'default', {
-  'ad_storage': '{$ad_storage}',
-  'ad_user_data': '{$ad_user_data}',
-  'ad_personalization': '{$ad_personalization}',
-  'analytics_storage': '{$analytics_storage}'
-});
+		$consentDefault = [
+			"  'ad_storage': '{$ad_storage}'",
+			"  'ad_user_data': '{$ad_user_data}'",
+			"  'ad_personalization': '{$ad_personalization}'",
+			"  'analytics_storage': '{$analytics_storage}'",
+		];
 
-END;
-
-		if ($wait_for_update) {
-			$consentJs .= "gtag('set', 'wait_for_update', $wait_for_update);\n";
+		if ((int) $wait_for_update > 0) {
+			$consentDefault[] = "  'wait_for_update': " . (int) $wait_for_update;
 		}
 
 		if ($region) {
@@ -76,8 +70,20 @@ END;
 				return "'" . trim(str_replace("'", '', $r)) . "'";
 			}, $regions);
 			$regionsString = implode(',', $cleanedRegions);
-			$consentJs .= "gtag('set', 'region', [$regionsString]);\n";
+			$consentDefault[] = "  'region': [$regionsString]";
 		}
+
+		$consentDefaultString = implode(",\n", $consentDefault);
+
+		$consentJs = <<<END
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('consent', 'default', {
+$consentDefaultString
+});
+
+END;
 
 		if ('1' === $url_passthrough) {
 			$consentJs .= "gtag('set', 'url_passthrough', true);\n";

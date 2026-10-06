@@ -79,7 +79,7 @@ class Event implements \JsonSerializable {
 
 	public function getValue(): float {
 		if (null !== $this->value) {
-			return $this->value;
+			return round($this->value, 2);
 		}
 
 		if (!is_array($this->items) || count($this->items) === 0) {

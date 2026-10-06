@@ -2,9 +2,9 @@
 Contributors: tagconcierge
 Tags: google tag manager, GA4, WooCommerce, Facebook Pixel, Consent Mode
 Requires at least: 5.1.0
-Tested up to: 7.0
+Tested up to: 7.1
 Requires PHP: 7.0
-Stable tag: 1.13.3
+Stable tag: 1.13.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -163,6 +163,12 @@ Yes! Just use the appropriate preset available in the settings screen of the plu
 
 
 == Changelog ==
+
+= 1.13.4 =
+
+* fix Consent Mode default: `wait_for_update` and `region` are now part of the default consent command
+* fix rounding of event `value` to 2 decimal places
+* tested against the latest versions of WordPress (7.1) and WooCommerce (11.1)
 
 = 1.13.3 =
 
